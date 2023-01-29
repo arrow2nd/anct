@@ -10,7 +10,7 @@ type Credencial struct {
 
 // Revoke : トークンを失効させる
 func (c *Credencial) Revoke() error {
-	req, err := http.NewRequest(http.MethodPost, tokenURL, nil)
+	req, err := http.NewRequest(http.MethodPost, revokeURL, nil)
 	if err != nil {
 		return err
 	}
