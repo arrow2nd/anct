@@ -61,14 +61,15 @@ func inputCode() (string, error) {
 }
 
 func execLogin(cmd *cobra.Command, args []string) error {
-	url, err := api.GetAuthorizeURL()
+	url, err := api.CreateAuthorizeURL()
 	if err != nil {
 		return err
 	}
 
 	fmt.Printf(`%s
 Please access the following URL and enter the code displayed after authentication.
-URL: %s
+> %s
+
 `, logo, url)
 
 	code, err := inputCode()
@@ -76,7 +77,7 @@ URL: %s
 		return err
 	}
 
-	cred, err := api.GetToken(code)
+	cred, err := api.FetchToken(code)
 	if err != nil {
 		return err
 	}

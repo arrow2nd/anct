@@ -8,58 +8,47 @@ import (
 )
 
 const (
-	// AuthURL : 認証
-	AuthURL = "https://api.annict.com/oauth/authorize"
-	// TokenURL : トークン発行
-	TokenURL = "https://api.annict.com/oauth/token"
-	// RevokeURL : トークン破棄
-	RevokeURL = "https://api.annict.com/oauth/revoke"
-	// RedirectURL : リダイレクト
-	RedirectURL = "urn:ietf:wg:oauth:2.0:oob"
+	baseURL      = "https://api.annict.com"
+	authorizeURL = "https://api.annict.com/oauth/authorize"
+	tokenURL     = "https://api.annict.com/oauth/token"
+	revokeURL    = "https://api.annict.com/oauth/revoke"
+	redirectURL  = "urn:ietf:wg:oauth:2.0:oob"
 )
 
 var (
-	// ClientID : クライアントID (ビルド時に埋め込み)
-	ClientID = ""
-	// ClientSecret : クライアントシークレット (ビルド時に埋め込み)
-	ClientSecret = ""
+	cliendID     = ""
+	clientSecret = ""
 )
 
-// Credencial : 認証情報
-type Credencial struct {
-	// AccessToken : トークン
-	AccessToken string `json:"access_token"`
-}
-
-// GetAuthorizeURL : 認証用URLを取得
-func GetAuthorizeURL() (string, error) {
-	url, err := url.Parse(AuthURL)
+// CreateAuthorizeURL : 認証用URLを作成
+func CreateAuthorizeURL() (string, error) {
+	url, err := url.Parse(authorizeURL)
 	if err != nil {
 		return "", err
 	}
 
 	q := url.Query()
-	q.Add("client_id", ClientID)
+	q.Add("client_id", cliendID)
 	q.Add("response_type", "code")
-	q.Add("redirect_uri", RedirectURL)
+	q.Add("redirect_uri", redirectURL)
 	q.Add("scope", "read write")
 	url.RawQuery = q.Encode()
 
 	return url.String(), nil
 }
 
-// GetToken : トークンを取得
-func GetToken(code string) (*Credencial, error) {
-	req, err := http.NewRequest(http.MethodPost, TokenURL, nil)
+// FetchToken : トークンを取得
+func FetchToken(code string) (*Credencial, error) {
+	req, err := http.NewRequest(http.MethodPost, tokenURL, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	q := req.URL.Query()
-	q.Add("client_id", ClientID)
-	q.Add("client_secret", ClientSecret)
+	q.Add("client_id", cliendID)
+	q.Add("client_secret", clientSecret)
 	q.Add("grant_type", "authorization_code")
-	q.Add("redirect_uri", RedirectURL)
+	q.Add("redirect_uri", redirectURL)
 	q.Add("code", strings.TrimSpace(code))
 	req.URL.RawQuery = q.Encode()
 
@@ -74,10 +63,10 @@ func GetToken(code string) (*Credencial, error) {
 	defer res.Body.Close()
 	decorder := json.NewDecoder(res.Body)
 
-	raw := &Credencial{}
-	if err := decorder.Decode(raw); err != nil {
+	cred := &Credencial{}
+	if err := decorder.Decode(cred); err != nil {
 		return nil, err
 	}
 
-	return raw, nil
+	return cred, nil
 }
