@@ -15,7 +15,7 @@ func (c *Cmd) newVersionCmd() *cobra.Command {
 		Short:   "Display current version",
 		Args:    cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("🎦 annict-for-term ver.%s\n", version)
+			fmt.Printf("🎦 anct ver.%s\n", version)
 		},
 	}
 }

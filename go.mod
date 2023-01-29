@@ -1,4 +1,4 @@
-module github.com/arrow2nd/annict-for-term
+module github.com/arrow2nd/anct
 
 go 1.19
 

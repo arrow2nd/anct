@@ -1,3 +1,3 @@
-# annict-for-term
+# anct
 
-**annict-for-term**: 🎦 Annict CLI Client
+**anct**: 🎦 Annict CLI Client

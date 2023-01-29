@@ -5,7 +5,7 @@ import "github.com/spf13/cobra"
 func (c *Cmd) newAuthCmd() *cobra.Command {
 	auth := &cobra.Command{
 		Use:   "auth",
-		Short: "Authentication annict-for-term with Annict",
+		Short: "Authentication anct with Annict",
 		Args:  cobra.NoArgs,
 	}
 
@@ -17,7 +17,7 @@ func (c *Cmd) newAuthCmd() *cobra.Command {
 
 	logout := &cobra.Command{
 		Use:   "logout",
-		Short: "Log out of annict-for-term",
+		Short: "Log out of anct",
 		Args:  cobra.NoArgs,
 	}
 

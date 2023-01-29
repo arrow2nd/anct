@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/arrow2nd/annict-for-term/api"
-	// "github.com/arrow2nd/annict-for-term/cmd"
+	"github.com/arrow2nd/anct/api"
+	// "github.com/arrow2nd/anct/cmd"
 )
 
 const (
