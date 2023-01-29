@@ -2,7 +2,7 @@ package cmd
 
 import "github.com/spf13/cobra"
 
-func (c *Cmd) newSearchCmd() *cobra.Command {
+func (c *App) newSearchCmd() *cobra.Command {
 	search := &cobra.Command{
 		Use:   "search",
 		Short: "Search for animes, characters",

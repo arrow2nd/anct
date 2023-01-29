@@ -1,4 +1,4 @@
-package api
+package client
 
 import (
 	"encoding/json"
@@ -15,20 +15,15 @@ const (
 	redirectURL  = "urn:ietf:wg:oauth:2.0:oob"
 )
 
-var (
-	cliendID     = ""
-	clientSecret = ""
-)
-
 // CreateAuthorizeURL : 認証用URLを作成
-func CreateAuthorizeURL() (string, error) {
+func (c *Client) CreateAuthorizeURL() (string, error) {
 	url, err := url.Parse(authorizeURL)
 	if err != nil {
 		return "", err
 	}
 
 	q := url.Query()
-	q.Add("client_id", cliendID)
+	q.Add("client_id", c.Token.Client.ID)
 	q.Add("response_type", "code")
 	q.Add("redirect_uri", redirectURL)
 	q.Add("scope", "read write")
@@ -37,16 +32,16 @@ func CreateAuthorizeURL() (string, error) {
 	return url.String(), nil
 }
 
-// FetchToken : トークンを取得
-func FetchToken(code string) (*Credencial, error) {
+// UpdateUserToken : ユーザートークンを更新 (再取得)
+func (c *Client) UpdateUserToken(code string) error {
 	req, err := http.NewRequest(http.MethodPost, tokenURL, nil)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	q := req.URL.Query()
-	q.Add("client_id", cliendID)
-	q.Add("client_secret", clientSecret)
+	q.Add("client_id", c.Token.Client.ID)
+	q.Add("client_secret", c.Token.Client.Secret)
 	q.Add("grant_type", "authorization_code")
 	q.Add("redirect_uri", redirectURL)
 	q.Add("code", strings.TrimSpace(code))
@@ -57,16 +52,17 @@ func FetchToken(code string) (*Credencial, error) {
 	client := http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer res.Body.Close()
 	decorder := json.NewDecoder(res.Body)
 
-	cred := &Credencial{}
-	if err := decorder.Decode(cred); err != nil {
-		return nil, err
+	userToken := &UserToken{}
+	if err := decorder.Decode(userToken); err != nil {
+		return err
 	}
 
-	return cred, nil
+	c.Token.User = userToken
+	return nil
 }

@@ -5,23 +5,28 @@ import (
 	"os"
 
 	"github.com/arrow2nd/anct/cmd"
+	"github.com/arrow2nd/anct/credencial"
 )
 
 const (
 	ExitCodeOK int = iota
-	ExitCodeErrHomeDir
 	ExitCodeErrLoad
 	ExitCodeErrExec
 )
 
 func main() {
-	c := cmd.New()
+	cred, err := credencial.Load()
+	if err != nil {
+		exitError(err, ExitCodeErrLoad)
+	}
+
+	c := cmd.New(cred)
 	if err := c.Execute(); err != nil {
-		// printError(err)
-		os.Exit(ExitCodeErrExec)
+		exitError(err, ExitCodeErrExec)
 	}
 }
 
-func printError(e error) {
+func exitError(e error, c int) {
 	fmt.Fprintf(os.Stderr, "Error: %s\n", e.Error())
+	os.Exit(c)
 }

@@ -1,34 +1,39 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/arrow2nd/anct/client"
+	"github.com/spf13/cobra"
+)
 
-// Cmd : 本体
-type Cmd struct {
-	root *cobra.Command
+// App : 本体
+type App struct {
+	root   *cobra.Command
+	client *client.Client
 }
 
 // New : 作成
-func New() *Cmd {
-	c := &Cmd{
+func New(t *client.Token) *App {
+	a := &App{
 		root: &cobra.Command{
 			Use:          "anct",
 			Short:        "🎦 Unofficial CLI Client of Annict",
 			SilenceUsage: true,
 		},
+		client: client.New(t),
 	}
 
-	c.root.AddCommand(
-		c.newAuthCmd(),
-		c.newSearchCmd(),
-		c.newLibraryCmd(),
-		c.newRecordCmd(),
-		c.newVersionCmd(),
+	a.root.AddCommand(
+		a.newAuthCmd(),
+		a.newSearchCmd(),
+		a.newLibraryCmd(),
+		a.newRecordCmd(),
+		a.newVersionCmd(),
 	)
 
-	return c
+	return a
 }
 
 // Execute : 実行
-func (c *Cmd) Execute() error {
+func (c *App) Execute() error {
 	return c.root.Execute()
 }

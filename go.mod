@@ -2,10 +2,13 @@ module github.com/arrow2nd/anct
 
 go 1.19
 
-require github.com/spf13/cobra v1.6.1
+require (
+	github.com/BurntSushi/toml v1.2.1
+	github.com/spf13/cobra v1.6.1
+)
 
 require (
-	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
+	github.com/chzyer/readline v1.5.1 // indirect
 	golang.org/x/sys v0.4.0 // indirect
 )
 

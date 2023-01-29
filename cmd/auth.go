@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/arrow2nd/anct/api"
+	"github.com/arrow2nd/anct/credencial"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -18,7 +18,7 @@ const logo = `
          -- Unofficial CLI Client of Annict
 `
 
-func (c *Cmd) newAuthCmd() *cobra.Command {
+func (c *App) newAuthCmd() *cobra.Command {
 	auth := &cobra.Command{
 		Use:   "auth",
 		Short: "Authentication anct with Annict",
@@ -29,7 +29,7 @@ func (c *Cmd) newAuthCmd() *cobra.Command {
 		Use:   "login",
 		Short: "Authentication with Annict",
 		Args:  cobra.NoArgs,
-		RunE:  execLogin,
+		RunE:  c.execLogin,
 	}
 
 	logout := &cobra.Command{
@@ -60,8 +60,8 @@ func inputCode() (string, error) {
 	return prompt.Run()
 }
 
-func execLogin(cmd *cobra.Command, args []string) error {
-	url, err := api.CreateAuthorizeURL()
+func (c *App) execLogin(cmd *cobra.Command, args []string) error {
+	url, err := c.client.CreateAuthorizeURL()
 	if err != nil {
 		return err
 	}
@@ -77,13 +77,9 @@ Please access the following URL and enter the code displayed after authenticatio
 		return err
 	}
 
-	cred, err := api.FetchToken(code)
-	if err != nil {
+	if err := c.client.UpdateUserToken(code); err != nil {
 		return err
 	}
 
-	// TODO: credをファイルに保存
-	fmt.Println(cred)
-
-	return nil
+	return credencial.Save(&c.client.Token)
 }

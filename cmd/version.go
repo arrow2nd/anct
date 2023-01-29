@@ -8,7 +8,7 @@ import (
 
 var version = "develop"
 
-func (c *Cmd) newVersionCmd() *cobra.Command {
+func (c *App) newVersionCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:     "version",
 		Aliases: []string{"ver"},
