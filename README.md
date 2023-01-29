@@ -1,3 +1,3 @@
 # anct
 
-**anct**: 🎦 Annict CLI Client
+🎦 Unofficial CLI Client of Annict
