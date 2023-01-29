@@ -11,8 +11,8 @@ type Cmd struct {
 func New() *Cmd {
 	c := &Cmd{
 		root: &cobra.Command{
-			Use:          "annict",
-			Short:        "🎦 Annict CLI Client",
+			Use:          "anct",
+			Short:        "🎦 Unofficial CLI Client of Annict",
 			SilenceUsage: true,
 		},
 	}

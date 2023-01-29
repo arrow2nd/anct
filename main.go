@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/arrow2nd/anct/api"
-	// "github.com/arrow2nd/anct/cmd"
+	"github.com/arrow2nd/anct/cmd"
 )
 
 const (
@@ -16,13 +15,11 @@ const (
 )
 
 func main() {
-	api.Authorize()
-
-	// c := cmd.New()
-	// if err := c.Execute(); err != nil {
-	// 	printError(err)
-	// 	os.Exit(ExitCodeErrExec)
-	// }
+	c := cmd.New()
+	if err := c.Execute(); err != nil {
+		// printError(err)
+		os.Exit(ExitCodeErrExec)
+	}
 }
 
 func printError(e error) {

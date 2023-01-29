@@ -2,53 +2,37 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
-	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/manifoldco/promptui"
 )
 
 const (
-	AuthURL     = "https://api.annict.com/oauth/authorize"
-	TokenURL    = "https://api.annict.com/oauth/token"
-	RevokeURL   = "https://api.annict.com/oauth/revoke"
+	// AuthURL : 認証
+	AuthURL = "https://api.annict.com/oauth/authorize"
+	// TokenURL : トークン発行
+	TokenURL = "https://api.annict.com/oauth/token"
+	// RevokeURL : トークン破棄
+	RevokeURL = "https://api.annict.com/oauth/revoke"
+	// RedirectURL : リダイレクト
 	RedirectURL = "urn:ietf:wg:oauth:2.0:oob"
 )
 
 var (
-	ClientID     = ""
+	// ClientID : クライアントID (ビルド時に埋め込み)
+	ClientID = ""
+	// ClientSecret : クライアントシークレット (ビルド時に埋め込み)
 	ClientSecret = ""
 )
 
-func Authorize() error {
-	url, err := createAuthorizeURL()
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("Auth URL: %s\n", url)
-
-	code, err := inputAuthCode()
-	if err != nil {
-		return err
-	}
-
-	result, err := getToken(strings.TrimSpace(code))
-	if err != nil {
-		return err
-	}
-
-	log.Printf("Token: %s\n", result.AccessToken)
-	log.Printf("Type: %s\n", result.TokenType)
-
-	return nil
+// Credencial : 認証情報
+type Credencial struct {
+	// AccessToken : トークン
+	AccessToken string `json:"access_token"`
 }
 
-func createAuthorizeURL() (string, error) {
+// GetAuthorizeURL : 認証用URLを取得
+func GetAuthorizeURL() (string, error) {
 	url, err := url.Parse(AuthURL)
 	if err != nil {
 		return "", err
@@ -64,26 +48,8 @@ func createAuthorizeURL() (string, error) {
 	return url.String(), nil
 }
 
-func inputAuthCode() (string, error) {
-	prompt := promptui.Prompt{
-		Label: "Code",
-		Validate: func(s string) error {
-			if s == "" {
-				return errors.New("please enter a code")
-			}
-			return nil
-		},
-	}
-
-	return prompt.Run()
-}
-
-type TokenResponse struct {
-	AccessToken string `json:"access_token"`
-	TokenType   string `json:"token_type"`
-}
-
-func getToken(code string) (*TokenResponse, error) {
+// GetToken : トークンを取得
+func GetToken(code string) (*Credencial, error) {
 	req, err := http.NewRequest(http.MethodPost, TokenURL, nil)
 	if err != nil {
 		return nil, err
@@ -94,7 +60,7 @@ func getToken(code string) (*TokenResponse, error) {
 	q.Add("client_secret", ClientSecret)
 	q.Add("grant_type", "authorization_code")
 	q.Add("redirect_uri", RedirectURL)
-	q.Add("code", code)
+	q.Add("code", strings.TrimSpace(code))
 	req.URL.RawQuery = q.Encode()
 
 	req.Header.Add("Accept", "application/json")
@@ -106,10 +72,9 @@ func getToken(code string) (*TokenResponse, error) {
 	}
 
 	defer res.Body.Close()
-
 	decorder := json.NewDecoder(res.Body)
 
-	raw := &TokenResponse{}
+	raw := &Credencial{}
 	if err := decorder.Decode(raw); err != nil {
 		return nil, err
 	}
