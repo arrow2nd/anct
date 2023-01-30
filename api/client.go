@@ -1,11 +1,11 @@
-package client
+package api
 
 // Client : クライアント
 type Client struct {
 	Token Token
 }
 
-func New(t *Token) *Client {
+func NewClient(t *Token) *Client {
 	c := &Client{
 		Token: *t,
 	}

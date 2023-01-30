@@ -1,25 +1,25 @@
 package cmd
 
 import (
-	"github.com/arrow2nd/anct/client"
+	"github.com/arrow2nd/anct/api"
 	"github.com/spf13/cobra"
 )
 
 // App : 本体
 type App struct {
 	root   *cobra.Command
-	client *client.Client
+	client *api.Client
 }
 
 // New : 作成
-func New(t *client.Token) *App {
+func New(t *api.Token) *App {
 	a := &App{
 		root: &cobra.Command{
 			Use:          "anct",
 			Short:        "🎦 Unofficial CLI Client of Annict",
 			SilenceUsage: true,
 		},
-		client: client.New(t),
+		client: api.NewClient(t),
 	}
 
 	a.root.AddCommand(

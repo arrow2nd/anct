@@ -8,13 +8,13 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
-	"github.com/arrow2nd/anct/client"
+	"github.com/arrow2nd/anct/api"
 )
 
 const filename = ".cred.toml"
 
 // Save : 保存
-func Save(t *client.Token) error {
+func Save(t *api.Token) error {
 	buf := &bytes.Buffer{}
 
 	if err := toml.NewEncoder(buf).Encode(t); err != nil {
@@ -35,7 +35,7 @@ func Save(t *client.Token) error {
 }
 
 // Load : 読み込み
-func Load() (*client.Token, error) {
+func Load() (*api.Token, error) {
 	configDir, err := getConfigDir()
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func Load() (*client.Token, error) {
 		return nil, fmt.Errorf("failed to load (%s): %w", path, err)
 	}
 
-	token := &client.Token{}
+	token := &api.Token{}
 	if err := toml.Unmarshal(buf, token); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal (%s): %w", path, err)
 	}
@@ -62,12 +62,12 @@ func Load() (*client.Token, error) {
 }
 
 func createNewFile() error {
-	return Save(&client.Token{
-		Client: &client.ClientToken{
+	return Save(&api.Token{
+		Client: &api.ClientToken{
 			ID:     "",
 			Secret: "",
 		},
-		User: &client.UserToken{
+		User: &api.UserToken{
 			Bearer: "",
 		},
 	})
