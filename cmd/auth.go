@@ -18,7 +18,7 @@ const logo = `
          -- Unofficial CLI Client of Annict
 `
 
-func (c *App) newAuthCmd() *cobra.Command {
+func (c *App) newCmdAuth() *cobra.Command {
 	auth := &cobra.Command{
 		Use:   "auth",
 		Short: "Authentication anct with Annict",
@@ -29,7 +29,7 @@ func (c *App) newAuthCmd() *cobra.Command {
 		Use:   "login",
 		Short: "Authentication with Annict",
 		Args:  cobra.NoArgs,
-		RunE:  c.execLogin,
+		RunE:  c.loginRun,
 	}
 
 	logout := &cobra.Command{
@@ -60,7 +60,7 @@ func inputCode() (string, error) {
 	return prompt.Run()
 }
 
-func (c *App) execLogin(cmd *cobra.Command, args []string) error {
+func (c *App) loginRun(cmd *cobra.Command, args []string) error {
 	url, err := c.client.CreateAuthorizeURL()
 	if err != nil {
 		return err
@@ -82,4 +82,8 @@ Please access the following URL and enter the code displayed after authenticatio
 	}
 
 	return credencial.Save(&c.client.Token)
+}
+
+func (a *App) logoutRun(cmd *cobra.Command, arg []string) error {
+	return nil
 }

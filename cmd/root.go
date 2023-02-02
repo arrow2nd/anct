@@ -23,7 +23,7 @@ func New(t *api.Token) *App {
 	}
 
 	a.root.AddCommand(
-		a.newAuthCmd(),
+		a.newCmdAuth(),
 		a.newSearchCmd(),
 		a.newLibraryCmd(),
 		a.newRecordCmd(),
