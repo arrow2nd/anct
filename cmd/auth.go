@@ -18,7 +18,7 @@ const logo = `
          -- Unofficial CLI Client of Annict
 `
 
-func (c *App) newCmdAuth() *cobra.Command {
+func (c *Command) newCmdAuth() *cobra.Command {
 	auth := &cobra.Command{
 		Use:   "auth",
 		Short: "Authentication anct with Annict",
@@ -47,8 +47,8 @@ func (c *App) newCmdAuth() *cobra.Command {
 	return auth
 }
 
-func (a *App) loginRun(cmd *cobra.Command, args []string) error {
-	url, err := a.client.CreateAuthorizeURL()
+func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
+	url, err := c.client.CreateAuthorizeURL()
 	if err != nil {
 		return err
 	}
@@ -64,14 +64,14 @@ Please access the following URL and enter the code displayed after authenticatio
 		return err
 	}
 
-	if err := a.client.UpdateUserToken(code); err != nil {
+	if err := c.client.UpdateUserToken(code); err != nil {
 		return err
 	}
 
-	return config.Save(&a.client.Token)
+	return config.Save(&c.client.Token)
 }
 
-func (a *App) logoutRun(cmd *cobra.Command, arg []string) error {
+func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 	isLogout := false
 	prompt := &survey.Confirm{
 		Message: "Do you want to log out?",
@@ -86,11 +86,11 @@ func (a *App) logoutRun(cmd *cobra.Command, arg []string) error {
 		return nil
 	}
 
-	if err := a.client.Token.Revoke(); err != nil {
+	if err := c.client.Token.Revoke(); err != nil {
 		return fmt.Errorf("failed to revoke access token: %w", err)
 	}
 
-	return config.Save(&a.client.Token)
+	return config.Save(&c.client.Token)
 }
 
 func inputCode() (string, error) {

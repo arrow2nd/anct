@@ -5,15 +5,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// App : 本体
-type App struct {
+// Command : コマンド本体
+type Command struct {
 	root   *cobra.Command
 	client *api.Client
 }
 
 // New : 作成
-func New(t *api.Token) *App {
-	a := &App{
+func New(t *api.Token) *Command {
+	c := &Command{
 		root: &cobra.Command{
 			Use:           "anct",
 			Short:         "🎦 Unofficial CLI Client of Annict",
@@ -23,18 +23,17 @@ func New(t *api.Token) *App {
 		client: api.NewClient(t),
 	}
 
-	a.root.AddCommand(
-		a.newCmdAuth(),
-		a.newCmdSearch(),
-		a.newCmdLibrary(),
-		a.newCmdRecord(),
-		a.newCmdVersion(),
+	c.root.AddCommand(
+		c.newCmdAuth(),
+		c.newCmdSearch(),
+		c.newCmdLibrary(),
+		c.newCmdVersion(),
 	)
 
-	return a
+	return c
 }
 
 // Execute : 実行
-func (a *App) Execute() error {
-	return a.root.Execute()
+func (c *Command) Execute() error {
+	return c.root.Execute()
 }

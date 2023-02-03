@@ -2,20 +2,20 @@ package cmd
 
 import "github.com/spf13/cobra"
 
-func (a *App) newCmdSearch() *cobra.Command {
+func (c *Command) newCmdSearch() *cobra.Command {
 	search := &cobra.Command{
 		Use:   "search",
-		Short: "Search for animes, characters",
+		Short: "Search for works, characters",
 	}
 
 	characters := &cobra.Command{
-		Use:   "characters",
+		Use:   "characters [<query>]",
 		Short: "Search fot characters",
-		Args:  cobra.ExactValidArgs(1),
+		Args:  cobra.ExactArgs(1),
 	}
 
 	works := &cobra.Command{
-		Use:   "works",
+		Use:   "works [<query>]",
 		Short: "Search for works",
 		Args:  cobra.ExactArgs(1),
 	}
