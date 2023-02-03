@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/arrow2nd/anct/cmd"
-	"github.com/arrow2nd/anct/credencial"
+	"github.com/arrow2nd/anct/config"
 )
 
 type exitCode int
@@ -17,7 +17,7 @@ const (
 )
 
 func main() {
-	cred, err := credencial.Load()
+	cred, err := config.Load()
 	if err != nil {
 		exitError(err, int(exitCodeErrLoad))
 	}

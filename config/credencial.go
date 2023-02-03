@@ -1,4 +1,4 @@
-package credencial
+package config
 
 import (
 	"bytes"
