@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/arrow2nd/anct/credencial"
-	"github.com/manifoldco/promptui"
+	"github.com/AlecAivazis/survey/v2"
+	"github.com/arrow2nd/anct/config"
 	"github.com/spf13/cobra"
 )
 
@@ -36,6 +36,7 @@ func (c *App) newCmdAuth() *cobra.Command {
 		Use:   "logout",
 		Short: "Log out of anct",
 		Args:  cobra.NoArgs,
+		RunE:  c.logoutRun,
 	}
 
 	auth.AddCommand(
@@ -44,20 +45,6 @@ func (c *App) newCmdAuth() *cobra.Command {
 	)
 
 	return auth
-}
-
-func inputCode() (string, error) {
-	prompt := promptui.Prompt{
-		Label: "Code",
-		Validate: func(s string) error {
-			if s == "" {
-				return errors.New("please enter a code")
-			}
-			return nil
-		},
-	}
-
-	return prompt.Run()
 }
 
 func (a *App) loginRun(cmd *cobra.Command, args []string) error {
@@ -81,13 +68,45 @@ Please access the following URL and enter the code displayed after authenticatio
 		return err
 	}
 
-	return credencial.Save(&a.client.Token)
+	return config.Save(&a.client.Token)
 }
 
 func (a *App) logoutRun(cmd *cobra.Command, arg []string) error {
+	isLogout := false
+	prompt := &survey.Confirm{
+		Message: "Do you want to log out?",
+	}
+
+	if err := survey.AskOne(prompt, &isLogout); err != nil {
+		return err
+	}
+
+	if !isLogout {
+		fmt.Println("canceled")
+		return nil
+	}
+
 	if err := a.client.Token.Revoke(); err != nil {
 		return fmt.Errorf("failed to revoke access token: %w", err)
 	}
 
-	return credencial.Save(&a.client.Token)
+	return config.Save(&a.client.Token)
+}
+
+func inputCode() (string, error) {
+	prompt := &survey.Input{
+		Message: "Code",
+	}
+
+	validator := func(ans interface{}) error {
+		if str, ok := ans.(string); !ok || len(str) == 0 {
+			return errors.New("please enter a code")
+		}
+		return nil
+	}
+
+	code := ""
+	err := survey.AskOne(prompt, &code, survey.WithValidator(validator))
+
+	return code, err
 }
