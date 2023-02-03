@@ -1,6 +1,9 @@
 package api
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 var (
 	clientID     = ""
@@ -40,8 +43,13 @@ func (t *Token) Revoke() error {
 	req.Header.Add("Authorization", "Bearer "+t.User.Bearer)
 
 	client := http.Client{}
-	if _, err := client.Do(req); err != nil {
+	res, err := client.Do(req)
+	if err != nil {
 		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to revoke token (status: %d)", res.StatusCode)
 	}
 
 	t.User.Bearer = ""

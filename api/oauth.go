@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -53,6 +54,10 @@ func (c *Client) UpdateUserToken(code string) error {
 	res, err := client.Do(req)
 	if err != nil {
 		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to obtain token (status: %d)", res.StatusCode)
 	}
 
 	defer res.Body.Close()
