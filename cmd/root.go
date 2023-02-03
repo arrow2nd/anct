@@ -15,9 +15,10 @@ type App struct {
 func New(t *api.Token) *App {
 	a := &App{
 		root: &cobra.Command{
-			Use:          "anct",
-			Short:        "🎦 Unofficial CLI Client of Annict",
-			SilenceUsage: true,
+			Use:           "anct",
+			Short:         "🎦 Unofficial CLI Client of Annict",
+			SilenceUsage:  true,
+			SilenceErrors: true,
 		},
 		client: api.NewClient(t),
 	}
