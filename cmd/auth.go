@@ -60,8 +60,8 @@ func inputCode() (string, error) {
 	return prompt.Run()
 }
 
-func (c *App) loginRun(cmd *cobra.Command, args []string) error {
-	url, err := c.client.CreateAuthorizeURL()
+func (a *App) loginRun(cmd *cobra.Command, args []string) error {
+	url, err := a.client.CreateAuthorizeURL()
 	if err != nil {
 		return err
 	}
@@ -77,13 +77,17 @@ Please access the following URL and enter the code displayed after authenticatio
 		return err
 	}
 
-	if err := c.client.UpdateUserToken(code); err != nil {
+	if err := a.client.UpdateUserToken(code); err != nil {
 		return err
 	}
 
-	return credencial.Save(&c.client.Token)
+	return credencial.Save(&a.client.Token)
 }
 
 func (a *App) logoutRun(cmd *cobra.Command, arg []string) error {
-	return nil
+	if err := a.client.Token.Revoke(); err != nil {
+		return fmt.Errorf("failed to revoke access token: %w", err)
+	}
+
+	return credencial.Save(&a.client.Token)
 }

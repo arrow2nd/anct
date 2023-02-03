@@ -24,16 +24,16 @@ func New(t *api.Token) *App {
 
 	a.root.AddCommand(
 		a.newCmdAuth(),
-		a.newSearchCmd(),
-		a.newLibraryCmd(),
-		a.newRecordCmd(),
-		a.newVersionCmd(),
+		a.newCmdSearch(),
+		a.newCmdLibrary(),
+		a.newCmdRecord(),
+		a.newCmdVersion(),
 	)
 
 	return a
 }
 
 // Execute : 実行
-func (c *App) Execute() error {
-	return c.root.Execute()
+func (a *App) Execute() error {
+	return a.root.Execute()
 }

@@ -2,7 +2,7 @@ package cmd
 
 import "github.com/spf13/cobra"
 
-func (c *App) newLibraryCmd() *cobra.Command {
+func (a *App) newCmdLibrary() *cobra.Command {
 	library := &cobra.Command{
 		Use:   "library",
 		Short: "View own library",
