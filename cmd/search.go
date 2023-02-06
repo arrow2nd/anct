@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/arrow2nd/anct/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -42,9 +42,7 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, arg []string) error {
 		return err
 	}
 
-	for _, node := range list.SearchWorks.Nodes {
-		fmt.Printf("Work ID: %d / TITLE: %s / MEDIA: %s / SEASON: %d %s\n", node.AnnictID, node.Title, node.Media.String(), *node.SeasonYear, node.SeasonName.String())
-	}
+	ui.PrintWorksTable(list.SearchWorks.Nodes)
 
 	return nil
 }
