@@ -1,13 +1,28 @@
 package api
 
-// Client : クライアント
-type Client struct {
-	Token Token
+import (
+	"context"
+	"net/http"
+
+	"github.com/Yamashou/gqlgenc/clientv2"
+	"github.com/arrow2nd/anct/gen"
+)
+
+// API : APIクライアント
+type API struct {
+	Client *gen.Client
+	Token  Token
 }
 
-func NewClient(t *Token) *Client {
-	c := &Client{
-		Token: *t,
+func New(t *Token) *API {
+	ac := gen.NewClient(http.DefaultClient, baseURL, func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res interface{}, next clientv2.RequestInterceptorFunc) error {
+		req.Header.Set("Authorization", "Bearer "+t.User.Bearer)
+		return next(ctx, req, gqlInfo, res)
+	})
+
+	c := &API{
+		Client: ac,
+		Token:  *t,
 	}
 
 	if c.Token.Client.ID == "" || c.Token.Client.Secret == "" {

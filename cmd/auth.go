@@ -48,7 +48,7 @@ func (c *Command) newCmdAuth() *cobra.Command {
 }
 
 func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
-	url, err := c.client.CreateAuthorizeURL()
+	url, err := c.api.CreateAuthorizeURL()
 	if err != nil {
 		return err
 	}
@@ -64,11 +64,11 @@ Please access the following URL and enter the code displayed after authenticatio
 		return err
 	}
 
-	if err := c.client.UpdateUserToken(code); err != nil {
+	if err := c.api.UpdateUserToken(code); err != nil {
 		return err
 	}
 
-	return config.Save(&c.client.Token)
+	return config.Save(&c.api.Token)
 }
 
 func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
@@ -86,11 +86,11 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 		return nil
 	}
 
-	if err := c.client.Token.Revoke(); err != nil {
+	if err := c.api.Token.Revoke(); err != nil {
 		return fmt.Errorf("failed to revoke access token: %w", err)
 	}
 
-	return config.Save(&c.client.Token)
+	return config.Save(&c.api.Token)
 }
 
 func inputCode() (string, error) {

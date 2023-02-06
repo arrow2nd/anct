@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	baseURL      = "https://api.annict.com"
+	baseURL      = "https://api.annict.com/graphql"
 	authorizeURL = "https://api.annict.com/oauth/authorize"
 	tokenURL     = "https://api.annict.com/oauth/token"
 	revokeURL    = "https://api.annict.com/oauth/revoke"
@@ -17,7 +17,7 @@ const (
 )
 
 // CreateAuthorizeURL : 認証用URLを作成
-func (c *Client) CreateAuthorizeURL() (string, error) {
+func (c *API) CreateAuthorizeURL() (string, error) {
 	url, err := url.Parse(authorizeURL)
 	if err != nil {
 		return "", err
@@ -34,7 +34,7 @@ func (c *Client) CreateAuthorizeURL() (string, error) {
 }
 
 // UpdateUserToken : ユーザートークンを更新 (再取得)
-func (c *Client) UpdateUserToken(code string) error {
+func (c *API) UpdateUserToken(code string) error {
 	req, err := http.NewRequest(http.MethodPost, tokenURL, nil)
 	if err != nil {
 		return err

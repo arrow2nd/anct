@@ -1,0 +1,16 @@
+query SearchWorksByKeyword($keyword: String!, $first: Int!) {
+  searchWorks(
+    titles: [$keyword]
+    orderBy: { field: WATCHERS_COUNT, direction: DESC }
+    first: $first
+  ) {
+    nodes {
+      id
+      annictId
+      title
+      media
+      seasonName
+      seasonYear
+    }
+  }
+}

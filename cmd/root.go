@@ -7,8 +7,8 @@ import (
 
 // Command : コマンド本体
 type Command struct {
-	root   *cobra.Command
-	client *api.Client
+	root *cobra.Command
+	api  *api.API
 }
 
 // New : 作成
@@ -20,7 +20,7 @@ func New(t *api.Token) *Command {
 			SilenceUsage:  true,
 			SilenceErrors: true,
 		},
-		client: api.NewClient(t),
+		api: api.New(t),
 	}
 
 	c.root.AddCommand(
