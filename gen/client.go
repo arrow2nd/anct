@@ -38,7 +38,6 @@ type Mutation struct {
 	UpdateStatus *UpdateStatusPayload "json:\"updateStatus,omitempty\" graphql:\"updateStatus\""
 }
 type WorkFragment struct {
-	ID         string      "json:\"id\" graphql:\"id\""
 	AnnictID   int64       "json:\"annictId\" graphql:\"annictId\""
 	Title      string      "json:\"title\" graphql:\"title\""
 	Media      Media       "json:\"media\" graphql:\"media\""
@@ -60,7 +59,6 @@ const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: Stri
 	}
 }
 fragment WorkFragment on Work {
-	id
 	annictId
 	title
 	media
