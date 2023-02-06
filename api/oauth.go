@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	baseURL      = "https://api.annict.com/graphql"
 	authorizeURL = "https://api.annict.com/oauth/authorize"
 	tokenURL     = "https://api.annict.com/oauth/token"
 	revokeURL    = "https://api.annict.com/oauth/revoke"

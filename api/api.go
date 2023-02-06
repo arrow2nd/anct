@@ -8,6 +8,8 @@ import (
 	"github.com/arrow2nd/anct/gen"
 )
 
+const baseURL = "https://api.annict.com/graphql"
+
 // API : APIクライアント
 type API struct {
 	Client *gen.Client
@@ -25,6 +27,7 @@ func New(t *Token) *API {
 		Token:  *t,
 	}
 
+	// 組込みのクライアントトークンを使う
 	if c.Token.Client.ID == "" || c.Token.Client.Secret == "" {
 		c.Token.Client.ID = clientID
 		c.Token.Client.Secret = clientSecret
