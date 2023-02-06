@@ -5,12 +5,7 @@ query SearchWorksByKeyword($keyword: String!, $first: Int!) {
     first: $first
   ) {
     nodes {
-      id
-      annictId
-      title
-      media
-      seasonName
-      seasonYear
+      ...WorkFragment
     }
   }
 }

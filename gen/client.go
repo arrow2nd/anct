@@ -37,7 +37,7 @@ type Mutation struct {
 	UpdateReview *UpdateReviewPayload "json:\"updateReview,omitempty\" graphql:\"updateReview\""
 	UpdateStatus *UpdateStatusPayload "json:\"updateStatus,omitempty\" graphql:\"updateStatus\""
 }
-type SearchWorksByKeyword_SearchWorks_Nodes struct {
+type WorkFragment struct {
 	ID         string      "json:\"id\" graphql:\"id\""
 	AnnictID   int64       "json:\"annictId\" graphql:\"annictId\""
 	Title      string      "json:\"title\" graphql:\"title\""
@@ -46,7 +46,7 @@ type SearchWorksByKeyword_SearchWorks_Nodes struct {
 	SeasonYear *int64      "json:\"seasonYear\" graphql:\"seasonYear\""
 }
 type SearchWorksByKeyword_SearchWorks struct {
-	Nodes []*SearchWorksByKeyword_SearchWorks_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
@@ -55,14 +55,17 @@ type SearchWorksByKeyword struct {
 const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: String!, $first: Int!) {
 	searchWorks(titles: [$keyword], orderBy: {field:WATCHERS_COUNT,direction:DESC}, first: $first) {
 		nodes {
-			id
-			annictId
-			title
-			media
-			seasonName
-			seasonYear
+			... WorkFragment
 		}
 	}
+}
+fragment WorkFragment on Work {
+	id
+	annictId
+	title
+	media
+	seasonName
+	seasonYear
 }
 `
 

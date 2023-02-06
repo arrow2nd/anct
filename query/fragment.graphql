@@ -1,0 +1,8 @@
+fragment WorkFragment on Work {
+  id
+  annictId
+  title
+  media
+  seasonName
+  seasonYear
+}

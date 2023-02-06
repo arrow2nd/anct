@@ -24,6 +24,9 @@ require (
 	github.com/Yamashou/gqlgenc v0.11.3 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/olekukonko/tablewriter v0.0.5 // indirect
+	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/vektah/gqlparser/v2 v2.5.1 // indirect
 	golang.org/x/mod v0.7.0 // indirect
