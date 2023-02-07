@@ -52,7 +52,7 @@ type SearchWorksByKeyword struct {
 }
 
 const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: String!, $first: Int!) {
-	searchWorks(titles: [$keyword], orderBy: {field:WATCHERS_COUNT,direction:DESC}, first: $first) {
+	searchWorks(titles: [$keyword], first: $first, orderBy: {field:SEASON,direction:ASC}) {
 		nodes {
 			... WorkFragment
 		}
