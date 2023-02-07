@@ -56,8 +56,7 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, arg []string) error {
 		return err
 	}
 
-	title := fmt.Sprintf("Work search results for '%s'", keyword)
-	view.PrintWorksTable(os.Stdout, title, list.SearchWorks.Nodes)
+	view.PrintWorksTable(os.Stdout, list.SearchWorks.Nodes)
 	return nil
 }
 
@@ -80,7 +79,6 @@ https://github.com/arrow2nd/anct/issues/2`)
 	// 	return err
 	// }
 
-	// title := fmt.Sprintf("Character search results for '%s'", keyword)
-	// view.PrintCharactersTable(os.Stdout, title, list.SearchCharacters.Nodes)
+	// view.PrintCharactersTable(os.Stdout, list.SearchCharacters.Nodes)
 	return nil
 }
