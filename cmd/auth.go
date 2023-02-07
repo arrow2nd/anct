@@ -1,22 +1,14 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
+	"os"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/config"
+	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
-
-const logo = `
-   ________  ________  ________  ________ 
-  /        \/    /   \/        \/        \
- /         /         /         /        _/
-/         /         /       --//       /  
-\___/____/\__/_____/\________/ \______/
-         -- Unofficial CLI Client of Annict
-`
 
 func (c *Command) newCmdAuth() *cobra.Command {
 	auth := &cobra.Command{
@@ -53,13 +45,10 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Printf(`%s
-Please access the following URL and enter the code displayed after authentication.
-> %s
+	view.PrintLogo(os.Stdout)
+	view.PrintAuthURL(os.Stdout, url)
 
-`, logo, url)
-
-	code, err := inputCode()
+	code, err := view.InputAuthCode()
 	if err != nil {
 		return err
 	}
@@ -82,7 +71,7 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 	}
 
 	if !isLogout {
-		fmt.Println("canceled")
+		view.PrintCanceled(os.Stderr)
 		return nil
 	}
 
@@ -91,22 +80,4 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 	}
 
 	return config.Save(&c.api.Token)
-}
-
-func inputCode() (string, error) {
-	prompt := &survey.Input{
-		Message: "Code",
-	}
-
-	validator := func(ans interface{}) error {
-		if str, ok := ans.(string); !ok || len(str) == 0 {
-			return errors.New("please enter a code")
-		}
-		return nil
-	}
-
-	code := ""
-	err := survey.AskOne(prompt, &code, survey.WithValidator(validator))
-
-	return code, err
 }
