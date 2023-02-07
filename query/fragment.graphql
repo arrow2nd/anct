@@ -5,3 +5,11 @@ fragment WorkFragment on Work {
   seasonName
   seasonYear
 }
+
+fragment CharacterFragment on Character {
+  name
+  series {
+    annictId
+    name
+  }
+}

@@ -51,3 +51,21 @@ func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
 
 	printTable(w, q, []string{"WORK ID", "TITLE", "MEDIA", "SEASON"}, data)
 }
+
+func PrintCharactersTable(w io.Writer, q string, charachers []*gen.CharacterFragment) {
+	if len(charachers) == 0 {
+		fmt.Fprintln(w, "No matches found for your search")
+		return
+	}
+
+	data := [][]string{}
+	for _, chara := range charachers {
+		data = append(data, []string{
+			chara.Name,
+			chara.Series.Name,
+			fmt.Sprint(chara.Series.AnnictID),
+		})
+	}
+
+	printTable(w, q, []string{"NAME", "SERIES", "WORK ID"}, data)
+}

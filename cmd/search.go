@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	"os"
+
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func (c *Command) newCmdSearch() *cobra.Command {
@@ -23,6 +25,7 @@ func (c *Command) newCmdSearch() *cobra.Command {
 	characters := &cobra.Command{
 		Use:   "characters [keyword]",
 		Short: "Search for characters",
+		RunE:  c.searchCharactersRun,
 	}
 	setSearchFlags(characters)
 
@@ -54,5 +57,28 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, arg []string) error {
 	}
 
 	view.PrintWorksTable(os.Stdout, keyword, list.SearchWorks.Nodes)
+	return nil
+}
+
+func (c *Command) searchCharactersRun(cmd *cobra.Command, arg []string) error {
+
+	// NOTE: 以下の issue のため、このコマンドは無効化しています
+	fmt.Println(`This command cannot be used because of the following issue.
+https://github.com/arrow2nd/anct/issues/2`)
+
+	// keyword, err := receivekeyword(arg)
+	// if err != nil {
+	// 	return err
+	// }
+
+	// limit, _ := cmd.Flags().GetInt64("limit")
+	// ctx := context.Background()
+
+	// list, err := c.api.Client.SearchCharactersByKeyword(ctx, keyword, limit)
+	// if err != nil {
+	// 	return err
+	// }
+
+	// view.PrintCharactersTable(os.Stdout, keyword, list.SearchCharacters.Nodes)
 	return nil
 }

@@ -44,11 +44,29 @@ type WorkFragment struct {
 	SeasonName *SeasonName "json:\"seasonName\" graphql:\"seasonName\""
 	SeasonYear *int64      "json:\"seasonYear\" graphql:\"seasonYear\""
 }
+type CharacterFragment struct {
+	Name   string                   "json:\"name\" graphql:\"name\""
+	Series CharacterFragment_Series "json:\"series\" graphql:\"series\""
+}
+type CharacterFragment_Series struct {
+	AnnictID int64  "json:\"annictId\" graphql:\"annictId\""
+	Name     string "json:\"name\" graphql:\"name\""
+}
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
+type SearchCharactersByKeyword_SearchCharacters_Nodes_CharacterFragment_Series struct {
+	AnnictID int64  "json:\"annictId\" graphql:\"annictId\""
+	Name     string "json:\"name\" graphql:\"name\""
+}
+type SearchCharactersByKeyword_SearchCharacters struct {
+	Nodes []*CharacterFragment "json:\"nodes\" graphql:\"nodes\""
+}
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+}
+type SearchCharactersByKeyword struct {
+	SearchCharacters *SearchCharactersByKeyword_SearchCharacters "json:\"searchCharacters\" graphql:\"searchCharacters\""
 }
 
 const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: String!, $first: Int!) {
@@ -75,6 +93,36 @@ func (c *Client) SearchWorksByKeyword(ctx context.Context, keyword string, first
 
 	var res SearchWorksByKeyword
 	if err := c.Client.Post(ctx, "SearchWorksByKeyword", SearchWorksByKeywordDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SearchCharactersByKeywordDocument = `query SearchCharactersByKeyword ($keyword: String!, $first: Int!) {
+	searchCharacters(names: [$keyword], orderBy: {field:FAVORITE_CHARACTERS_COUNT,direction:DESC}, first: $first) {
+		nodes {
+			... CharacterFragment
+		}
+	}
+}
+fragment CharacterFragment on Character {
+	name
+	series {
+		annictId
+		name
+	}
+}
+`
+
+func (c *Client) SearchCharactersByKeyword(ctx context.Context, keyword string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchCharactersByKeyword, error) {
+	vars := map[string]interface{}{
+		"keyword": keyword,
+		"first":   first,
+	}
+
+	var res SearchCharactersByKeyword
+	if err := c.Client.Post(ctx, "SearchCharactersByKeyword", SearchCharactersByKeywordDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 

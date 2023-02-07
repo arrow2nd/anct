@@ -9,3 +9,15 @@ query SearchWorksByKeyword($keyword: String!, $first: Int!) {
     }
   }
 }
+
+query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
+  searchCharacters(
+    names: [$keyword]
+    orderBy: { field: FAVORITE_CHARACTERS_COUNT, direction: DESC }
+    first: $first
+  ) {
+    nodes {
+      ...CharacterFragment
+    }
+  }
+}
