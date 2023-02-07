@@ -62,11 +62,23 @@ type SearchCharactersByKeyword_SearchCharacters_Nodes_CharacterFragment_Series s
 type SearchCharactersByKeyword_SearchCharacters struct {
 	Nodes []*CharacterFragment "json:\"nodes\" graphql:\"nodes\""
 }
+type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
+	Work *WorkFragment "json:\"work\" graphql:\"work\""
+}
+type FetchUserLibrary_Viewer_LibraryEntries struct {
+	Nodes []*FetchUserLibrary_Viewer_LibraryEntries_Nodes "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchUserLibrary_Viewer struct {
+	LibraryEntries *FetchUserLibrary_Viewer_LibraryEntries "json:\"libraryEntries\" graphql:\"libraryEntries\""
+}
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
 }
 type SearchCharactersByKeyword struct {
 	SearchCharacters *SearchCharactersByKeyword_SearchCharacters "json:\"searchCharacters\" graphql:\"searchCharacters\""
+}
+type FetchUserLibrary struct {
+	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
 }
 
 const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: String!, $first: Int!) {
@@ -123,6 +135,40 @@ func (c *Client) SearchCharactersByKeyword(ctx context.Context, keyword string, 
 
 	var res SearchCharactersByKeyword
 	if err := c.Client.Post(ctx, "SearchCharactersByKeyword", SearchCharactersByKeywordDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, $first: Int!) {
+	viewer {
+		libraryEntries(states: [$state], first: $first) {
+			nodes {
+				work {
+					... WorkFragment
+				}
+			}
+		}
+	}
+}
+fragment WorkFragment on Work {
+	annictId
+	title
+	media
+	seasonName
+	seasonYear
+}
+`
+
+func (c *Client) FetchUserLibrary(ctx context.Context, state StatusState, first int64, interceptors ...clientv2.RequestInterceptor) (*FetchUserLibrary, error) {
+	vars := map[string]interface{}{
+		"state": state,
+		"first": first,
+	}
+
+	var res FetchUserLibrary
+	if err := c.Client.Post(ctx, "FetchUserLibrary", FetchUserLibraryDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 

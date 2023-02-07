@@ -21,3 +21,15 @@ query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
     }
   }
 }
+
+query FetchUserLibrary($state: StatusState!, $first: Int!) {
+  viewer {
+    libraryEntries(states: [$state], first: $first) {
+      nodes {
+        work {
+          ...WorkFragment
+        }
+      }
+    }
+  }
+}
