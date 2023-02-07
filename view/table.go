@@ -8,7 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func printTable(w io.Writer, q string, header []string, data [][]string) {
+func printTable(w io.Writer, title string, header []string, data [][]string) {
 	table := tablewriter.NewWriter(w)
 
 	table.SetHeader(header)
@@ -17,13 +17,13 @@ func printTable(w io.Writer, q string, header []string, data [][]string) {
 	table.SetAutoWrapText(false)
 	table.AppendBulk(data)
 
-	fmt.Fprintf(w, "\nSearch results for '%s'\n\n", q)
+	fmt.Fprintf(w, "\n%s\n\n", title)
 	table.Render()
 	fmt.Fprintln(w)
 }
 
 // PrintWorksTable : 作品テーブルを出力
-func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
+func PrintWorksTable(w io.Writer, title string, works []*gen.WorkFragment) {
 	if len(works) == 0 {
 		fmt.Fprintln(w, "No matches found for your search")
 		return
@@ -49,10 +49,10 @@ func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
 		})
 	}
 
-	printTable(w, q, []string{"WORK ID", "TITLE", "MEDIA", "SEASON"}, data)
+	printTable(w, title, []string{"WORK ID", "TITLE", "MEDIA", "SEASON"}, data)
 }
 
-func PrintCharactersTable(w io.Writer, q string, charachers []*gen.CharacterFragment) {
+func PrintCharactersTable(w io.Writer, title string, charachers []*gen.CharacterFragment) {
 	if len(charachers) == 0 {
 		fmt.Fprintln(w, "No matches found for your search")
 		return
@@ -67,5 +67,5 @@ func PrintCharactersTable(w io.Writer, q string, charachers []*gen.CharacterFrag
 		})
 	}
 
-	printTable(w, q, []string{"NAME", "SERIES", "WORK ID"}, data)
+	printTable(w, title, []string{"NAME", "SERIES", "WORK ID"}, data)
 }
