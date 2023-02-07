@@ -8,7 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func printTable(w io.Writer, header []string, data [][]string) {
+func printTable(w io.Writer, q string, header []string, data [][]string) {
 	table := tablewriter.NewWriter(w)
 
 	table.SetHeader(header)
@@ -17,15 +17,13 @@ func printTable(w io.Writer, header []string, data [][]string) {
 	table.SetAutoWrapText(false)
 	table.AppendBulk(data)
 
-	fmt.Fprintln(w)
+	fmt.Fprintf(w, "\nSearch results for '%s'\n\n", q)
 	table.Render()
 	fmt.Fprintln(w)
 }
 
 // PrintWorksTable : 作品テーブルを出力
 func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
-	fmt.Fprintf(w, "\nSearch results for '%s' works\n", q)
-
 	if len(works) == 0 {
 		fmt.Fprintln(w, "No matches found for your search")
 		return
@@ -51,5 +49,5 @@ func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
 		})
 	}
 
-	printTable(w, []string{"WORK ID", "TITLE", "MEDIA", "SEASON"}, data)
+	printTable(w, q, []string{"WORK ID", "TITLE", "MEDIA", "SEASON"}, data)
 }
