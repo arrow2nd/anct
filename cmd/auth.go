@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/config"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -61,16 +60,12 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 }
 
 func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
-	isLogout := false
-	prompt := &survey.Confirm{
-		Message: "Do you want to log out?",
-	}
-
-	if err := survey.AskOne(prompt, &isLogout); err != nil {
+	logout, err := view.Confirm("Are you sure you want to log out?")
+	if err != nil {
 		return err
 	}
 
-	if !isLogout {
+	if !logout {
 		view.PrintCanceled(os.Stderr)
 		return nil
 	}

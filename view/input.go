@@ -7,6 +7,20 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 )
 
+// Confirm : 確認ダイアログ
+func Confirm(m string) (bool, error) {
+	result := false
+	prompt := &survey.Confirm{
+		Message: m,
+	}
+
+	if err := survey.AskOne(prompt, &result); err != nil {
+		return false, err
+	}
+
+	return result, nil
+}
+
 // InputAuthCode : 認証コードの入力
 func InputAuthCode() (string, error) {
 	prompt := &survey.Input{
