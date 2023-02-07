@@ -33,12 +33,12 @@ func PrintWorksTable(w io.Writer, q string, works []*gen.WorkFragment) {
 
 	data := [][]string{}
 	for _, work := range works {
-		media := "UNKNOWN"
+		media := "?"
 		if work.Media.IsValid() {
 			media = work.Media.String()
 		}
 
-		season := "UNKNOWN"
+		season := "?"
 		if work.SeasonYear != nil && work.SeasonName.IsValid() {
 			season = fmt.Sprintf("%d %s", *work.SeasonYear, work.SeasonName.String())
 		}
