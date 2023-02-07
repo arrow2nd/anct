@@ -112,7 +112,7 @@ func (c *Client) SearchWorksByKeyword(ctx context.Context, keyword string, first
 }
 
 const SearchCharactersByKeywordDocument = `query SearchCharactersByKeyword ($keyword: String!, $first: Int!) {
-	searchCharacters(names: [$keyword], orderBy: {field:FAVORITE_CHARACTERS_COUNT,direction:DESC}, first: $first) {
+	searchCharacters(names: [$keyword], first: $first, orderBy: {field:FAVORITE_CHARACTERS_COUNT,direction:DESC}) {
 		nodes {
 			... CharacterFragment
 		}
@@ -143,7 +143,7 @@ func (c *Client) SearchCharactersByKeyword(ctx context.Context, keyword string, 
 
 const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, $first: Int!) {
 	viewer {
-		libraryEntries(states: [$state], first: $first) {
+		libraryEntries(states: [$state], first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
 			nodes {
 				work {
 					... WorkFragment

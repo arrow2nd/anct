@@ -13,8 +13,8 @@ query SearchWorksByKeyword($keyword: String!, $first: Int!) {
 query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
   searchCharacters(
     names: [$keyword]
-    orderBy: { field: FAVORITE_CHARACTERS_COUNT, direction: DESC }
     first: $first
+    orderBy: { field: FAVORITE_CHARACTERS_COUNT, direction: DESC }
   ) {
     nodes {
       ...CharacterFragment
@@ -24,7 +24,11 @@ query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
 
 query FetchUserLibrary($state: StatusState!, $first: Int!) {
   viewer {
-    libraryEntries(states: [$state], first: $first) {
+    libraryEntries(
+      states: [$state]
+      first: $first
+      orderBy: { direction: DESC, field: LAST_TRACKED_AT }
+    ) {
       nodes {
         work {
           ...WorkFragment

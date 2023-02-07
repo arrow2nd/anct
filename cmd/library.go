@@ -20,9 +20,12 @@ func (c *Command) newCmdLibrary() *cobra.Command {
 }
 
 func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
-	status := gen.StatusStateWatching
-	ctx := context.Background()
+	status, err := view.SelectWatchState()
+	if err != nil {
+		return err
+	}
 
+	ctx := context.Background()
 	list, err := c.api.Client.FetchUserLibrary(ctx, status, 30)
 	if err != nil {
 		return err
@@ -35,6 +38,6 @@ func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
 		}
 	}
 
-	view.PrintWorksTable(os.Stdout, "Watch status: "+string(status), works)
+	view.PrintWorksTable(os.Stdout, works)
 	return nil
 }
