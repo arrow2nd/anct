@@ -60,5 +60,5 @@ anct library [flags]
 
 ### flags
 
-- `-s` `--state string`
+- `-s` `--status string`
   - 視聴ステータス : `{wanna_watch|watching|watched|on_hold|stop_watching|no_state}`

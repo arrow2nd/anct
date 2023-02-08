@@ -7,15 +7,15 @@ import (
 	"github.com/arrow2nd/anct/gen"
 )
 
-// SelectWatchState : 視聴ステータスを選択
-func SelectWatchState() (gen.StatusState, error) {
+// SelectStatus : 視聴ステータスを選択
+func SelectStatus() (gen.StatusState, error) {
 	opts := []string{}
-	for _, state := range gen.AllStatusState {
-		opts = append(opts, string(state))
+	for _, status := range gen.AllStatusState {
+		opts = append(opts, string(status))
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose a watch state",
+		Message: "Choose a status",
 		Options: opts,
 	}
 
