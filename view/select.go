@@ -1,16 +1,17 @@
 package view
 
 import (
-	"errors"
-
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/gen"
 )
 
 // SelectStatus : 視聴ステータスを選択
-func SelectStatus() (gen.StatusState, error) {
+func SelectStatus(allowNoStatus bool) (string, error) {
 	opts := []string{}
 	for _, status := range gen.AllStatusState {
+		if !allowNoStatus && status == gen.StatusStateNoState {
+			continue
+		}
 		opts = append(opts, string(status))
 	}
 
@@ -22,14 +23,8 @@ func SelectStatus() (gen.StatusState, error) {
 	result := ""
 	err := survey.AskOne(prompt, &result)
 	if err != nil {
-		return gen.StatusStateNoState, err
+		return "", err
 	}
 
-	for _, status := range gen.AllStatusState {
-		if string(status) == result {
-			return status, nil
-		}
-	}
-
-	return gen.StatusStateNoState, errors.New("failed to retrieve selection results")
+	return result, nil
 }

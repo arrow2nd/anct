@@ -16,7 +16,7 @@ func (c *Command) newCmdLibrary() *cobra.Command {
 		RunE:  c.libraryRun,
 	}
 
-	library.Flags().StringP("status", "s", "", "Status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
+	library.Flags().StringP("status", "s", "", "Status state: {wanna_watch|watching|watched|on_hold|stop_watching}")
 	setLimitFlag(library.Flags())
 
 	return library
@@ -26,7 +26,16 @@ func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
 	limit, _ := cmd.Flags().GetInt64("limit")
 	statusStr, _ := cmd.Flags().GetString("status")
 
-	status, err := view.SelectStatus()
+	// フラグで指定されていない場合、対話形式で聞く
+	if statusStr == "" {
+		s, err := view.SelectStatus(false)
+		if err != nil {
+			return err
+		}
+		statusStr = s
+	}
+
+	status, err := toStatusState(statusStr, false)
 	if err != nil {
 		return err
 	}
