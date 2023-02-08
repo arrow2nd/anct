@@ -20,7 +20,7 @@ func (c *Command) newCmdSearchWorks() *cobra.Command {
 
 	setLimitFlag(works.Flags())
 	setEditerFlag(works.Flags())
-	works.Flags().StringSliceP("seasons", "s", []string{}, "Broadcast seasons: YYYY-{spring|summer|autumn|winter}")
+	works.Flags().StringSliceP("seasons", "s", []string{}, "Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}")
 
 	return works
 }
