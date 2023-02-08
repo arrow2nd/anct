@@ -142,9 +142,9 @@ func (c *Client) SearchCharactersByKeyword(ctx context.Context, keyword string, 
 	return &res, nil
 }
 
-const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, $first: Int!) {
+const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, $from: String, $until: String, $first: Int!) {
 	viewer {
-		libraryEntries(states: [$state], first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
+		libraryEntries(states: [$state], seasonFrom: $from, seasonUntil: $until, first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
 			nodes {
 				work {
 					... WorkFragment
@@ -162,9 +162,11 @@ fragment WorkFragment on Work {
 }
 `
 
-func (c *Client) FetchUserLibrary(ctx context.Context, state StatusState, first int64, interceptors ...clientv2.RequestInterceptor) (*FetchUserLibrary, error) {
+func (c *Client) FetchUserLibrary(ctx context.Context, state StatusState, from *string, until *string, first int64, interceptors ...clientv2.RequestInterceptor) (*FetchUserLibrary, error) {
 	vars := map[string]interface{}{
 		"state": state,
+		"from":  from,
+		"until": until,
 		"first": first,
 	}
 

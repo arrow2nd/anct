@@ -27,10 +27,17 @@ query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
   }
 }
 
-query FetchUserLibrary($state: StatusState!, $first: Int!) {
+query FetchUserLibrary(
+  $state: StatusState!
+  $from: String
+  $until: String
+  $first: Int!
+) {
   viewer {
     libraryEntries(
       states: [$state]
+      seasonFrom: $from
+      seasonUntil: $until
       first: $first
       orderBy: { direction: DESC, field: LAST_TRACKED_AT }
     ) {

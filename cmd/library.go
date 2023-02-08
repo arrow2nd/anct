@@ -16,18 +16,36 @@ func (c *Command) newCmdLibrary() *cobra.Command {
 		RunE:  c.libraryRun,
 	}
 
-	library.Flags().StringP("status", "s", "", "Status state: {wanna_watch|watching|watched|on_hold|stop_watching}")
+	library.Flags().StringP("status", "s", "", "Library status state: {wanna_watch|watching|watched|on_hold|stop_watching}")
+	library.Flags().StringP("from", "", "", "Retrieve works from a given season: YYYY-{spring|summer|autumn|winter}")
+	library.Flags().StringP("until", "", "", "Retrieve works until a given season: YYYY-{spring|summer|autumn|winter}")
 	setLimitFlag(library.Flags())
 
 	return library
 }
 
 func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
-	limit, _ := cmd.Flags().GetInt64("limit")
-	statusStr, _ := cmd.Flags().GetString("status")
+	fromStr, _ := cmd.Flags().GetString("from")
+	untilStr, _ := cmd.Flags().GetString("until")
+	from := &fromStr
+	until := &untilStr
 
-	// フラグで指定されていない場合、対話形式で聞く
+	// シーズン指定の書式をチェック
+	for _, s := range []**string{&from, &until} {
+		if **s == "" {
+			// NOTE: APIクライアントの仕様上、指定しない場合はnilを渡す必要がある
+			*s = nil
+			continue
+		}
+
+		if err := checkSeasonFormat(**s); err != nil {
+			return err
+		}
+	}
+
+	statusStr, _ := cmd.Flags().GetString("status")
 	if statusStr == "" {
+		// フラグで指定されていない場合、対話形式で聞く
 		s, err := view.SelectStatus(false)
 		if err != nil {
 			return err
@@ -40,8 +58,8 @@ func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
 		return err
 	}
 
-	ctx := context.Background()
-	list, err := c.api.Client.FetchUserLibrary(ctx, status, limit)
+	limit, _ := cmd.Flags().GetInt64("limit")
+	list, err := c.api.Client.FetchUserLibrary(context.Background(), status, from, until, limit)
 	if err != nil {
 		return err
 	}
