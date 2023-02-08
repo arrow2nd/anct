@@ -14,9 +14,14 @@ import (
 	"golang.org/x/term"
 )
 
-// setCommonFlags : 共通のフラグを設定
-func setCommonFlags(p *pflag.FlagSet) {
+// setLimitFlag : limit フラグを設定
+func setLimitFlag(p *pflag.FlagSet) {
 	p.Int64P("limit", "l", 30, "Maximum number of results to fetch")
+}
+
+// setEditerFlag : editor フラグを設定
+func setEditerFlag(p *pflag.FlagSet) {
+	p.BoolP("editor", "e", false, "Use an external editor to enter keyword")
 }
 
 // receivekeyword : キーワードの入力を受け取る

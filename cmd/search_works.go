@@ -12,13 +12,15 @@ import (
 
 func (c *Command) newCmdSearchWorks() *cobra.Command {
 	works := &cobra.Command{
-		Use:     "works [keyword]",
+		Use:     "works [<keyword>]",
 		Short:   "Search for works",
 		Example: "  anct search works ARIA --seasons 2005-autumn",
 		RunE:    c.searchWorksRun,
 	}
 
-	works.Flags().StringSliceP("seasons", "s", []string{}, "Broadcast seasons (format 'YYYY-{spring|summer|autumn|winter}')")
+	setLimitFlag(works.Flags())
+	setEditerFlag(works.Flags())
+	works.Flags().StringSliceP("seasons", "s", []string{}, "Broadcast seasons: YYYY-{spring|summer|autumn|winter}")
 
 	return works
 }

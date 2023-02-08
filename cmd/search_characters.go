@@ -8,11 +8,14 @@ import (
 
 func (c *Command) newCmdSearchCharacters() *cobra.Command {
 	characters := &cobra.Command{
-		Use:     "characters [keyword]",
+		Use:     "characters [<keyword>]",
 		Short:   "Search for characters",
 		Example: "  anct search characters 後藤ひとり",
 		RunE:    c.searchCharactersRun,
 	}
+
+	setLimitFlag(characters.Flags())
+	setEditerFlag(characters.Flags())
 
 	return characters
 }
