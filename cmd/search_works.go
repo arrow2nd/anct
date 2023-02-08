@@ -37,7 +37,7 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	keyword, err := receivekeyword(args, useEditor, true)
+	keyword, err := view.Receivekeyword(args, useEditor, true)
 	if err != nil {
 		return err
 	}

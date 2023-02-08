@@ -2,9 +2,14 @@ package view
 
 import (
 	"errors"
+	"io"
+	"os"
+	"regexp"
 	"strings"
+	"syscall"
 
 	"github.com/AlecAivazis/survey/v2"
+	"golang.org/x/term"
 )
 
 // Confirm : 確認ダイアログ
@@ -54,4 +59,35 @@ func InputTextInEditor(m string) (string, error) {
 	}
 
 	return strings.TrimSpace(s), nil
+}
+
+// Receivekeyword : キーワードの入力を受け取る
+func Receivekeyword(args []string, useEditor bool, allowEmpty bool) (string, error) {
+	keyword := strings.Join(args, " ")
+
+	// 標準入力を受け取る
+	if keyword == "" && !term.IsTerminal(int(syscall.Stdin)) {
+		stdin, err := io.ReadAll(os.Stdin)
+		if err != nil {
+			return "", err
+		}
+		keyword = strings.TrimSpace(string(stdin))
+	}
+
+	// エディタを起動
+	if keyword == "" && useEditor {
+		s, err := InputTextInEditor("Enter search keyword")
+		if err != nil {
+			return "", err
+		}
+		keyword = s
+	}
+
+	if keyword == "" && !allowEmpty {
+		return "", errors.New("please enter keywords")
+	}
+
+	// 全ての空白文字を半角スペースに置換
+	r := regexp.MustCompile(`\s`)
+	return r.ReplaceAllString(keyword, " "), nil
 }

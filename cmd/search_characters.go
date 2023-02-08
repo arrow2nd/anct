@@ -30,7 +30,7 @@ https://github.com/arrow2nd/anct/issues/2`)
 	// useEditor, _ := cmd.Flags().GetBool("editor")
 	// limit, _ := cmd.Flags().GetInt64("limit")
 
-	// keyword, err := receivekeyword(args, useEditor, false)
+	// keyword, err := view.Receivekeyword(args, useEditor, false)
 	// if err != nil {
 	// 	return err
 	// }
