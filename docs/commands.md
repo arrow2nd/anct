@@ -23,7 +23,7 @@ Annict との認証を解除します
 ### works
 
 ```
-anct search works [keyword] [flags]
+anct search works [<keyword>] [flags]
 ```
 
 作品を検索します
@@ -34,13 +34,13 @@ anct search works [keyword] [flags]
   - キーワードの入力に外部エディタを使用する
 - `-l` `--limit int`
   - 表示件数
-- `-s` --season strings`
+- `-s` `--season strings`
   - 放送シーズン : `YYYY-{spring|summer|autumn|winter}`
 
 ### characters
 
 ```
-anct season characters [keyword] [flags]
+anct season characters [<keyword>] [flags]
 ```
 
 キャラクターを検索します
