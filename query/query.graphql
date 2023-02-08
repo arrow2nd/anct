@@ -1,8 +1,13 @@
-query SearchWorksByKeyword($keyword: String!, $first: Int!) {
+query SearchWorksByKeyword(
+  $keywords: [String!]
+  $seasons: [String!]
+  $first: Int!
+) {
   searchWorks(
-    titles: [$keyword]
+    titles: $keywords
+    seasons: $seasons
     first: $first
-    orderBy: { field: SEASON, direction: ASC }
+    orderBy: { field: SEASON, direction: DESC }
   ) {
     nodes {
       ...WorkFragment

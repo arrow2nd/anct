@@ -1,31 +1,62 @@
 package cmd
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 	"syscall"
 
 	"github.com/arrow2nd/anct/view"
+	"github.com/spf13/pflag"
 	"golang.org/x/term"
 )
 
+// setCommonFlags : 共通のフラグを設定
+func setCommonFlags(p *pflag.FlagSet) {
+	p.Int64P("limit", "l", 30, "Maximum number of results to fetch")
+}
+
 // receivekeyword : キーワードの入力を受け取る
-func receivekeyword(arg []string) (string, error) {
+func receivekeyword(args []string, useEditor bool, allowEmpty bool) (string, error) {
+	keyword := strings.Join(args, " ")
+
 	// 標準入力を受け取る
-	if len(arg) == 0 && !term.IsTerminal(int(syscall.Stdin)) {
+	if keyword == "" && !term.IsTerminal(int(syscall.Stdin)) {
 		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			return "", err
 		}
-		return strings.TrimSpace(string(stdin)), nil
+		keyword = strings.TrimSpace(string(stdin))
 	}
 
-	// 引数がなければエディタを起動
-	if len(arg) == 0 {
-		return view.InputTextInEditor("Enter search keyword")
+	// エディタを起動
+	if keyword == "" && useEditor {
+		s, err := view.InputTextInEditor("Enter search keyword")
+		if err != nil {
+			return "", err
+		}
+		keyword = s
 	}
 
-	// すべての引数を連結
-	return strings.Join(arg, " "), nil
+	if keyword == "" && !allowEmpty {
+		return "", errors.New("please enter keywords")
+	}
+
+	// 全ての空白文字を半角スペースに置換
+	r := regexp.MustCompile(`\s`)
+	return r.ReplaceAllString(keyword, " "), nil
+}
+
+// checkSeasonFormat : シーズン指定の書式が正しいか
+func checkSeasonFormat(s string) error {
+	r := regexp.MustCompile(`\d{4}-(spring|summer|autumn|winter)`)
+
+	if !r.MatchString(s) {
+		return fmt.Errorf("incorrect season format (%s)", s)
+	}
+
+	return nil
 }

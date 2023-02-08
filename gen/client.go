@@ -81,8 +81,8 @@ type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
 }
 
-const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keyword: String!, $first: Int!) {
-	searchWorks(titles: [$keyword], first: $first, orderBy: {field:SEASON,direction:ASC}) {
+const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keywords: [String!], $seasons: [String!], $first: Int!) {
+	searchWorks(titles: $keywords, seasons: $seasons, first: $first, orderBy: {field:SEASON,direction:DESC}) {
 		nodes {
 			... WorkFragment
 		}
@@ -97,10 +97,11 @@ fragment WorkFragment on Work {
 }
 `
 
-func (c *Client) SearchWorksByKeyword(ctx context.Context, keyword string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchWorksByKeyword, error) {
+func (c *Client) SearchWorksByKeyword(ctx context.Context, keywords []string, seasons []string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchWorksByKeyword, error) {
 	vars := map[string]interface{}{
-		"keyword": keyword,
-		"first":   first,
+		"keywords": keywords,
+		"seasons":  seasons,
+		"first":    first,
 	}
 
 	var res SearchWorksByKeyword
