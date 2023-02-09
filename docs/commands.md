@@ -23,7 +23,7 @@ Annict との認証を解除します
 ### works
 
 ```
-anct search works [<keyword>] [flags]
+anct search works [<query>] [flags]
 ```
 
 作品を検索します
@@ -31,16 +31,18 @@ anct search works [<keyword>] [flags]
 #### flags
 
 - `-e` `--editor`
-  - キーワードの入力に外部エディタを使用する
+  - クエリの入力に外部エディタを使用する
 - `-l` `--limit int`
-  - 表示件数
-- `-s` `--season strings`
-  - 放送シーズン : `YYYY-{spring|summer|autumn|winter}`
+  - 表示件数を指定する
+- `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
 
 ### characters
 
 ```
-anct season characters [<keyword>] [flags]
+anct season characters [<query>] [flags]
 ```
 
 キャラクターを検索します
@@ -48,17 +50,99 @@ anct season characters [<keyword>] [flags]
 #### flags
 
 - `-e` `--editor`
-  - キーワードの入力に外部エディタを使用する
+  - クエリの入力に外部エディタを使用する
 - `-l` `--limit int`
-  - 表示件数
+  - 表示件数を指定する
 
-## library
+## update-status
 
 ```
-anct library [flags]
+anct update-status [<query>] [flags]
 ```
+
+作品の視聴ステータスを更新します
 
 ### flags
 
-- `-s` `--status string`
-  - 視聴ステータス : `{wanna_watch|watching|watched|on_hold|stop_watching|no_state}`
+- `--state {wanna_watch|watching|watched|on_hold|stop_watching|no_state}`
+  - 視聴ステータス
+- `--ids strings`
+  - 作品 ID (複数指定可能)
+
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
+
+## review
+
+```
+anct review [<query>] [flags]
+```
+
+作品のレビューを投稿します
+
+### flags
+
+- `--overall-rating {great|good|average|bad}`
+  - 全体の評価
+- `--movie-rating {great|good|average|bad}`
+  - 映像の評価
+- `--character-rating {great|good|average|bad}`
+  - キャラクターの評価
+- `--story-rating {great|good|average|bad}`
+  - ストーリーの評価
+- `--music-rating {great|good|average|bad}`
+  - 音楽の評価
+- `--comment string`
+  - コメント
+
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
+
+## track
+
+```
+anct track [<query>] [flags]
+```
+
+エピソードの視聴記録を投稿します
+
+- まとめて記録することもできます
+  - コメントは投稿されません
+
+### flags
+
+- `--id string`
+  - 作品 ID
+- `--episodes int`
+  - 話数 (複数指定可能)
+- `--rating {great|good|average|bad}`
+  - 評価
+- `--comment string`
+  - コメント
+
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
