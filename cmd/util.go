@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/arrow2nd/anct/gen"
@@ -28,6 +30,20 @@ func checkSeasonFormat(s string) error {
 	}
 
 	return nil
+}
+
+// toWorkID : 文字列を Work IDに 変換
+func toWorkID(s string) (int64, error) {
+	workID, err := strconv.Atoi(s)
+	if err != nil {
+		return 0, errors.New("work id must be numeric")
+	}
+
+	if workID <= 0 {
+		return 0, errors.New("work id must be greater than or equal to 1")
+	}
+
+	return int64(workID), nil
 }
 
 // toStatusState : 文字列を視聴ステータスに変換
