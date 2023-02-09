@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 
+	"github.com/arrow2nd/anct/api"
 	"github.com/arrow2nd/anct/gen"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -61,7 +62,7 @@ func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
 	limit, _ := cmd.Flags().GetInt64("limit")
 	list, err := c.api.Client.FetchUserLibrary(context.Background(), status, from, until, limit)
 	if err != nil {
-		return err
+		return api.HandleClientError(err)
 	}
 
 	works := []*gen.WorkFragment{}

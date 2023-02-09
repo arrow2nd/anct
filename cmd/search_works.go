@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/arrow2nd/anct/api"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -47,10 +48,9 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 
 	ctx := context.Background()
 	keywords := strings.Split(keyword, " ")
-	list, err := c.api.Client.SearchWorksByKeyword(ctx, keywords, seasons, limit)
+	list, err := c.api.Client.SearchWorksByKeyword(ctx, keywords, []string{""}, limit)
 	if err != nil {
-		// TODO: code = 401 のときに You are not logged in. Please run `anct auth login` を返したい
-		return err
+		return api.HandleClientError(err)
 	}
 
 	view.PrintWorksTable(os.Stdout, list.SearchWorks.Nodes)

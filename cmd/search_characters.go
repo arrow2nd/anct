@@ -38,7 +38,7 @@ https://github.com/arrow2nd/anct/issues/2`)
 	// ctx := context.Background()
 	// list, err := c.api.Client.SearchCharactersByKeyword(ctx, keyword, limit)
 	// if err != nil {
-	// 	return err
+	// return api.HandleClientError(err)
 	// }
 
 	// view.PrintCharactersTable(os.Stdout, list.SearchCharacters.Nodes)
