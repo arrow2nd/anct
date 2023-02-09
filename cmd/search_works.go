@@ -14,15 +14,13 @@ import (
 
 func (c *Command) newCmdSearchWorks() *cobra.Command {
 	works := &cobra.Command{
-		Use:     "works [<keyword>]",
+		Use:     "works [<query>]",
 		Short:   "Search for works",
 		Example: "  anct search works ARIA --seasons 2005-autumn",
 		RunE:    c.searchWorksRun,
 	}
 
-	cmdutil.SetLimitFlag(works.Flags())
-	cmdutil.SetEditerFlag(works.Flags())
-	works.Flags().StringSliceP("seasons", "s", []string{}, "Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}")
+	cmdutil.SetSearchFlags(works.Flags())
 
 	return works
 }
@@ -44,7 +42,7 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	if keyword == "" && len(seasons) == 0 {
-		return errors.New("keyword or `--seasons` is required")
+		return errors.New("query or `--seasons` is required")
 	}
 
 	keywords := strings.Split(keyword, " ")

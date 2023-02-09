@@ -9,14 +9,13 @@ import (
 
 func (c *Command) newCmdSearchCharacters() *cobra.Command {
 	characters := &cobra.Command{
-		Use:     "characters [<keyword>]",
+		Use:     "characters [<query>]",
 		Short:   "Search for characters",
 		Example: "  anct search characters 後藤ひとり",
 		RunE:    c.searchCharactersRun,
 	}
 
-	cmdutil.SetLimitFlag(characters.Flags())
-	cmdutil.SetEditerFlag(characters.Flags())
+	cmdutil.SetCommonFlags(characters.Flags())
 
 	return characters
 }
