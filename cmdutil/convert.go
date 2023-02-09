@@ -3,7 +3,7 @@ package cmdutil
 import (
 	"errors"
 	"fmt"
-	"strconv"
+	"regexp"
 	"strings"
 
 	"github.com/arrow2nd/anct/gen"
@@ -24,15 +24,13 @@ func StringToStatusState(s string, allowNoState bool) (gen.StatusState, error) {
 }
 
 // StringToWorkID : 文字列を Work ID に 変換
-func StringToWorkID(s string) (int64, error) {
-	workID, err := strconv.Atoi(s)
-	if err != nil {
-		return 0, errors.New("work id must be numeric")
+func StringToWorkID(s string) (string, error) {
+	id := strings.TrimSpace(s)
+
+	r := regexp.MustCompile(`^\d+$`)
+	if !r.MatchString(id) {
+		return "", errors.New("work id must be numeric")
 	}
 
-	if workID <= 0 {
-		return 0, errors.New("work id must be greater than or equal to 1")
-	}
-
-	return int64(workID), nil
+	return id, nil
 }
