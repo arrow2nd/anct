@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/arrow2nd/anct/api"
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -19,8 +20,8 @@ func (c *Command) newCmdSearchWorks() *cobra.Command {
 		RunE:    c.searchWorksRun,
 	}
 
-	setLimitFlag(works.Flags())
-	setEditerFlag(works.Flags())
+	cmdutil.SetLimitFlag(works.Flags())
+	cmdutil.SetEditerFlag(works.Flags())
 	works.Flags().StringSliceP("seasons", "s", []string{}, "Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}")
 
 	return works
@@ -33,12 +34,12 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 
 	// シーズン指定の書式をチェック
 	for _, s := range seasons {
-		if err := checkSeasonFormat(s); err != nil {
+		if err := cmdutil.ValidateSeasonFormat(s); err != nil {
 			return err
 		}
 	}
 
-	keyword, err := view.Receivekeyword(args, useEditor, true)
+	keyword, err := cmdutil.Receivekeyword(args, useEditor, true)
 	if err != nil {
 		return err
 	}
@@ -46,9 +47,8 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 		return errors.New("keyword or `--seasons` is required")
 	}
 
-	ctx := context.Background()
 	keywords := strings.Split(keyword, " ")
-	list, err := c.api.Client.SearchWorksByKeyword(ctx, keywords, []string{""}, limit)
+	list, err := c.api.Client.SearchWorksByKeyword(context.Background(), keywords, seasons, limit)
 	if err != nil {
 		return api.HandleClientError(err)
 	}

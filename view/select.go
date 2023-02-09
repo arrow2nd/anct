@@ -6,10 +6,10 @@ import (
 )
 
 // SelectStatus : 視聴ステータスを選択
-func SelectStatus(allowNoStatus bool) (string, error) {
+func SelectStatus(allowNoState bool) (string, error) {
 	opts := []string{}
 	for _, status := range gen.AllStatusState {
-		if !allowNoStatus && status == gen.StatusStateNoState {
+		if !allowNoState && status == gen.StatusStateNoState {
 			continue
 		}
 		opts = append(opts, string(status))

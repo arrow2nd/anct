@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/arrow2nd/anct/api"
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/gen"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -20,7 +21,7 @@ func (c *Command) newCmdLibrary() *cobra.Command {
 	library.Flags().StringP("status", "s", "", "Library status state: {wanna_watch|watching|watched|on_hold|stop_watching}")
 	library.Flags().StringP("from", "", "", "Retrieve works from a given season: YYYY-{spring|summer|autumn|winter}")
 	library.Flags().StringP("until", "", "", "Retrieve works until a given season: YYYY-{spring|summer|autumn|winter}")
-	setLimitFlag(library.Flags())
+	cmdutil.SetLimitFlag(library.Flags())
 
 	return library
 }
@@ -39,27 +40,14 @@ func (c *Command) libraryRun(cmd *cobra.Command, arg []string) error {
 			continue
 		}
 
-		if err := checkSeasonFormat(**s); err != nil {
+		if err := cmdutil.ValidateSeasonFormat(**s); err != nil {
 			return err
 		}
 	}
 
-	statusStr, _ := cmd.Flags().GetString("status")
-	if statusStr == "" {
-		// フラグで指定されていない場合、対話形式で聞く
-		s, err := view.SelectStatus(false)
-		if err != nil {
-			return err
-		}
-		statusStr = s
-	}
-
-	status, err := toStatusState(statusStr, false)
-	if err != nil {
-		return err
-	}
-
+	status, err := cmdutil.ReceiveStatus(cmd.Flags(), false)
 	limit, _ := cmd.Flags().GetInt64("limit")
+
 	list, err := c.api.Client.FetchUserLibrary(context.Background(), status, from, until, limit)
 	if err != nil {
 		return api.HandleClientError(err)

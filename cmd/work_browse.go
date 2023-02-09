@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 )
@@ -20,7 +21,7 @@ func (c *Command) newCmdWorkBrowse() *cobra.Command {
 }
 
 func (c *Command) workBrowseRun(cmd *cobra.Command, args []string) error {
-	workID, err := toWorkID(args[0])
+	workID, err := cmdutil.StringToWorkID(args[0])
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +15,8 @@ func (c *Command) newCmdSearchCharacters() *cobra.Command {
 		RunE:    c.searchCharactersRun,
 	}
 
-	setLimitFlag(characters.Flags())
-	setEditerFlag(characters.Flags())
+	cmdutil.SetLimitFlag(characters.Flags())
+	cmdutil.SetEditerFlag(characters.Flags())
 
 	return characters
 }
