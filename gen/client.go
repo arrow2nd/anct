@@ -52,6 +52,9 @@ type CharacterFragment_Series struct {
 	AnnictID int64  "json:\"annictId\" graphql:\"annictId\""
 	Name     string "json:\"name\" graphql:\"name\""
 }
+type UpdateWorkState_UpdateStatus struct {
+	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+}
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
@@ -71,6 +74,9 @@ type FetchUserLibrary_Viewer_LibraryEntries struct {
 type FetchUserLibrary_Viewer struct {
 	LibraryEntries *FetchUserLibrary_Viewer_LibraryEntries "json:\"libraryEntries\" graphql:\"libraryEntries\""
 }
+type HogeUpdateWorkStatePayload struct {
+	UpdateStatus *UpdateWorkState_UpdateStatus "json:\"updateStatus\" graphql:\"updateStatus\""
+}
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
 }
@@ -79,6 +85,27 @@ type SearchCharactersByKeyword struct {
 }
 type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
+}
+
+const UpdateWorkStateDocument = `mutation UpdateWorkState ($workId: ID!, $state: StatusState!) {
+	updateStatus(input: {state:$state,workId:$workId}) {
+		clientMutationId
+	}
+}
+`
+
+func (c *Client) UpdateWorkState(ctx context.Context, workID string, state StatusState, interceptors ...clientv2.RequestInterceptor) (*HogeUpdateWorkStatePayload, error) {
+	vars := map[string]interface{}{
+		"workId": workID,
+		"state":  state,
+	}
+
+	var res HogeUpdateWorkStatePayload
+	if err := c.Client.Post(ctx, "UpdateWorkState", UpdateWorkStateDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
 }
 
 const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keywords: [String!], $seasons: [String!], $first: Int!) {

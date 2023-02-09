@@ -457,12 +457,12 @@ type Person struct {
 	WikipediaURLEn      string     `json:"wikipediaUrlEn"`
 }
 
+func (Person) IsStaffResourceItem() {}
+
 func (Person) IsNode() {}
 
 // ID of the object.
 func (this Person) GetID() string { return this.ID }
-
-func (Person) IsStaffResourceItem() {}
 
 // The connection type for Person.
 type PersonConnection struct {
@@ -556,12 +556,12 @@ type Record struct {
 	Work               Work         `json:"work"`
 }
 
+func (Record) IsActivityItem() {}
+
 func (Record) IsNode() {}
 
 // ID of the object.
 func (this Record) GetID() string { return this.ID }
-
-func (Record) IsActivityItem() {}
 
 // The connection type for Record.
 type RecordConnection struct {
