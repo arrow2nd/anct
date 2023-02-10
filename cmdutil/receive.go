@@ -14,8 +14,8 @@ import (
 	"golang.org/x/term"
 )
 
-// Receivekeyword : キーワードの入力を受け取る
-func Receivekeyword(args []string, useEditor bool, allowEmpty bool) (string, error) {
+// ReceiveQuery : キーワードの入力を受け取る
+func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error) {
 	keyword := strings.Join(args, " ")
 
 	// 標準入力を受け取る
@@ -45,17 +45,38 @@ func Receivekeyword(args []string, useEditor bool, allowEmpty bool) (string, err
 	return r.ReplaceAllString(keyword, " "), nil
 }
 
-// ReceiveStatus : 視聴ステータスを受け取る
-func ReceiveStatus(p *pflag.FlagSet, allowNoState bool) (gen.StatusState, error) {
-	statusStr, _ := p.GetString("status")
-	if statusStr == "" {
-		// フラグで指定されていない場合、対話形式で聞く
-		s, err := view.SelectStatus(allowNoState)
-		if err != nil {
-			return "", err
+// ReceiveCommonFlags : 全体共通フラグの値を受け取る
+func ReceiveCommonFlags(p *pflag.FlagSet) (bool, int64) {
+	useEditor, _ := p.GetBool("editor")
+	limit, _ := p.GetInt64("limit")
+	return useEditor, limit
+}
+
+// ReceiveSearchCommonFlags : 検索共通フラグの値を受け取る
+func ReceiveSearchCommonFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, error) {
+	// シーズン指定の書式をチェック
+	seasons, _ := p.GetStringSlice("seasons")
+	for _, s := range seasons {
+		if err := ValidateSeasonFormat(s); err != nil {
+			return nil, nil, err
 		}
-		statusStr = s
 	}
 
-	return StringToStatusState(statusStr, allowNoState)
+	// ライブラリの視聴ステータスを取得
+	stateStrs, _ := p.GetStringSlice("library")
+	if len(stateStrs) == 0 {
+		return nil, seasons, nil
+	}
+
+	// 視聴ステータス文字列を変換
+	states := []gen.StatusState{}
+	for _, stateStr := range stateStrs {
+		s, err := StringToStatusState(stateStr, false)
+		if err != nil {
+			return nil, nil, err
+		}
+		states = append(states, s)
+	}
+
+	return states, seasons, nil
 }

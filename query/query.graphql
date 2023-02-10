@@ -1,10 +1,6 @@
-query SearchWorksByKeyword(
-  $keywords: [String!]
-  $seasons: [String!]
-  $first: Int!
-) {
+query SearchWorksByKeyword($query: String!, $seasons: [String!], $first: Int!) {
   searchWorks(
-    titles: $keywords
+    titles: [$query]
     seasons: $seasons
     first: $first
     orderBy: { field: SEASON, direction: DESC }
@@ -15,29 +11,15 @@ query SearchWorksByKeyword(
   }
 }
 
-query SearchCharactersByKeyword($keyword: String!, $first: Int!) {
-  searchCharacters(
-    names: [$keyword]
-    first: $first
-    orderBy: { field: FAVORITE_CHARACTERS_COUNT, direction: DESC }
-  ) {
-    nodes {
-      ...CharacterFragment
-    }
-  }
-}
-
 query FetchUserLibrary(
-  $state: StatusState!
-  $from: String
-  $until: String
+  $states: [StatusState!]
+  $seasons: [String!]
   $first: Int!
 ) {
   viewer {
     libraryEntries(
-      states: [$state]
-      seasonFrom: $from
-      seasonUntil: $until
+      states: $states
+      seasons: $seasons
       first: $first
       orderBy: { direction: DESC, field: LAST_TRACKED_AT }
     ) {

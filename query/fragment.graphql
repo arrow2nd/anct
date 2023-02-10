@@ -1,15 +1,8 @@
 fragment WorkFragment on Work {
-  annictId
+  id
   title
   media
   seasonName
   seasonYear
-}
-
-fragment CharacterFragment on Character {
-  name
-  series {
-    annictId
-    name
-  }
+  viewerStatusState
 }

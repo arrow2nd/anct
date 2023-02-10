@@ -12,7 +12,7 @@ const baseURL = "https://api.annict.com/graphql"
 
 // API : APIクライアント
 type API struct {
-	Client *gen.Client
+	client *gen.Client
 	Token  Token
 }
 
@@ -23,7 +23,7 @@ func New(t *Token) *API {
 	})
 
 	c := &API{
-		Client: ac,
+		client: ac,
 		Token:  *t,
 	}
 

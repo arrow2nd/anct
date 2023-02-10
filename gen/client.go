@@ -38,32 +38,20 @@ type Mutation struct {
 	UpdateStatus *UpdateStatusPayload "json:\"updateStatus,omitempty\" graphql:\"updateStatus\""
 }
 type WorkFragment struct {
-	AnnictID   int64       "json:\"annictId\" graphql:\"annictId\""
-	Title      string      "json:\"title\" graphql:\"title\""
-	Media      Media       "json:\"media\" graphql:\"media\""
-	SeasonName *SeasonName "json:\"seasonName\" graphql:\"seasonName\""
-	SeasonYear *int64      "json:\"seasonYear\" graphql:\"seasonYear\""
-}
-type CharacterFragment struct {
-	Name   string                   "json:\"name\" graphql:\"name\""
-	Series CharacterFragment_Series "json:\"series\" graphql:\"series\""
-}
-type CharacterFragment_Series struct {
-	AnnictID int64  "json:\"annictId\" graphql:\"annictId\""
-	Name     string "json:\"name\" graphql:\"name\""
+	ID                string       "json:\"id\" graphql:\"id\""
+	Title             string       "json:\"title\" graphql:\"title\""
+	Media             Media        "json:\"media\" graphql:\"media\""
+	SeasonName        *SeasonName  "json:\"seasonName\" graphql:\"seasonName\""
+	SeasonYear        *int64       "json:\"seasonYear\" graphql:\"seasonYear\""
+	EpisodesCount     int64        "json:\"episodesCount\" graphql:\"episodesCount\""
+	OfficialSiteURL   *string      "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
+	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 }
 type UpdateWorkState_UpdateStatus struct {
 	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
 }
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
-}
-type SearchCharactersByKeyword_SearchCharacters_Nodes_CharacterFragment_Series struct {
-	AnnictID int64  "json:\"annictId\" graphql:\"annictId\""
-	Name     string "json:\"name\" graphql:\"name\""
-}
-type SearchCharactersByKeyword_SearchCharacters struct {
-	Nodes []*CharacterFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
 	Work *WorkFragment "json:\"work\" graphql:\"work\""
@@ -79,9 +67,6 @@ type HogeUpdateWorkStatePayload struct {
 }
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
-}
-type SearchCharactersByKeyword struct {
-	SearchCharacters *SearchCharactersByKeyword_SearchCharacters "json:\"searchCharacters\" graphql:\"searchCharacters\""
 }
 type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
@@ -108,27 +93,30 @@ func (c *Client) UpdateWorkState(ctx context.Context, workID string, state Statu
 	return &res, nil
 }
 
-const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($keywords: [String!], $seasons: [String!], $first: Int!) {
-	searchWorks(titles: $keywords, seasons: $seasons, first: $first, orderBy: {field:SEASON,direction:DESC}) {
+const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($query: String!, $seasons: [String!], $first: Int!) {
+	searchWorks(titles: [$query], seasons: $seasons, first: $first, orderBy: {field:SEASON,direction:DESC}) {
 		nodes {
 			... WorkFragment
 		}
 	}
 }
 fragment WorkFragment on Work {
-	annictId
+	id
 	title
 	media
 	seasonName
 	seasonYear
+	episodesCount
+	officialSiteUrl
+	viewerStatusState
 }
 `
 
-func (c *Client) SearchWorksByKeyword(ctx context.Context, keywords []string, seasons []string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchWorksByKeyword, error) {
+func (c *Client) SearchWorksByKeyword(ctx context.Context, query string, seasons []string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchWorksByKeyword, error) {
 	vars := map[string]interface{}{
-		"keywords": keywords,
-		"seasons":  seasons,
-		"first":    first,
+		"query":   query,
+		"seasons": seasons,
+		"first":   first,
 	}
 
 	var res SearchWorksByKeyword
@@ -139,39 +127,9 @@ func (c *Client) SearchWorksByKeyword(ctx context.Context, keywords []string, se
 	return &res, nil
 }
 
-const SearchCharactersByKeywordDocument = `query SearchCharactersByKeyword ($keyword: String!, $first: Int!) {
-	searchCharacters(names: [$keyword], first: $first, orderBy: {field:FAVORITE_CHARACTERS_COUNT,direction:DESC}) {
-		nodes {
-			... CharacterFragment
-		}
-	}
-}
-fragment CharacterFragment on Character {
-	name
-	series {
-		annictId
-		name
-	}
-}
-`
-
-func (c *Client) SearchCharactersByKeyword(ctx context.Context, keyword string, first int64, interceptors ...clientv2.RequestInterceptor) (*SearchCharactersByKeyword, error) {
-	vars := map[string]interface{}{
-		"keyword": keyword,
-		"first":   first,
-	}
-
-	var res SearchCharactersByKeyword
-	if err := c.Client.Post(ctx, "SearchCharactersByKeyword", SearchCharactersByKeywordDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
-	}
-
-	return &res, nil
-}
-
-const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, $from: String, $until: String, $first: Int!) {
+const FetchUserLibraryDocument = `query FetchUserLibrary ($states: [StatusState!], $seasons: [String!], $first: Int!) {
 	viewer {
-		libraryEntries(states: [$state], seasonFrom: $from, seasonUntil: $until, first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
+		libraryEntries(states: $states, seasons: $seasons, first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
 			nodes {
 				work {
 					... WorkFragment
@@ -181,20 +139,22 @@ const FetchUserLibraryDocument = `query FetchUserLibrary ($state: StatusState!, 
 	}
 }
 fragment WorkFragment on Work {
-	annictId
+	id
 	title
 	media
 	seasonName
 	seasonYear
+	episodesCount
+	officialSiteUrl
+	viewerStatusState
 }
 `
 
-func (c *Client) FetchUserLibrary(ctx context.Context, state StatusState, from *string, until *string, first int64, interceptors ...clientv2.RequestInterceptor) (*FetchUserLibrary, error) {
+func (c *Client) FetchUserLibrary(ctx context.Context, states []StatusState, seasons []string, first int64, interceptors ...clientv2.RequestInterceptor) (*FetchUserLibrary, error) {
 	vars := map[string]interface{}{
-		"state": state,
-		"from":  from,
-		"until": until,
-		"first": first,
+		"states":  states,
+		"seasons": seasons,
+		"first":   first,
 	}
 
 	var res FetchUserLibrary

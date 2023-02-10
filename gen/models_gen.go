@@ -391,12 +391,12 @@ type Organization struct {
 	WikipediaURLEn             string `json:"wikipediaUrlEn"`
 }
 
-func (Organization) IsStaffResourceItem() {}
-
 func (Organization) IsNode() {}
 
 // ID of the object.
 func (this Organization) GetID() string { return this.ID }
+
+func (Organization) IsStaffResourceItem() {}
 
 // The connection type for Organization.
 type OrganizationConnection struct {
@@ -457,12 +457,12 @@ type Person struct {
 	WikipediaURLEn      string     `json:"wikipediaUrlEn"`
 }
 
-func (Person) IsStaffResourceItem() {}
-
 func (Person) IsNode() {}
 
 // ID of the object.
 func (this Person) GetID() string { return this.ID }
+
+func (Person) IsStaffResourceItem() {}
 
 // The connection type for Person.
 type PersonConnection struct {

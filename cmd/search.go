@@ -1,17 +1,31 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+
+	"github.com/arrow2nd/anct/cmdutil"
+	"github.com/spf13/cobra"
+)
 
 func (c *Command) newCmdSearch() *cobra.Command {
-	search := &cobra.Command{
-		Use:   "search",
-		Short: "Search for works, characters",
+	works := &cobra.Command{
+		Use:     "search [<query>]",
+		Short:   "Search for works",
+		Example: "  anct search ARIA --seasons 2005-autumn",
+		RunE:    c.searchWorksRun,
 	}
 
-	search.AddCommand(
-		c.newCmdSearchWorks(),
-		c.newCmdSearchCharacters(),
-	)
+	cmdutil.SetSearchFlags(works.Flags())
 
-	return search
+	return works
+}
+
+func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
+	id, err := c.searchWorks(cmd, args)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("GET: " + id)
+	return nil
 }
