@@ -2,38 +2,42 @@ package cmd
 
 import (
 	"github.com/arrow2nd/anct/cmdutil"
+	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
 
-func (c *Command) newCmdUpdateStatus() *cobra.Command {
+func (c *Command) newCmdState() *cobra.Command {
 	u := &cobra.Command{
-		Use:  "update-status [<query>]",
-		RunE: c.updateStatusRun,
+		Use:  "status [<query>]",
+		RunE: c.updateState,
 	}
 
-	u.Flags().StringP("state", "s", "", "Update status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
-	u.Flags().StringSliceP("ids", "", []string{}, "Specify the work ID directly")
+	u.Flags().StringP("state", "", "", "Update status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
 	cmdutil.SetSearchFlags(u.Flags())
 
 	return u
 }
 
-func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
-	// workID, err := cmdutil.StringToWorkID(args[0])
-	// if err != nil {
-	// 	return err
-	// }
+func (c *Command) updateState(cmd *cobra.Command, args []string) error {
+	id, err := c.searchWorks(cmd, args)
+	if err != nil {
+		return err
+	}
 
-	// フラグで指定されていない場合、対話形式で聞く
-	// s, err := view.SelectStatus(allowNoState)
-	// if err != nil {
-	// 	return "", err
-	// }
-	// stateStr = s
+	stateStr, _ := cmd.Flags().GetString("state")
+	if stateStr == "" {
+		// 指定されていなければ対話形式で聞く
+		s, err := view.SelectStatus(true)
+		if err != nil {
+			return err
+		}
+		stateStr = s
+	}
 
-	// if _, err := c.api.Client.UpdateWorkState(context.Background(), workID, status); err != nil {
-	// 	return api.HandleClientError(err)
-	// }
+	state, err := cmdutil.StringToStatusState(stateStr, true)
+	if err != nil {
+		return err
+	}
 
-	return nil
+	return c.api.UpdateWorkState(id, state)
 }

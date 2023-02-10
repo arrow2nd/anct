@@ -43,8 +43,6 @@ type WorkFragment struct {
 	Media             Media        "json:\"media\" graphql:\"media\""
 	SeasonName        *SeasonName  "json:\"seasonName\" graphql:\"seasonName\""
 	SeasonYear        *int64       "json:\"seasonYear\" graphql:\"seasonYear\""
-	EpisodesCount     int64        "json:\"episodesCount\" graphql:\"episodesCount\""
-	OfficialSiteURL   *string      "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
 	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 }
 type UpdateWorkState_UpdateStatus struct {
@@ -106,8 +104,6 @@ fragment WorkFragment on Work {
 	media
 	seasonName
 	seasonYear
-	episodesCount
-	officialSiteUrl
 	viewerStatusState
 }
 `
@@ -144,8 +140,6 @@ fragment WorkFragment on Work {
 	media
 	seasonName
 	seasonYear
-	episodesCount
-	officialSiteUrl
 	viewerStatusState
 }
 `

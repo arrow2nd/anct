@@ -26,6 +26,8 @@ func (c *Command) searchWorksRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	// TODO: 要らないかも
+
 	fmt.Println("GET: " + id)
 	return nil
 }
