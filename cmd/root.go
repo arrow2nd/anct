@@ -25,7 +25,7 @@ func New(t *api.Token) *Command {
 
 	c.root.AddCommand(
 		c.newCmdAuth(),
-		c.newCmdSearch(),
+		c.newCmdInfo(),
 		c.newCmdState(),
 		c.newCmdVersion(),
 	)
