@@ -19,7 +19,7 @@ func (c *Command) newCmdState() *cobra.Command {
 }
 
 func (c *Command) updateState(cmd *cobra.Command, args []string) error {
-	id, err := c.searchWorks(cmd, args)
+	id, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
 	}

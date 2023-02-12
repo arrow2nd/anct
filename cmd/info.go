@@ -21,7 +21,7 @@ func (c *Command) newCmdInfo() *cobra.Command {
 }
 
 func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
-	id, err := c.searchWorks(cmd, args)
+	id, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
 	}
