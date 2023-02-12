@@ -14,7 +14,33 @@ import (
 	"golang.org/x/term"
 )
 
-// ReceiveQuery : キーワードの入力を受け取る
+// ReceiveSearchFlags : 検索フラグの値を受け取る
+func ReceiveSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bool, error) {
+	// シーズン指定の書式をチェック
+	seasons, _ := p.GetStringSlice("seasons")
+	for _, s := range seasons {
+		if err := ValidateSeasonFormat(s); err != nil {
+			return nil, nil, 0, false, err
+		}
+	}
+
+	// ライブラリの視聴ステータス文字列を変換
+	stateStrs, _ := p.GetStringSlice("library")
+	states := []gen.StatusState{}
+	for _, stateStr := range stateStrs {
+		s, err := StringToStatusState(stateStr, false)
+		if err != nil {
+			return nil, nil, 0, false, err
+		}
+		states = append(states, s)
+	}
+
+	useEditor, _ := p.GetBool("editor")
+	limit, _ := p.GetInt64("limit")
+	return states, seasons, limit, useEditor, nil
+}
+
+// ReceiveQuery : クエリの入力を受け取る
 func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error) {
 	keyword := strings.Join(args, " ")
 
@@ -43,40 +69,4 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 	// 全ての空白文字を半角スペースに置換
 	r := regexp.MustCompile(`\s`)
 	return r.ReplaceAllString(keyword, " "), nil
-}
-
-// ReceiveCommonFlags : 全体共通フラグの値を受け取る
-func ReceiveCommonFlags(p *pflag.FlagSet) (bool, int64) {
-	useEditor, _ := p.GetBool("editor")
-	limit, _ := p.GetInt64("limit")
-	return useEditor, limit
-}
-
-// ReceiveSearchCommonFlags : 検索共通フラグの値を受け取る
-func ReceiveSearchCommonFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, error) {
-	// シーズン指定の書式をチェック
-	seasons, _ := p.GetStringSlice("seasons")
-	for _, s := range seasons {
-		if err := ValidateSeasonFormat(s); err != nil {
-			return nil, nil, err
-		}
-	}
-
-	// ライブラリの視聴ステータスを取得
-	stateStrs, _ := p.GetStringSlice("library")
-	if len(stateStrs) == 0 {
-		return nil, seasons, nil
-	}
-
-	// 視聴ステータス文字列を変換
-	states := []gen.StatusState{}
-	for _, stateStr := range stateStrs {
-		s, err := StringToStatusState(stateStr, false)
-		if err != nil {
-			return nil, nil, err
-		}
-		states = append(states, s)
-	}
-
-	return states, seasons, nil
 }

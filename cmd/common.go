@@ -12,8 +12,7 @@ import (
 // searchWorks : 作品を検索してIDを取得
 func (c *Command) searchWorks(cmd *cobra.Command, args []string) (string, error) {
 	// 検索関連フラグの内容を取得
-	useEditor, limit := cmdutil.ReceiveCommonFlags(cmd.Flags())
-	states, seasons, err := cmdutil.ReceiveSearchCommonFlags(cmd.Flags())
+	states, seasons, limit, useEditor, err := cmdutil.ReceiveSearchFlags(cmd.Flags())
 	if err != nil {
 		return "", err
 	}
@@ -43,6 +42,5 @@ func (c *Command) searchWorks(cmd *cobra.Command, args []string) (string, error)
 		return "", err
 	}
 
-	// fzf で絞り込む
 	return view.SelectWork(list)
 }
