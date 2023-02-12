@@ -5,7 +5,6 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/gen"
-	"github.com/ktr0731/go-fuzzyfinder"
 )
 
 // SelectStatus : 視聴ステータスを選択
@@ -33,42 +32,38 @@ func SelectStatus(allowNoState bool) (string, error) {
 }
 
 // SelectWork : 作品を選択
-func SelectWork(items []*gen.WorkFragment) (string, error) {
-	idx, err := fuzzyfinder.Find(
-		items,
-		func(i int) string {
-			return items[i].Title
-		},
-		fuzzyfinder.WithPreviewWindow(func(i, width, height int) string {
-			if i == -1 {
+func SelectWork(works []*gen.WorkFragment) (string, error) {
+	opts := []string{}
+	for _, work := range works {
+		opts = append(opts, work.Title)
+	}
+
+	selectedTitle := ""
+	prompt := &survey.Select{
+		Message: "Choose a work",
+		Options: opts,
+		Description: func(_ string, index int) string {
+			if index < 0 || index > len(works) {
 				return ""
 			}
 
-			w := items[i]
-
-			state := ""
-			if s := w.ViewerStatusState; s != nil {
-				state = fmt.Sprintf("  [ %s ]", *s)
+			if s := works[index].ViewerStatusState; s != nil && *s != gen.StatusStateNoState {
+				return s.String()
 			}
 
-			media := "unknown"
-			if w.Media.IsValid() {
-				media = w.Media.String()
-			}
+			return ""
+		},
+	}
 
-			season := "unknown"
-			if year := w.SeasonYear; w.SeasonName.IsValid() && year != nil {
-				season = fmt.Sprintf("%s %d", w.SeasonName.String(), *year)
-			}
-
-			return fmt.Sprintf("%s%s\n\nID:     %s\nMEDIA:  %s\nSEASON: %s", w.Title, state, w.ID, media, season)
-		}),
-		fuzzyfinder.WithHeader("Please choose a work"),
-	)
-
-	if err != nil {
+	if err := survey.AskOne(prompt, &selectedTitle); err != nil {
 		return "", err
 	}
 
-	return items[idx].ID, nil
+	for _, work := range works {
+		if work.Title == selectedTitle {
+			return work.ID, nil
+		}
+	}
+
+	return "", fmt.Errorf("Failed to retrieve the selected work ID (title: %s)", selectedTitle)
 }
