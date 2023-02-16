@@ -51,3 +51,9 @@ func (a *API) SearchWorksFromLibrary(q string, states []gen.StatusState, seasons
 
 	return works, nil
 }
+
+// FetchWorkInfo : 作品の詳細を取得
+func (a *API) FetchWorkInfo(annictID int64) (*gen.FetchWorkInfo, error) {
+	ctx := context.Background()
+	return a.client.FetchWorkInfo(ctx, annictID)
+}

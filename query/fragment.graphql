@@ -1,8 +1,21 @@
 fragment WorkFragment on Work {
+  annictId
   id
   title
   media
   seasonName
   seasonYear
   viewerStatusState
+}
+
+fragment WorkEpisodesFragment on Work {
+  episodes(orderBy: { direction: ASC, field: SORT_NUMBER }) {
+    nodes {
+      id
+      number
+      numberText
+      title
+    }
+  }
+  episodesCount
 }

@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/spf13/cobra"
 )
@@ -21,11 +19,12 @@ func (c *Command) newCmdInfo() *cobra.Command {
 }
 
 func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
-	id, err := cmdutil.SearchWorks(c.api, cmd, args)
+	annictID, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("GET: " + id)
+	info, err := c.api.FetchWorkInfo(annictID)
+
 	return nil
 }

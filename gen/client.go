@@ -38,6 +38,7 @@ type Mutation struct {
 	UpdateStatus *UpdateStatusPayload "json:\"updateStatus,omitempty\" graphql:\"updateStatus\""
 }
 type WorkFragment struct {
+	AnnictID          int64        "json:\"annictId\" graphql:\"annictId\""
 	ID                string       "json:\"id\" graphql:\"id\""
 	Title             string       "json:\"title\" graphql:\"title\""
 	Media             Media        "json:\"media\" graphql:\"media\""
@@ -45,11 +46,55 @@ type WorkFragment struct {
 	SeasonYear        *int64       "json:\"seasonYear\" graphql:\"seasonYear\""
 	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 }
+type WorkEpisodesFragment struct {
+	Episodes      *WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
+	EpisodesCount int64                          "json:\"episodesCount\" graphql:\"episodesCount\""
+}
+type WorkEpisodesFragment_Episodes_Nodes struct {
+	ID         string  "json:\"id\" graphql:\"id\""
+	Number     *int64  "json:\"number\" graphql:\"number\""
+	NumberText *string "json:\"numberText\" graphql:\"numberText\""
+	Title      *string "json:\"title\" graphql:\"title\""
+}
+type WorkEpisodesFragment_Episodes struct {
+	Nodes []*WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+}
 type UpdateWorkState_UpdateStatus struct {
 	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
 }
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchWorkInfo_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes struct {
+	ID         string  "json:\"id\" graphql:\"id\""
+	Number     *int64  "json:\"number\" graphql:\"number\""
+	NumberText *string "json:\"numberText\" graphql:\"numberText\""
+	Title      *string "json:\"title\" graphql:\"title\""
+}
+type FetchWorkInfo_SearchWorks_Nodes_WorkEpisodesFragment_Episodes struct {
+	Nodes []*FetchWorkInfo_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchWorkInfo_SearchWorks_Nodes_Image struct {
+	Copyright           *string "json:\"copyright\" graphql:\"copyright\""
+	RecommendedImageURL *string "json:\"recommendedImageUrl\" graphql:\"recommendedImageUrl\""
+	FacebookOgImageURL  *string "json:\"facebookOgImageUrl\" graphql:\"facebookOgImageUrl\""
+}
+type FetchWorkInfo_SearchWorks_Nodes struct {
+	AnnictID          int64                                                          "json:\"annictId\" graphql:\"annictId\""
+	ID                string                                                         "json:\"id\" graphql:\"id\""
+	Title             string                                                         "json:\"title\" graphql:\"title\""
+	Media             Media                                                          "json:\"media\" graphql:\"media\""
+	SeasonName        *SeasonName                                                    "json:\"seasonName\" graphql:\"seasonName\""
+	SeasonYear        *int64                                                         "json:\"seasonYear\" graphql:\"seasonYear\""
+	ViewerStatusState *StatusState                                                   "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
+	Episodes          *FetchWorkInfo_SearchWorks_Nodes_WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
+	EpisodesCount     int64                                                          "json:\"episodesCount\" graphql:\"episodesCount\""
+	Image             *FetchWorkInfo_SearchWorks_Nodes_Image                         "json:\"image\" graphql:\"image\""
+	OfficialSiteURL   *string                                                        "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
+	WatchersCount     int64                                                          "json:\"watchersCount\" graphql:\"watchersCount\""
+}
+type FetchWorkInfo_SearchWorks struct {
+	Nodes []*FetchWorkInfo_SearchWorks_Nodes "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
 	Work *WorkFragment "json:\"work\" graphql:\"work\""
@@ -65,6 +110,9 @@ type HogeUpdateWorkStatePayload struct {
 }
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+}
+type FetchWorkInfo struct {
+	SearchWorks *FetchWorkInfo_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
 }
 type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
@@ -99,6 +147,7 @@ const SearchWorksByKeywordDocument = `query SearchWorksByKeyword ($query: String
 	}
 }
 fragment WorkFragment on Work {
+	annictId
 	id
 	title
 	media
@@ -123,6 +172,56 @@ func (c *Client) SearchWorksByKeyword(ctx context.Context, query string, seasons
 	return &res, nil
 }
 
+const FetchWorkInfoDocument = `query FetchWorkInfo ($annictId: Int!) {
+	searchWorks(annictIds: [$annictId]) {
+		nodes {
+			... WorkFragment
+			... WorkEpisodesFragment
+			image {
+				copyright
+				recommendedImageUrl
+				facebookOgImageUrl
+			}
+			officialSiteUrl
+			watchersCount
+		}
+	}
+}
+fragment WorkFragment on Work {
+	annictId
+	id
+	title
+	media
+	seasonName
+	seasonYear
+	viewerStatusState
+}
+fragment WorkEpisodesFragment on Work {
+	episodes(orderBy: {direction:ASC,field:SORT_NUMBER}) {
+		nodes {
+			id
+			number
+			numberText
+			title
+		}
+	}
+	episodesCount
+}
+`
+
+func (c *Client) FetchWorkInfo(ctx context.Context, annictID int64, interceptors ...clientv2.RequestInterceptor) (*FetchWorkInfo, error) {
+	vars := map[string]interface{}{
+		"annictId": annictID,
+	}
+
+	var res FetchWorkInfo
+	if err := c.Client.Post(ctx, "FetchWorkInfo", FetchWorkInfoDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const FetchUserLibraryDocument = `query FetchUserLibrary ($states: [StatusState!], $seasons: [String!], $first: Int!) {
 	viewer {
 		libraryEntries(states: $states, seasons: $seasons, first: $first, orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
@@ -135,6 +234,7 @@ const FetchUserLibraryDocument = `query FetchUserLibrary ($states: [StatusState!
 	}
 }
 fragment WorkFragment on Work {
+	annictId
 	id
 	title
 	media

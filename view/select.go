@@ -32,7 +32,7 @@ func SelectStatus(allowNoState bool) (string, error) {
 }
 
 // SelectWork : 作品を選択
-func SelectWork(works []*gen.WorkFragment) (string, error) {
+func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 	opts := []string{}
 	for _, work := range works {
 		opts = append(opts, work.Title)
@@ -56,14 +56,14 @@ func SelectWork(works []*gen.WorkFragment) (string, error) {
 	}
 
 	if err := survey.AskOne(prompt, &selectedTitle); err != nil {
-		return "", err
+		return 0, "", err
 	}
 
 	for _, work := range works {
 		if work.Title == selectedTitle {
-			return work.ID, nil
+			return work.AnnictID, work.ID, nil
 		}
 	}
 
-	return "", fmt.Errorf("Failed to retrieve the selected work ID (title: %s)", selectedTitle)
+	return 0, "", fmt.Errorf("Failed to retrieve the selected work ID (title: %s)", selectedTitle)
 }
