@@ -11,6 +11,6 @@ func SetCommonFlags(p *pflag.FlagSet) {
 // SetSearchFlags : 検索関連フラグを設定
 func SetSearchFlags(p *pflag.FlagSet) {
 	SetCommonFlags(p)
-	p.StringSliceP("seasons", "s", []string{}, "Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}")
-	p.StringSliceP("library", "", []string{}, "Search within the library: {wanna_watch|watching|watched|on_hold|stop_watching}")
+	p.StringSliceP("seasons", "S", []string{}, "Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}")
+	p.StringSliceP("library", "L", []string{}, "Search within the library: {wanna_watch|watching|watched|on_hold|stop_watching}")
 }
