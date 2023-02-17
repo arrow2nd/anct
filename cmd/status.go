@@ -21,7 +21,6 @@ func (c *Command) newCmdStatus() *cobra.Command {
 }
 
 func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
-	// 作品IDを取得
 	_, id, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
@@ -43,9 +42,13 @@ func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Updating status")
+
 	if err := c.api.UpdateWorkState(id, state); err != nil {
 		return err
 	}
+
+	spinner.Stop()
 
 	view.PrintDone(cmd.OutOrStdout(), "Updated status!")
 	return nil

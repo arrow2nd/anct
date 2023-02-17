@@ -28,6 +28,9 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string
 		return 0, "", errors.New("query or `--library` or `--seasons` is required")
 	}
 
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Searching for works")
+	spinner.Start()
+
 	// 作品を検索
 	list := []*gen.WorkFragment{}
 	err = nil
@@ -37,6 +40,8 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string
 	} else {
 		list, err = api.SearchWorksFromLibrary(query, states, seasons, limit)
 	}
+
+	spinner.Stop()
 
 	if err != nil {
 		return 0, "", err

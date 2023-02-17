@@ -58,9 +58,13 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 		comment = c
 	}
 
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Creating episode record")
+
 	if err := c.api.CreateEpisodeRecords(episodeIDs, rating, comment); err != nil {
 		return err
 	}
+
+	spinner.Stop()
 
 	view.PrintDone(cmd.OutOrStdout(), "Recorded!")
 	return nil

@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -27,10 +25,14 @@ func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Loading information the work")
+
 	info, err := c.api.FetchWorkInfo(annictID)
 	if err != nil {
 		return err
 	}
 
-	return view.PrintWorkInfo(os.Stdout, info)
+	spinner.Stop()
+
+	return view.PrintWorkInfo(cmd.OutOrStdout(), info)
 }
