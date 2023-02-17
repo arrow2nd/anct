@@ -1,6 +1,6 @@
 # anct
 
-📺 Unofficial CLI Client of Annict
+💊 Unofficial CLI Client of Annict
 
 ## Develop
 
