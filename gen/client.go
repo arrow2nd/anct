@@ -47,9 +47,8 @@ type WorkFragment struct {
 	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 }
 type WorkEpisodesFragment struct {
-	Episodes      *WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
-	NoEpisodes    bool                           "json:\"noEpisodes\" graphql:\"noEpisodes\""
-	EpisodesCount int64                          "json:\"episodesCount\" graphql:\"episodesCount\""
+	Episodes   *WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
+	NoEpisodes bool                           "json:\"noEpisodes\" graphql:\"noEpisodes\""
 }
 type WorkInfoFragment struct {
 	AnnictID          int64                                           "json:\"annictId\" graphql:\"annictId\""
@@ -61,7 +60,6 @@ type WorkInfoFragment struct {
 	ViewerStatusState *StatusState                                    "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 	Episodes          *WorkInfoFragment_WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
 	NoEpisodes        bool                                            "json:\"noEpisodes\" graphql:\"noEpisodes\""
-	EpisodesCount     int64                                           "json:\"episodesCount\" graphql:\"episodesCount\""
 	Image             *WorkInfoFragment_Image                         "json:\"image\" graphql:\"image\""
 	OfficialSiteURL   *string                                         "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
 	WatchersCount     int64                                           "json:\"watchersCount\" graphql:\"watchersCount\""
@@ -112,6 +110,18 @@ type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_Image struct {
 type FetchWorkInfo_SearchWorks struct {
 	Nodes []*WorkInfoFragment "json:\"nodes\" graphql:\"nodes\""
 }
+type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes struct {
+	ID         string  "json:\"id\" graphql:\"id\""
+	Number     *int64  "json:\"number\" graphql:\"number\""
+	NumberText *string "json:\"numberText\" graphql:\"numberText\""
+	Title      *string "json:\"title\" graphql:\"title\""
+}
+type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes struct {
+	Nodes []*FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchWorkEpisodes_SearchWorks struct {
+	Nodes []*WorkEpisodesFragment "json:\"nodes\" graphql:\"nodes\""
+}
 type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
 	Work *WorkFragment "json:\"work\" graphql:\"work\""
 }
@@ -129,6 +139,9 @@ type SearchWorksByKeyword struct {
 }
 type FetchWorkInfo struct {
 	SearchWorks *FetchWorkInfo_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+}
+type FetchWorkEpisodes struct {
+	SearchWorks *FetchWorkEpisodes_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
 }
 type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
@@ -225,7 +238,6 @@ fragment WorkEpisodesFragment on Work {
 		}
 	}
 	noEpisodes
-	episodesCount
 }
 `
 
@@ -236,6 +248,39 @@ func (c *Client) FetchWorkInfo(ctx context.Context, annictID int64, interceptors
 
 	var res FetchWorkInfo
 	if err := c.Client.Post(ctx, "FetchWorkInfo", FetchWorkInfoDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const FetchWorkEpisodesDocument = `query FetchWorkEpisodes ($annictId: Int!) {
+	searchWorks(annictIds: [$annictId]) {
+		nodes {
+			... WorkEpisodesFragment
+		}
+	}
+}
+fragment WorkEpisodesFragment on Work {
+	episodes(orderBy: {direction:ASC,field:SORT_NUMBER}) {
+		nodes {
+			id
+			number
+			numberText
+			title
+		}
+	}
+	noEpisodes
+}
+`
+
+func (c *Client) FetchWorkEpisodes(ctx context.Context, annictID int64, interceptors ...clientv2.RequestInterceptor) (*FetchWorkEpisodes, error) {
+	vars := map[string]interface{}{
+		"annictId": annictID,
+	}
+
+	var res FetchWorkEpisodes
+	if err := c.Client.Post(ctx, "FetchWorkEpisodes", FetchWorkEpisodesDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 

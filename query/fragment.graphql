@@ -18,7 +18,6 @@ fragment WorkEpisodesFragment on Work {
     }
   }
   noEpisodes
-  episodesCount
 }
 
 fragment WorkInfoFragment on Work {

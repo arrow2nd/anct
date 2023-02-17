@@ -14,12 +14,12 @@ import (
 	"golang.org/x/term"
 )
 
-// ReceiveSearchFlags : 検索フラグの値を受け取る
-func ReceiveSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bool, error) {
+// ReceiveAllSearchFlags : 全ての検索フラグの値を受け取る
+func ReceiveAllSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bool, error) {
 	// シーズン指定の書式をチェック
 	seasons, _ := p.GetStringSlice("seasons")
 	for _, s := range seasons {
-		if err := ValidateSeasonFormat(s); err != nil {
+		if err := validateSeasonFormat(s); err != nil {
 			return nil, nil, 0, false, err
 		}
 	}
@@ -69,4 +69,20 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 	// 全ての空白文字を半角スペースに置換
 	r := regexp.MustCompile(`\s`)
 	return r.ReplaceAllString(keyword, " "), nil
+}
+
+// ReceiveRating : 評価を受け取る
+func ReceiveRating(p *pflag.FlagSet) (gen.RatingState, error) {
+	rating, _ := p.GetString("rating")
+
+	if rating == "" {
+		// 指定されていない場合対話形式で聞く
+		r, err := view.SelectRating()
+		if err != nil {
+			return "", err
+		}
+		rating = r
+	}
+
+	return StringToRatingState(rating)
 }

@@ -5,8 +5,8 @@ import (
 	"regexp"
 )
 
-// ValidateSeasonFormat : シーズン指定の書式が正しいか
-func ValidateSeasonFormat(s string) error {
+// validateSeasonFormat : シーズン指定の書式が正しいか
+func validateSeasonFormat(s string) error {
 	r := regexp.MustCompile(`\d{4}-(spring|summer|autumn|winter)`)
 
 	if !r.MatchString(s) {

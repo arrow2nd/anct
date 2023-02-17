@@ -19,6 +19,14 @@ query FetchWorkInfo($annictId: Int!) {
   }
 }
 
+query FetchWorkEpisodes($annictId: Int!) {
+  searchWorks(annictIds: [$annictId]) {
+    nodes {
+      ...WorkEpisodesFragment
+    }
+  }
+}
+
 query FetchUserLibrary(
   $states: [StatusState!]
   $seasons: [String!]

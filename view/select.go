@@ -1,6 +1,7 @@
 package view
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -14,11 +15,32 @@ func SelectStatus(allowNoState bool) (string, error) {
 		if !allowNoState && status == gen.StatusStateNoState {
 			continue
 		}
-		opts = append(opts, string(status))
+		opts = append(opts, status.String())
 	}
 
 	prompt := &survey.Select{
 		Message: "Choose a status",
+		Options: opts,
+	}
+
+	result := ""
+	err := survey.AskOne(prompt, &result)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// SelectRating : 評価を選択
+func SelectRating() (string, error) {
+	opts := []string{}
+	for _, rating := range gen.AllRatingState {
+		opts = append(opts, rating.String())
+	}
+
+	prompt := &survey.Select{
+		Message: "Choose a rating",
 		Options: opts,
 	}
 
@@ -38,7 +60,6 @@ func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 		opts = append(opts, work.Title)
 	}
 
-	selectedTitle := ""
 	prompt := &survey.Select{
 		Message: "Choose a work",
 		Options: opts,
@@ -55,10 +76,12 @@ func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 		},
 	}
 
+	selectedTitle := ""
 	if err := survey.AskOne(prompt, &selectedTitle); err != nil {
 		return 0, "", err
 	}
 
+	// 選択した作品のIDを返す
 	for _, work := range works {
 		if work.Title == selectedTitle {
 			return work.AnnictID, work.ID, nil
@@ -66,4 +89,54 @@ func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 	}
 
 	return 0, "", fmt.Errorf("Failed to retrieve the selected work ID (title: %s)", selectedTitle)
+}
+
+// SelectEpisodes : エピソードを選択
+func SelectEpisodes(work *gen.WorkEpisodesFragment) ([]string, error) {
+	// エピソードが無い作品
+	if work.NoEpisodes || work.Episodes == nil || len(work.Episodes.Nodes) == 0 {
+		return nil, errors.New("no selectable episodes")
+	}
+
+	createEpisodeOpt := func(e *gen.WorkEpisodesFragment_Episodes_Nodes) string {
+		num := "???"
+		if e.NumberText != nil && *e.NumberText != "" {
+			num = *e.NumberText
+		}
+
+		title := fmt.Sprintf("??? (ID: %s)", e.ID)
+		if e.Title != nil && *e.Title != "" {
+			title = *e.Title
+		}
+
+		return fmt.Sprintf("%s %s", num, title)
+	}
+
+	opts := []string{}
+	for _, ep := range work.Episodes.Nodes {
+		opts = append(opts, createEpisodeOpt(ep))
+	}
+
+	prompt := &survey.MultiSelect{
+		Message: "Choose a episode",
+		Options: opts,
+	}
+
+	selectedOpts := []string{}
+	if err := survey.AskOne(prompt, &selectedOpts); err != nil {
+		return nil, err
+	}
+
+	// 選択した項目をエピソードIDの配列に変換
+	episodeIDs := []string{}
+	for _, opt := range selectedOpts {
+		for _, ep := range work.Episodes.Nodes {
+			if opt == createEpisodeOpt(ep) {
+				episodeIDs = append(episodeIDs, ep.ID)
+				break
+			}
+		}
+	}
+
+	return episodeIDs, nil
 }

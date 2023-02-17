@@ -12,7 +12,7 @@ import (
 // SearchWorks : 作品を検索してIDを取得
 func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string, error) {
 	// 検索関連フラグの内容を取得
-	states, seasons, limit, useEditor, err := ReceiveSearchFlags(cmd.Flags())
+	states, seasons, limit, useEditor, err := ReceiveAllSearchFlags(cmd.Flags())
 	if err != nil {
 		return 0, "", err
 	}
