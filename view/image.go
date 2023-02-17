@@ -11,12 +11,7 @@ import (
 )
 
 // printImage : 画像を出力 (sixelを使用)
-func printImage(w io.Writer, URL string) error {
-	img, err := fetchImage(URL, 400)
-	if err != nil {
-		return fmt.Errorf("failed fetch image: %w", err)
-	}
-
+func printImage(w io.Writer, img image.Image) error {
 	if err := sixel.NewEncoder(w).Encode(img); err != nil {
 		return fmt.Errorf("failed print image: %w", err)
 	}
