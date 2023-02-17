@@ -17,14 +17,14 @@ func (c *Command) newCmdAuth() *cobra.Command {
 
 	login := &cobra.Command{
 		Use:   "login",
-		Short: "Authentication with Annict",
+		Short: "Authentication with a Annict",
 		Args:  cobra.NoArgs,
 		RunE:  c.loginRun,
 	}
 
 	logout := &cobra.Command{
 		Use:   "logout",
-		Short: "Log out of anct",
+		Short: "Log out of a Annict",
 		Args:  cobra.NoArgs,
 		RunE:  c.logoutRun,
 	}

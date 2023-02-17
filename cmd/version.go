@@ -15,7 +15,7 @@ func (c *Command) newCmdVersion() *cobra.Command {
 		Short:   "Display current version",
 		Args:    cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("🎦 anct ver.%s\n", version)
+			fmt.Printf("💊 anct v.%s\n", version)
 		},
 	}
 }

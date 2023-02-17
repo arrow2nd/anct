@@ -6,10 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func (c *Command) newCmdState() *cobra.Command {
+func (c *Command) newCmdStatus() *cobra.Command {
 	u := &cobra.Command{
-		Use:  "status [<query>]",
-		RunE: c.updateState,
+		Use:     "status [<query>]",
+		Short:   "Update the watching status of work",
+		Example: "  anct status ぼっち・ざ・ろっく！",
+		RunE:    c.updateStatusRun,
 	}
 
 	u.Flags().StringP("state", "", "", "Update status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
@@ -18,7 +20,7 @@ func (c *Command) newCmdState() *cobra.Command {
 	return u
 }
 
-func (c *Command) updateState(cmd *cobra.Command, args []string) error {
+func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
 	_, id, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
