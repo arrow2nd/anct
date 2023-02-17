@@ -39,5 +39,10 @@ func (c *Command) updateState(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	return c.api.UpdateWorkState(id, state)
+	if err := c.api.UpdateWorkState(id, state); err != nil {
+		return err
+	}
+
+	view.PrintDone(cmd.OutOrStdout(), "Updated status!")
+	return nil
 }

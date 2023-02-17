@@ -8,9 +8,14 @@ import (
 	"github.com/arrow2nd/anct/gen"
 )
 
+// PrintDone : 完了表示を出力
+func PrintDone(w io.Writer, s string) {
+	fmt.Fprintf(w, "👌 %s\n", s)
+}
+
 // PrintCanceled : キャンセル表示を出力
 func PrintCanceled(w io.Writer) {
-	fmt.Fprintln(w, "Canceled")
+	fmt.Fprintln(w, "❌ Canceled")
 }
 
 // PrintLogo : ロゴを出力

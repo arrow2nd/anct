@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/arrow2nd/anct/config"
 	"github.com/arrow2nd/anct/view"
@@ -44,8 +43,8 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	view.PrintLogo(os.Stdout)
-	view.PrintAuthURL(os.Stdout, url)
+	view.PrintLogo(cmd.OutOrStdout())
+	view.PrintAuthURL(cmd.OutOrStdout(), url)
 
 	code, err := view.InputText("Code")
 	if err != nil {
@@ -56,7 +55,12 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	return config.Save(&c.api.Token)
+	if err := config.Save(&c.api.Token); err != nil {
+		return err
+	}
+
+	view.PrintDone(cmd.OutOrStdout(), "Logged in!")
+	return nil
 }
 
 func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
@@ -66,7 +70,7 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 	}
 
 	if !logout {
-		view.PrintCanceled(os.Stderr)
+		view.PrintCanceled(cmd.ErrOrStderr())
 		return nil
 	}
 
@@ -74,5 +78,10 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 		return fmt.Errorf("failed to revoke access token: %w", err)
 	}
 
-	return config.Save(&c.api.Token)
+	if err := config.Save(&c.api.Token); err != nil {
+		return err
+	}
+
+	view.PrintDone(cmd.ErrOrStderr(), "Logged out")
+	return nil
 }
