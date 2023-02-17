@@ -17,9 +17,6 @@ func printImage(w io.Writer, URL string) error {
 		return fmt.Errorf("failed fetch image: %w", err)
 	}
 
-	// 画像の前に空行を挿入
-	fmt.Fprintln(w)
-
 	if err := sixel.NewEncoder(w).Encode(img); err != nil {
 		return fmt.Errorf("failed print image: %w", err)
 	}
