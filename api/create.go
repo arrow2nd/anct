@@ -8,16 +8,6 @@ import (
 	"golang.org/x/sync/semaphore"
 )
 
-// UpdateWorkState : 作品の視聴ステータスを更新
-func (a *API) UpdateWorkState(id string, state gen.StatusState) error {
-	ctx := context.Background()
-	if _, err := a.client.UpdateWorkState(ctx, id, state); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 // CreateEpisodeRecords : エピソードの視聴記録を作成
 func (a *API) CreateEpisodeRecords(episodeIDs []string, rating gen.RatingState, comment string) error {
 	const (
