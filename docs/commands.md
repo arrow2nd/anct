@@ -60,7 +60,7 @@ anct status [<query>] [flags]
 anct review [<query>] [flags]
 ```
 
-作品のレビューを投稿します
+作品のレビューを作成します
 
 ### flags
 
@@ -77,13 +77,13 @@ anct review [<query>] [flags]
 - `--comment string`
   - コメント
 
-## track
+## record
 
 ```
-anct track [<query>] [flags]
+anct record [<query>] [flags]
 ```
 
-エピソードの視聴記録を投稿します
+エピソードの視聴記録を作成します
 
 - まとめて記録することもできます
   - コメントは投稿されません
