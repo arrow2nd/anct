@@ -28,6 +28,9 @@ func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
 	}
 
 	info, err := c.api.FetchWorkInfo(annictID)
+	if err != nil {
+		return err
+	}
 
 	return view.PrintWorkInfo(os.Stdout, info)
 }

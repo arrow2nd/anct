@@ -3,6 +3,7 @@ package view
 import (
 	"fmt"
 	"io"
+	"os"
 	"text/template"
 
 	"github.com/arrow2nd/anct/gen"
@@ -34,7 +35,7 @@ func PrintLogo(w io.Writer) {
 
 // PrintAuthURL : 認証URLを出力
 func PrintAuthURL(w io.Writer, u string) {
-	temp := "📺 Please access the following URL and enter the code displayed after authentication.\n\n%s\n"
+	temp := "💊 Please access the following URL and enter the code displayed after authentication.\n\n%s\n"
 	fmt.Fprintf(w, temp, u)
 }
 
@@ -102,7 +103,8 @@ EPISODES
 	fmt.Fprintln(w)
 
 	if err := printWorkImage(w, info.Image); err != nil {
-		return err
+		// NOTE: 画像が表示できなくても処理は続けたいのでエラーを返さない
+		fmt.Fprintf(os.Stderr, "failed to display image: %s", err.Error())
 	}
 
 	return t.Execute(w, info)
