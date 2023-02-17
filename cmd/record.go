@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -24,7 +22,6 @@ func (c *Command) newCmdRecord() *cobra.Command {
 }
 
 func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
-	// 作品を選択
 	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
@@ -61,8 +58,9 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 		comment = c
 	}
 
-	// 実行
-	fmt.Println(rating, comment, episodeIDs)
+	if err := c.api.CreateEpisodeRecords(episodeIDs, rating, comment); err != nil {
+		return err
+	}
 
 	view.PrintDone(cmd.OutOrStdout(), "Recorded!")
 	return nil

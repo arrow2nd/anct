@@ -368,12 +368,12 @@ type MultipleRecord struct {
 	Work      Work              `json:"work"`
 }
 
-func (MultipleRecord) IsActivityItem() {}
-
 func (MultipleRecord) IsNode() {}
 
 // ID of the object.
 func (this MultipleRecord) GetID() string { return this.ID }
+
+func (MultipleRecord) IsActivityItem() {}
 
 type Organization struct {
 	AnnictID                   int64  `json:"annictId"`

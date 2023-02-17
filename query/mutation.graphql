@@ -3,3 +3,15 @@ mutation UpdateWorkState($workId: ID!, $state: StatusState!) {
     clientMutationId
   }
 }
+
+mutation CreateEpisodeRecord(
+  $episodeId: ID!
+  $rating: RatingState!
+  $comment: String
+) {
+  createRecord(
+    input: { episodeId: $episodeId, ratingState: $rating, comment: $comment }
+  ) {
+    clientMutationId
+  }
+}

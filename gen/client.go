@@ -90,6 +90,9 @@ type WorkInfoFragment_Image struct {
 type UpdateWorkState_UpdateStatus struct {
 	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
 }
+type CreateEpisodeRecord_CreateRecord struct {
+	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+}
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
@@ -134,6 +137,9 @@ type FetchUserLibrary_Viewer struct {
 type HogeUpdateWorkStatePayload struct {
 	UpdateStatus *UpdateWorkState_UpdateStatus "json:\"updateStatus\" graphql:\"updateStatus\""
 }
+type HogeCreateEpisodeRecordPayload struct {
+	CreateRecord *CreateEpisodeRecord_CreateRecord "json:\"createRecord\" graphql:\"createRecord\""
+}
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
 }
@@ -162,6 +168,28 @@ func (c *Client) UpdateWorkState(ctx context.Context, workID string, state Statu
 
 	var res HogeUpdateWorkStatePayload
 	if err := c.Client.Post(ctx, "UpdateWorkState", UpdateWorkStateDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const CreateEpisodeRecordDocument = `mutation CreateEpisodeRecord ($episodeId: ID!, $rating: RatingState!, $comment: String) {
+	createRecord(input: {episodeId:$episodeId,ratingState:$rating,comment:$comment}) {
+		clientMutationId
+	}
+}
+`
+
+func (c *Client) CreateEpisodeRecord(ctx context.Context, episodeID string, rating RatingState, comment *string, interceptors ...clientv2.RequestInterceptor) (*HogeCreateEpisodeRecordPayload, error) {
+	vars := map[string]interface{}{
+		"episodeId": episodeID,
+		"rating":    rating,
+		"comment":   comment,
+	}
+
+	var res HogeCreateEpisodeRecordPayload
+	if err := c.Client.Post(ctx, "CreateEpisodeRecord", CreateEpisodeRecordDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 
