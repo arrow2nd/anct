@@ -16,7 +16,7 @@ func New(t *api.Token) *Command {
 	c := &Command{
 		root: &cobra.Command{
 			Use:           "anct",
-			Short:         "🎦 Unofficial CLI Client of Annict",
+			Short:         "📺 Unofficial CLI Client of Annict",
 			SilenceUsage:  true,
 			SilenceErrors: true,
 		},
