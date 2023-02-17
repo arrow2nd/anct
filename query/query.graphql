@@ -14,15 +14,7 @@ query SearchWorksByKeyword($query: String!, $seasons: [String!], $first: Int!) {
 query FetchWorkInfo($annictId: Int!) {
   searchWorks(annictIds: [$annictId]) {
     nodes {
-      ...WorkFragment
-      ...WorkEpisodesFragment
-      image {
-        copyright
-        recommendedImageUrl
-        facebookOgImageUrl
-      }
-      officialSiteUrl
-      watchersCount
+      ...WorkInfoFragment
     }
   }
 }

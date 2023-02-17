@@ -1,7 +1,10 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/arrow2nd/anct/cmdutil"
+	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
 
@@ -19,12 +22,12 @@ func (c *Command) newCmdInfo() *cobra.Command {
 }
 
 func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
-	annictID, err := cmdutil.SearchWorks(c.api, cmd, args)
+	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
 	}
 
 	info, err := c.api.FetchWorkInfo(annictID)
 
-	return nil
+	return view.PrintWorkInfo(os.Stdout, info)
 }

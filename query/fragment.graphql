@@ -17,5 +17,18 @@ fragment WorkEpisodesFragment on Work {
       title
     }
   }
+  noEpisodes
   episodesCount
+}
+
+fragment WorkInfoFragment on Work {
+  ...WorkFragment
+  ...WorkEpisodesFragment
+  image {
+    copyright
+    recommendedImageUrl
+    facebookOgImageUrl
+  }
+  officialSiteUrl
+  watchersCount
 }
