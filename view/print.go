@@ -15,22 +15,21 @@ func PrintCanceled(w io.Writer) {
 
 // PrintLogo : ロゴを出力
 func PrintLogo(w io.Writer) {
-	fmt.Fprint(w, `
+	logo := `
    ________  ________  ________  ________ 
   /        \/    /   \/        \/        \
  /         /         /         /        _/
 /         /         /       --//       /  
 \___/____/\__/_____/\________/ \______/
-         -- Unofficial CLI Client of Annict
-`)
+
+`
+
+	fmt.Fprint(w, logo)
 }
 
 // PrintAuthURL : 認証URLを出力
 func PrintAuthURL(w io.Writer, u string) {
-	temp := `Please access the following URL and enter the code displayed after authentication.
-> %s
-
-`
+	temp := "📺 Please access the following URL and enter the code displayed after authentication.\n\n%s\n"
 	fmt.Fprintf(w, temp, u)
 }
 
