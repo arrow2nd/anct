@@ -98,20 +98,6 @@ func SelectEpisodes(work *gen.WorkEpisodesFragment) ([]string, error) {
 		return nil, errors.New("no selectable episodes")
 	}
 
-	createEpisodeOpt := func(e *gen.WorkEpisodesFragment_Episodes_Nodes) string {
-		num := "???"
-		if e.NumberText != nil && *e.NumberText != "" {
-			num = *e.NumberText
-		}
-
-		title := fmt.Sprintf("??? (ID: %s)", e.ID)
-		if e.Title != nil && *e.Title != "" {
-			title = *e.Title
-		}
-
-		return fmt.Sprintf("%s %s", num, title)
-	}
-
 	opts := []string{}
 	for _, ep := range work.Episodes.Nodes {
 		opts = append(opts, createEpisodeOpt(ep))
@@ -139,4 +125,24 @@ func SelectEpisodes(work *gen.WorkEpisodesFragment) ([]string, error) {
 	}
 
 	return episodeIDs, nil
+}
+
+// createEpisodeOpt : エピソードの選択項目文字列を作成
+func createEpisodeOpt(e *gen.WorkEpisodesFragment_Episodes_Nodes) string {
+	num := "???"
+	if e.NumberText != nil && *e.NumberText != "" {
+		num = *e.NumberText
+	}
+
+	title := fmt.Sprintf("??? (ID: %s)", e.ID)
+	if e.Title != nil && *e.Title != "" {
+		title = *e.Title
+	}
+
+	// 記録済なら件数を追加
+	if e.ViewerRecordsCount != 0 {
+		title += fmt.Sprintf(" - Recorded (%d)", e.ViewerRecordsCount)
+	}
+
+	return fmt.Sprintf("%s %s", num, title)
 }

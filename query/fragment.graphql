@@ -15,6 +15,7 @@ fragment WorkEpisodesFragment on Work {
       number
       numberText
       title
+      viewerRecordsCount
     }
   }
   noEpisodes

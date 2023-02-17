@@ -65,19 +65,21 @@ type WorkInfoFragment struct {
 	WatchersCount     int64                                           "json:\"watchersCount\" graphql:\"watchersCount\""
 }
 type WorkEpisodesFragment_Episodes_Nodes struct {
-	ID         string  "json:\"id\" graphql:\"id\""
-	Number     *int64  "json:\"number\" graphql:\"number\""
-	NumberText *string "json:\"numberText\" graphql:\"numberText\""
-	Title      *string "json:\"title\" graphql:\"title\""
+	ID                 string  "json:\"id\" graphql:\"id\""
+	Number             *int64  "json:\"number\" graphql:\"number\""
+	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
+	Title              *string "json:\"title\" graphql:\"title\""
+	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
 }
 type WorkEpisodesFragment_Episodes struct {
 	Nodes []*WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
 }
 type WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID         string  "json:\"id\" graphql:\"id\""
-	Number     *int64  "json:\"number\" graphql:\"number\""
-	NumberText *string "json:\"numberText\" graphql:\"numberText\""
-	Title      *string "json:\"title\" graphql:\"title\""
+	ID                 string  "json:\"id\" graphql:\"id\""
+	Number             *int64  "json:\"number\" graphql:\"number\""
+	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
+	Title              *string "json:\"title\" graphql:\"title\""
+	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
 }
 type WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
 	Nodes []*WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
@@ -97,10 +99,11 @@ type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID         string  "json:\"id\" graphql:\"id\""
-	Number     *int64  "json:\"number\" graphql:\"number\""
-	NumberText *string "json:\"numberText\" graphql:\"numberText\""
-	Title      *string "json:\"title\" graphql:\"title\""
+	ID                 string  "json:\"id\" graphql:\"id\""
+	Number             *int64  "json:\"number\" graphql:\"number\""
+	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
+	Title              *string "json:\"title\" graphql:\"title\""
+	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
 }
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
 	Nodes []*FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
@@ -114,10 +117,11 @@ type FetchWorkInfo_SearchWorks struct {
 	Nodes []*WorkInfoFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID         string  "json:\"id\" graphql:\"id\""
-	Number     *int64  "json:\"number\" graphql:\"number\""
-	NumberText *string "json:\"numberText\" graphql:\"numberText\""
-	Title      *string "json:\"title\" graphql:\"title\""
+	ID                 string  "json:\"id\" graphql:\"id\""
+	Number             *int64  "json:\"number\" graphql:\"number\""
+	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
+	Title              *string "json:\"title\" graphql:\"title\""
+	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
 }
 type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes struct {
 	Nodes []*FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
@@ -263,6 +267,7 @@ fragment WorkEpisodesFragment on Work {
 			number
 			numberText
 			title
+			viewerRecordsCount
 		}
 	}
 	noEpisodes
@@ -296,6 +301,7 @@ fragment WorkEpisodesFragment on Work {
 			number
 			numberText
 			title
+			viewerRecordsCount
 		}
 	}
 	noEpisodes
