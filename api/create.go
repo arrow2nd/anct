@@ -36,3 +36,14 @@ func (a *API) CreateEpisodeRecords(episodeIDs []string, rating gen.RatingState, 
 
 	return eg.Wait()
 }
+
+// CreateWorkReview : 作品のレビューを作成
+func (a *API) CreateWorkReview(workID, title, body string, overall, anim, music, story, chara gen.RatingState) error {
+	ctx := context.Background()
+
+	if _, err := a.client.CreateWorkReview(ctx, workID, &title, body, &overall, &anim, &music, &story, &chara); err != nil {
+		return err
+	}
+
+	return nil
+}

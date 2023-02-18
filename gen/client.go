@@ -95,6 +95,9 @@ type UpdateWorkState_UpdateStatus struct {
 type CreateEpisodeRecord_CreateRecord struct {
 	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
 }
+type CreateWorkReview_CreateReview struct {
+	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+}
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
@@ -138,6 +141,9 @@ type HogeUpdateWorkStatePayload struct {
 }
 type HogeCreateEpisodeRecordPayload struct {
 	CreateRecord *CreateEpisodeRecord_CreateRecord "json:\"createRecord\" graphql:\"createRecord\""
+}
+type HogeCreateWorkReviewPayload struct {
+	CreateReview *CreateWorkReview_CreateReview "json:\"createReview\" graphql:\"createReview\""
 }
 type SearchWorksByKeyword struct {
 	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
@@ -192,6 +198,33 @@ func (c *Client) CreateEpisodeRecord(ctx context.Context, episodeID string, rati
 
 	var res HogeCreateEpisodeRecordPayload
 	if err := c.Client.Post(ctx, "CreateEpisodeRecord", CreateEpisodeRecordDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const CreateWorkReviewDocument = `mutation CreateWorkReview ($workId: ID!, $title: String, $body: String!, $ratingOverall: RatingState, $ratingAnim: RatingState, $ratingMusic: RatingState, $ratingStory: RatingState, $ratingChara: RatingState) {
+	createReview(input: {workId:$workId,title:$title,body:$body,ratingAnimationState:$ratingAnim,ratingCharacterState:$ratingChara,ratingMusicState:$ratingMusic,ratingOverallState:$ratingOverall,ratingStoryState:$ratingStory}) {
+		clientMutationId
+	}
+}
+`
+
+func (c *Client) CreateWorkReview(ctx context.Context, workID string, title *string, body string, ratingOverall *RatingState, ratingAnim *RatingState, ratingMusic *RatingState, ratingStory *RatingState, ratingChara *RatingState, interceptors ...clientv2.RequestInterceptor) (*HogeCreateWorkReviewPayload, error) {
+	vars := map[string]interface{}{
+		"workId":        workID,
+		"title":         title,
+		"body":          body,
+		"ratingOverall": ratingOverall,
+		"ratingAnim":    ratingAnim,
+		"ratingMusic":   ratingMusic,
+		"ratingStory":   ratingStory,
+		"ratingChara":   ratingChara,
+	}
+
+	var res HogeCreateWorkReviewPayload
+	if err := c.Client.Post(ctx, "CreateWorkReview", CreateWorkReviewDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 

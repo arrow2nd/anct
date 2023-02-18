@@ -15,3 +15,29 @@ mutation CreateEpisodeRecord(
     clientMutationId
   }
 }
+
+mutation CreateWorkReview(
+  $workId: ID!
+  $title: String
+  $body: String!
+  $ratingOverall: RatingState
+  $ratingAnim: RatingState
+  $ratingMusic: RatingState
+  $ratingStory: RatingState
+  $ratingChara: RatingState
+) {
+  createReview(
+    input: {
+      workId: $workId
+      title: $title
+      body: $body
+      ratingAnimationState: $ratingAnim
+      ratingCharacterState: $ratingChara
+      ratingMusicState: $ratingMusic
+      ratingOverallState: $ratingOverall
+      ratingStoryState: $ratingStory
+    }
+  ) {
+    clientMutationId
+  }
+}

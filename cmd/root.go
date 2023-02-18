@@ -28,6 +28,7 @@ func New(t *api.Token) *Command {
 		c.newCmdInfo(),
 		c.newCmdStatus(),
 		c.newCmdRecord(),
+		c.newCmdReview(),
 		c.newCmdVersion(),
 	)
 
