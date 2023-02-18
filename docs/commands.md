@@ -20,17 +20,6 @@ Annict との認証を解除します
 
 ---
 
-### 検索共通 flags
-
-- `-e` `--editor`
-  - クエリの入力に外部エディタを使用する
-- `-l` `--limit int`
-  - 表示件数を指定する
-- `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
-  - ライブラリ内を検索対象にする
-- `--season YYYY-{spring|summer|autumn|winter}`
-  - 放送シーズンを指定する
-
 ## info
 
 ```
@@ -40,6 +29,15 @@ anct info [<query>] [flags]
 作品の詳細を出力します
 
 #### flags
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `-L` --library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `-S` `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
 
 ## status
 
@@ -53,6 +51,17 @@ anct status [<query>] [flags]
 
 - `--state {wanna_watch|watching|watched|on_hold|stop_watching|no_state}`
   - 視聴ステータス
+
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `-L` --library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `-S` `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
 
 ## review
 
@@ -77,6 +86,17 @@ anct review [<query>] [flags]
 - `--comment string`
   - コメント
 
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `-L` --library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `-S` `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
+
 ## record
 
 ```
@@ -90,11 +110,20 @@ anct record [<query>] [flags]
 
 ### flags
 
-- `--id string`
-  - 作品 ID
-- `--episodes int`
-  - 話数 (複数指定可能)
-- `--rating {great|good|average|bad}`
+- `-r` ``--rating {great|good|average|bad}`
   - 評価
-- `--comment string`
+- `-c` ``--comment string`
   - コメント
+- `-u` `--unwatch`
+  - 視聴中作品の未視聴エピソードから選択する
+
+---
+
+- `-e` `--editor`
+  - クエリの入力に外部エディタを使用する
+- `-l` `--limit int`
+  - 表示件数を指定する
+- `-L` --library {wanna_watch|watching|watched|on_hold|stop_watching}`
+  - ライブラリ内を検索対象にする
+- `-S` `--season YYYY-{spring|summer|autumn|winter}`
+  - 放送シーズンを指定する
