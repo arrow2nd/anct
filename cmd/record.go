@@ -15,8 +15,8 @@ func (c *Command) newCmdRecord() *cobra.Command {
 	}
 
 	cmdutil.SetSearchFlags(r.Flags())
-	r.Flags().StringP("rating", "R", "", "Episode rating: {great|good|average|bad}")
-	r.Flags().StringP("comment", "C", "", "Comment")
+	r.Flags().StringP("rating", "r", "", "Episode rating: {great|good|average|bad}")
+	r.Flags().StringP("comment", "c", "", "Comment")
 
 	return r
 }

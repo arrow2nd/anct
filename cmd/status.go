@@ -15,7 +15,7 @@ func (c *Command) newCmdStatus() *cobra.Command {
 	}
 
 	cmdutil.SetSearchFlags(s.Flags())
-	s.Flags().StringP("state", "", "", "Update status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
+	s.Flags().StringP("state", "s", "", "Update status state: {wanna_watch|watching|watched|on_hold|stop_watching|no_state}")
 
 	return s
 }
