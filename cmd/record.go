@@ -10,7 +10,7 @@ func (c *Command) newCmdRecord() *cobra.Command {
 	r := &cobra.Command{
 		Use:     "record [<query>]",
 		Short:   "Record the watching of episode",
-		Example: "  anct record お兄ちゃんはおしまい",
+		Example: "  anct record お兄ちゃんはおしまい！",
 		RunE:    c.recordRun,
 	}
 
