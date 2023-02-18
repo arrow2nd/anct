@@ -8,17 +8,30 @@ fragment WorkFragment on Work {
   viewerStatusState
 }
 
+fragment EpisodeFragment on Episode {
+  id
+  number
+  numberText
+  title
+  viewerRecordsCount
+}
+
 fragment WorkEpisodesFragment on Work {
   episodes(orderBy: { direction: ASC, field: SORT_NUMBER }) {
     nodes {
-      id
-      number
-      numberText
-      title
-      viewerRecordsCount
+      ...EpisodeFragment
     }
   }
   noEpisodes
+}
+
+fragment UnwatchLibraryEntryFragment on LibraryEntry {
+  work {
+    title
+  }
+  nextEpisode {
+    ...EpisodeFragment
+  }
 }
 
 fragment WorkInfoFragment on Work {

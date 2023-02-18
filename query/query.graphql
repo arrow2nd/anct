@@ -27,6 +27,19 @@ query FetchWorkEpisodes($annictId: Int!) {
   }
 }
 
+query FetchUnwatchEpisodes {
+  viewer {
+    libraryEntries(
+      states: [WATCHING]
+      orderBy: { direction: DESC, field: LAST_TRACKED_AT }
+    ) {
+      nodes {
+        ...UnwatchLibraryEntryFragment
+      }
+    }
+  }
+}
+
 query FetchUserLibrary(
   $states: [StatusState!]
   $seasons: [String!]

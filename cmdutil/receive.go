@@ -16,17 +16,19 @@ import (
 
 // ReceiveAllSearchFlags : 全ての検索フラグの値を受け取る
 func ReceiveAllSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bool, error) {
-	// シーズン指定の書式をチェック
 	seasons, _ := p.GetStringSlice("seasons")
+
+	// シーズン指定の書式をチェック
 	for _, s := range seasons {
 		if err := validateSeasonFormat(s); err != nil {
 			return nil, nil, 0, false, err
 		}
 	}
 
-	// ライブラリの視聴ステータス文字列を変換
 	stateStrs, _ := p.GetStringSlice("library")
 	states := []gen.StatusState{}
+
+	// ライブラリの視聴ステータス文字列を変換
 	for _, stateStr := range stateStrs {
 		s, err := StringToStatusState(stateStr, false)
 		if err != nil {
@@ -37,6 +39,7 @@ func ReceiveAllSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64
 
 	useEditor, _ := p.GetBool("editor")
 	limit, _ := p.GetInt64("limit")
+
 	return states, seasons, limit, useEditor, nil
 }
 
@@ -50,6 +53,7 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 		if err != nil {
 			return "", err
 		}
+
 		keyword = strings.TrimSpace(string(stdin))
 	}
 
@@ -59,6 +63,7 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 		if err != nil {
 			return "", err
 		}
+
 		keyword = s
 	}
 
@@ -68,6 +73,7 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 
 	// 全ての空白文字を半角スペースに置換
 	r := regexp.MustCompile(`\s`)
+
 	return r.ReplaceAllString(keyword, " "), nil
 }
 
@@ -75,14 +81,27 @@ func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error
 func ReceiveRating(p *pflag.FlagSet) (gen.RatingState, error) {
 	rating, _ := p.GetString("rating")
 
+	// 指定されていない場合対話形式で聞く
 	if rating == "" {
-		// 指定されていない場合対話形式で聞く
 		r, err := view.SelectRating()
 		if err != nil {
 			return "", err
 		}
+
 		rating = r
 	}
 
 	return StringToRatingState(rating)
+}
+
+// ReceiveComment : コメントを受け取る
+func ReceiveComment(p *pflag.FlagSet) (string, error) {
+	comment, _ := p.GetString("comment")
+
+	// 指定されていなければエディタを開く
+	if comment == "" {
+		return view.InputTextInEditor("Enter your comments")
+	}
+
+	return comment, nil
 }

@@ -46,9 +46,20 @@ type WorkFragment struct {
 	SeasonYear        *int64       "json:\"seasonYear\" graphql:\"seasonYear\""
 	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
 }
+type EpisodeFragment struct {
+	ID                 string  "json:\"id\" graphql:\"id\""
+	Number             *int64  "json:\"number\" graphql:\"number\""
+	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
+	Title              *string "json:\"title\" graphql:\"title\""
+	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
+}
 type WorkEpisodesFragment struct {
 	Episodes   *WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
 	NoEpisodes bool                           "json:\"noEpisodes\" graphql:\"noEpisodes\""
+}
+type UnwatchLibraryEntryFragment struct {
+	Work        UnwatchLibraryEntryFragment_Work "json:\"work\" graphql:\"work\""
+	NextEpisode *EpisodeFragment                 "json:\"nextEpisode\" graphql:\"nextEpisode\""
 }
 type WorkInfoFragment struct {
 	AnnictID          int64                                           "json:\"annictId\" graphql:\"annictId\""
@@ -64,25 +75,14 @@ type WorkInfoFragment struct {
 	OfficialSiteURL   *string                                         "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
 	WatchersCount     int64                                           "json:\"watchersCount\" graphql:\"watchersCount\""
 }
-type WorkEpisodesFragment_Episodes_Nodes struct {
-	ID                 string  "json:\"id\" graphql:\"id\""
-	Number             *int64  "json:\"number\" graphql:\"number\""
-	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
-	Title              *string "json:\"title\" graphql:\"title\""
-	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
-}
 type WorkEpisodesFragment_Episodes struct {
-	Nodes []*WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
 }
-type WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID                 string  "json:\"id\" graphql:\"id\""
-	Number             *int64  "json:\"number\" graphql:\"number\""
-	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
-	Title              *string "json:\"title\" graphql:\"title\""
-	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
+type UnwatchLibraryEntryFragment_Work struct {
+	Title string "json:\"title\" graphql:\"title\""
 }
 type WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
-	Nodes []*WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type WorkInfoFragment_Image struct {
 	Copyright           *string "json:\"copyright\" graphql:\"copyright\""
@@ -98,15 +98,8 @@ type CreateEpisodeRecord_CreateRecord struct {
 type SearchWorksByKeyword_SearchWorks struct {
 	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
 }
-type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID                 string  "json:\"id\" graphql:\"id\""
-	Number             *int64  "json:\"number\" graphql:\"number\""
-	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
-	Title              *string "json:\"title\" graphql:\"title\""
-	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
-}
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
-	Nodes []*FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_Image struct {
 	Copyright           *string "json:\"copyright\" graphql:\"copyright\""
@@ -116,18 +109,20 @@ type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_Image struct {
 type FetchWorkInfo_SearchWorks struct {
 	Nodes []*WorkInfoFragment "json:\"nodes\" graphql:\"nodes\""
 }
-type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes struct {
-	ID                 string  "json:\"id\" graphql:\"id\""
-	Number             *int64  "json:\"number\" graphql:\"number\""
-	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
-	Title              *string "json:\"title\" graphql:\"title\""
-	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
-}
 type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes struct {
-	Nodes []*FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
 }
 type FetchWorkEpisodes_SearchWorks struct {
 	Nodes []*WorkEpisodesFragment "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchUnwatchEpisodes_Viewer_LibraryEntries_Nodes_UnwatchLibraryEntryFragment_Work struct {
+	Title string "json:\"title\" graphql:\"title\""
+}
+type FetchUnwatchEpisodes_Viewer_LibraryEntries struct {
+	Nodes []*UnwatchLibraryEntryFragment "json:\"nodes\" graphql:\"nodes\""
+}
+type FetchUnwatchEpisodes_Viewer struct {
+	LibraryEntries *FetchUnwatchEpisodes_Viewer_LibraryEntries "json:\"libraryEntries\" graphql:\"libraryEntries\""
 }
 type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
 	Work *WorkFragment "json:\"work\" graphql:\"work\""
@@ -152,6 +147,9 @@ type FetchWorkInfo struct {
 }
 type FetchWorkEpisodes struct {
 	SearchWorks *FetchWorkEpisodes_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+}
+type FetchUnwatchEpisodes struct {
+	Viewer *FetchUnwatchEpisodes_Viewer "json:\"viewer\" graphql:\"viewer\""
 }
 type FetchUserLibrary struct {
 	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
@@ -263,14 +261,17 @@ fragment WorkFragment on Work {
 fragment WorkEpisodesFragment on Work {
 	episodes(orderBy: {direction:ASC,field:SORT_NUMBER}) {
 		nodes {
-			id
-			number
-			numberText
-			title
-			viewerRecordsCount
+			... EpisodeFragment
 		}
 	}
 	noEpisodes
+}
+fragment EpisodeFragment on Episode {
+	id
+	number
+	numberText
+	title
+	viewerRecordsCount
 }
 `
 
@@ -297,14 +298,17 @@ const FetchWorkEpisodesDocument = `query FetchWorkEpisodes ($annictId: Int!) {
 fragment WorkEpisodesFragment on Work {
 	episodes(orderBy: {direction:ASC,field:SORT_NUMBER}) {
 		nodes {
-			id
-			number
-			numberText
-			title
-			viewerRecordsCount
+			... EpisodeFragment
 		}
 	}
 	noEpisodes
+}
+fragment EpisodeFragment on Episode {
+	id
+	number
+	numberText
+	title
+	viewerRecordsCount
 }
 `
 
@@ -315,6 +319,43 @@ func (c *Client) FetchWorkEpisodes(ctx context.Context, annictID int64, intercep
 
 	var res FetchWorkEpisodes
 	if err := c.Client.Post(ctx, "FetchWorkEpisodes", FetchWorkEpisodesDocument, &res, vars, interceptors...); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const FetchUnwatchEpisodesDocument = `query FetchUnwatchEpisodes {
+	viewer {
+		libraryEntries(states: [WATCHING], orderBy: {direction:DESC,field:LAST_TRACKED_AT}) {
+			nodes {
+				... UnwatchLibraryEntryFragment
+			}
+		}
+	}
+}
+fragment UnwatchLibraryEntryFragment on LibraryEntry {
+	work {
+		title
+	}
+	nextEpisode {
+		... EpisodeFragment
+	}
+}
+fragment EpisodeFragment on Episode {
+	id
+	number
+	numberText
+	title
+	viewerRecordsCount
+}
+`
+
+func (c *Client) FetchUnwatchEpisodes(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*FetchUnwatchEpisodes, error) {
+	vars := map[string]interface{}{}
+
+	var res FetchUnwatchEpisodes
+	if err := c.Client.Post(ctx, "FetchUnwatchEpisodes", FetchUnwatchEpisodesDocument, &res, vars, interceptors...); err != nil {
 		return nil, err
 	}
 

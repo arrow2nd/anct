@@ -556,12 +556,12 @@ type Record struct {
 	Work               Work         `json:"work"`
 }
 
+func (Record) IsActivityItem() {}
+
 func (Record) IsNode() {}
 
 // ID of the object.
 func (this Record) GetID() string { return this.ID }
-
-func (Record) IsActivityItem() {}
 
 // The connection type for Record.
 type RecordConnection struct {

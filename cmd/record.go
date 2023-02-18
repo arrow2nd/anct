@@ -15,6 +15,8 @@ func (c *Command) newCmdRecord() *cobra.Command {
 	}
 
 	cmdutil.SetSearchFlags(r.Flags())
+
+	r.Flags().BoolP("unwatch", "u", false, "Select from the unwatched episodes of the work you are watching")
 	r.Flags().StringP("rating", "r", "", "Episode rating: {great|good|average|bad}")
 	r.Flags().StringP("comment", "c", "", "Comment")
 
@@ -22,39 +24,41 @@ func (c *Command) newCmdRecord() *cobra.Command {
 }
 
 func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
-	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
-	if err != nil {
-		return err
-	}
-
-	work, err := c.api.FetchWorkEpisodes(annictID)
-	if err != nil {
-		return err
-	}
+	unwatch, _ := cmd.Flags().GetBool("unwatch")
+	episodeIDs := []string{}
 
 	// 記録するエピソードを選択
-	episodeIDs, err := view.SelectEpisodes(work)
-	if err != nil {
-		return err
+	if unwatch {
+		id, err := c.recordSelectUnwatchEpisord()
+		if err != nil {
+			return err
+		}
+
+		episodeIDs = []string{id}
+	} else {
+		ids, err := c.recordSelectEpisodes(cmd, args)
+		if err != nil {
+			return err
+		}
+
+		episodeIDs = ids
 	}
 
-	// 評価を取得
+	// 評価
 	rating, err := cmdutil.ReceiveRating(cmd.Flags())
 	if err != nil {
 		return err
 	}
 
-	// コメントを取得
-	comment, _ := cmd.Flags().GetString("comment")
-	if len(episodeIDs) > 1 {
-		// 一括記録の場合コメントはつけない
-		comment = ""
-	} else if comment == "" {
-		// 指定されていなければエディタを開く
-		c, err := view.InputTextInEditor("Enter your comments")
+	// コメント
+	comment := ""
+	if len(episodeIDs) == 1 {
+		// 記録するエピソードが1つの時のみコメントを受け取る
+		c, err := cmdutil.ReceiveComment(cmd.Flags())
 		if err != nil {
 			return err
 		}
+
 		comment = c
 	}
 
@@ -65,7 +69,32 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 	}
 
 	spinner.Stop()
-
 	view.PrintDone(cmd.OutOrStdout(), "Recorded!")
+
 	return nil
+}
+
+// recordSelectEpisodes : 検索結果から記録するエピソードを選択
+func (c *Command) recordSelectEpisodes(cmd *cobra.Command, args []string) ([]string, error) {
+	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
+	if err != nil {
+		return nil, err
+	}
+
+	work, err := c.api.FetchWorkEpisodes(annictID)
+	if err != nil {
+		return nil, err
+	}
+
+	return view.SelectEpisodes(work)
+}
+
+// recordSelectUnwatchEpisord : 未視聴のエピソードから選択
+func (c *Command) recordSelectUnwatchEpisord() (string, error) {
+	unwatchEpisodes, err := c.api.FetchUnwatchEpisodes()
+	if err != nil {
+		return "", err
+	}
+
+	return view.SelectUnwatchEpisode(unwatchEpisodes)
 }

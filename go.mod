@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.6
 	github.com/BurntSushi/toml v1.2.1
+	github.com/briandowns/spinner v1.21.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
 	github.com/spf13/cobra v1.6.1
@@ -12,7 +13,6 @@ require (
 )
 
 require (
-	github.com/briandowns/spinner v1.21.0 // indirect
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
