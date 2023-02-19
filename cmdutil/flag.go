@@ -7,8 +7,8 @@ import (
 
 // SetCommonFlags : 全体共通フラグを設定
 func SetCommonFlags(p *pflag.FlagSet) {
-	p.BoolP("editor", "e", false, "Use an external editor to enter text")
-	p.Int64P("limit", "l", 30, "Maximum number of results to fetch")
+	p.BoolP("editor", "e", false, "use an external editor to enter text")
+	p.Int64P("limit", "l", 30, "maximum number of results to fetch")
 }
 
 // SetSearchFlags : 検索関連フラグを設定
@@ -19,13 +19,13 @@ func SetSearchFlags(p *pflag.FlagSet) {
 		"seasons",
 		"S",
 		[]string{},
-		"Retrieve works for a given season: YYYY-{spring|summer|autumn|winter}",
+		"retrieve works for a given season: YYYY-{spring|summer|autumn|winter}",
 	)
 
 	p.StringSliceP("library",
 		"L",
 		[]string{},
-		"Search within the library: {wanna_watch|watching|watched|on_hold|stop_watching}",
+		"search within the library: {wanna_watch|watching|watched|on_hold|stop_watching}",
 	)
 }
 

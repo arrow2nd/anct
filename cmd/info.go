@@ -9,7 +9,7 @@ import (
 func (c *Command) newCmdInfo() *cobra.Command {
 	info := &cobra.Command{
 		Use:     "info [<query>]",
-		Short:   "View information about the work",
+		Short:   "Display information about the work",
 		Example: "  anct info ARIA --seasons 2005-autumn",
 		RunE:    c.infoRun,
 	}

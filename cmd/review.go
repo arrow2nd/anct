@@ -17,12 +17,12 @@ func (c *Command) newCmdReview() *cobra.Command {
 
 	cmdutil.SetSearchFlags(r.Flags())
 
-	r.Flags().StringP("rating-overall", "", "", "Overall rating: {great|good|average|bad}")
-	r.Flags().StringP("rating-movie", "", "", "Move rating: {great|good|average|bad}")
-	r.Flags().StringP("rating-character", "", "", "Character rating: {great|good|average|bad}")
-	r.Flags().StringP("rating-story", "", "", "Story rating: {great|good|average|bad}")
-	r.Flags().StringP("rating-music", "", "", "Music rating: {great|good|average|bad}")
-	r.Flags().StringP("body", "b", "", "Body")
+	r.Flags().StringP("rating-overall", "", "", "overall rating: {great|good|average|bad}")
+	r.Flags().StringP("rating-movie", "", "", "move rating: {great|good|average|bad}")
+	r.Flags().StringP("rating-character", "", "", "character rating: {great|good|average|bad}")
+	r.Flags().StringP("rating-story", "", "", "story rating: {great|good|average|bad}")
+	r.Flags().StringP("rating-music", "", "", "music rating: {great|good|average|bad}")
+	r.Flags().StringP("body", "b", "", "body")
 
 	return r
 }

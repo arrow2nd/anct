@@ -16,9 +16,9 @@ func (c *Command) newCmdRecord() *cobra.Command {
 
 	cmdutil.SetSearchFlags(r.Flags())
 
-	r.Flags().BoolP("unwatch", "u", false, "Select from the unwatched episodes of the work you are watching")
-	r.Flags().StringP("rating", "r", "", "Episode rating: {great|good|average|bad}")
-	r.Flags().StringP("comment", "c", "", "Comment")
+	r.Flags().BoolP("unwatch", "u", false, "select from the unwatched episodes of the work you are watching")
+	r.Flags().StringP("rating", "r", "", "episode rating: {great|good|average|bad}")
+	r.Flags().StringP("comment", "c", "", "comment")
 
 	return r
 }
