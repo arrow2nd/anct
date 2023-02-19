@@ -53,7 +53,7 @@ func getAllSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bo
 
 	// ライブラリの視聴ステータス文字列を変換
 	for _, stateStr := range stateStrs {
-		s, err := StringToStatusState(stateStr, false)
+		s, err := Convert2StatusState(stateStr, false)
 		if err != nil {
 			return nil, nil, 0, false, err
 		}

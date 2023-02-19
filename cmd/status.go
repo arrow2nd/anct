@@ -37,7 +37,7 @@ func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
 		stateStr = s
 	}
 
-	state, err := cmdutil.StringToStatusState(stateStr, true)
+	state, err := cmdutil.Convert2StatusState(stateStr, true)
 	if err != nil {
 		return err
 	}

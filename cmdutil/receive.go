@@ -44,7 +44,7 @@ func ReceiveRating(p *pflag.FlagSet, flagName string) (gen.RatingState, error) {
 
 	// 指定されていない場合対話形式で聞く
 	if rating == "" {
-		m := StringToUpperFirstLetter(flagName)
+		m := ConvertToUpperFirstLetter(flagName)
 		r, err := view.SelectRating(m)
 		if err != nil {
 			return "", err
@@ -53,7 +53,7 @@ func ReceiveRating(p *pflag.FlagSet, flagName string) (gen.RatingState, error) {
 		rating = r
 	}
 
-	return StringToRatingState(rating)
+	return convertToRatingState(rating)
 }
 
 // ReceiveBody : フラグから Body を受け取る
@@ -62,7 +62,7 @@ func ReceiveBody(p *pflag.FlagSet, flagName string) (string, error) {
 
 	// 指定されていなければエディタを開く
 	if text == "" {
-		return view.InputTextInEditor(StringToUpperFirstLetter(flagName))
+		return view.InputTextInEditor(ConvertToUpperFirstLetter(flagName))
 	}
 
 	return text, nil
