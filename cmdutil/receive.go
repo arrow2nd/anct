@@ -14,13 +14,13 @@ import (
 
 // receiveQuery : クエリを受け取る
 func receiveQuery(m string, args []string, useEditor, allowEmpty bool) (string, error) {
-	// 引数
+	// 引数から
 	query := strings.Join(args, " ")
 	if query != "" {
 		return query, nil
 	}
 
-	// 標準入力
+	// 標準入力から
 	if !term.IsTerminal(int(syscall.Stdin)) {
 		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
@@ -30,17 +30,12 @@ func receiveQuery(m string, args []string, useEditor, allowEmpty bool) (string, 
 		return string(stdin), nil
 	}
 
-	// プロンプト or エディタ
-	return ReceiveText(m, useEditor, allowEmpty)
-}
-
-// ReceiveText : プロンプト・外部エディタから文字列を受け取る
-func ReceiveText(m string, useEditor, allowEmpty bool) (string, error) {
+	// エディタから
 	if useEditor {
 		return view.InputTextInEditor(m)
 	}
 
-	return view.InputText(m, allowEmpty)
+	return "", nil
 }
 
 // ReceiveRating : 評価を受け取る
