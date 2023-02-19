@@ -52,17 +52,15 @@ DATA
    WATCHERS:   {{.WatchersCount}}
    STATUS:     {{.ViewerStatusState}}
 
-{{if not .NoEpisodes -}}
 EPISODES
 --------
-   {{if .Episodes.Nodes -}}
+   {{if and (not .NoEpisodes) .Episodes.Nodes -}}
    {{range $i, $ep := .Episodes.Nodes -}}
    {{.NumberText}}  {{.Title}}
    {{end -}}
    {{else -}}
    None yet.
    {{end}}
-{{- end}}
 `
 
 	t, err := template.New("work_info").Funcs(funcMap).Parse(temp)
