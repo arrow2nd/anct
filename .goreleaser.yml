@@ -35,21 +35,21 @@ brews:
     url_template: "https://github.com/arrow2nd/anct/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     folder: Formula
     homepage: "https://arrow2nd.com/works/anct"
-    description: "TUI Twitter client 🐈"
+    description: "💊 Unofficial CLI Client of Annict"
     license: "MIT"
     test: |
-      system "#{bin}/nekome -v"
+      system "#{bin}/anct -v"
     install: |
-      bin.install "nekome"
+      bin.install "anct"
 
 scoop:
   bucket:
     owner: arrow2nd
     name: scoop-bucket
     token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
-  url_template: "https://github.com/arrow2nd/nekome/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-  homepage: "https://arrow2nd.com/works/nekome"
-  description: "TUI Twitter client 🐈"
+  url_template: "https://github.com/arrow2nd/anct/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+  homepage: "https://arrow2nd.com/works/anct"
+  description: "💊 Unofficial CLI Client of Annict"
   license: "MIT"
 
 checksum:
