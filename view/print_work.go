@@ -42,14 +42,15 @@ func PrintWorkInfo(w io.Writer, info *gen.WorkInfoFragment) error {
    TITLE:  {{.Title}}
    MEDIA:  {{.Media}}
    SEASON: {{season}}
-   WEB:    {{url}}
+   URL:    {{url}}
 
 DATA
 ----
-   ANNICT ID: {{.AnnictID}}
-   WORK ID:   {{.ID}}
-   WATCHERS:  {{.WatchersCount}}
-   STATUS:    {{.ViewerStatusState}}
+   WORK ID:    {{.ID}}
+   ANNICT ID:  {{.AnnictID}}
+   ANNICT URL: https://annict.com/works/{{.AnnictID}}
+   WATCHERS:   {{.WatchersCount}}
+   STATUS:     {{.ViewerStatusState}}
 
 {{if not .NoEpisodes -}}
 EPISODES
