@@ -8,6 +8,5 @@
 
 ```
 export ANNICT_KEY=<API Key>
-go get -u github.com/Yamashou/gqlgenc
 make generate
 ```
