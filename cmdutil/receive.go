@@ -44,12 +44,13 @@ func ReceiveText(m string, useEditor, allowEmpty bool) (string, error) {
 }
 
 // ReceiveRating : 評価を受け取る
-func ReceiveRating(p *pflag.FlagSet) (gen.RatingState, error) {
-	rating, _ := p.GetString("rating")
+func ReceiveRating(p *pflag.FlagSet, flagName string) (gen.RatingState, error) {
+	rating, _ := p.GetString(flagName)
 
 	// 指定されていない場合対話形式で聞く
 	if rating == "" {
-		r, err := view.SelectRating()
+		m := StringToUpperFirstLetter(flagName)
+		r, err := view.SelectRating(m)
 		if err != nil {
 			return "", err
 		}
@@ -60,14 +61,14 @@ func ReceiveRating(p *pflag.FlagSet) (gen.RatingState, error) {
 	return StringToRatingState(rating)
 }
 
-// ReceiveComment : コメントを受け取る
-func ReceiveComment(p *pflag.FlagSet) (string, error) {
-	comment, _ := p.GetString("comment")
+// ReceiveBody : フラグから Body を受け取る
+func ReceiveBody(p *pflag.FlagSet, flagName string) (string, error) {
+	text, _ := p.GetString(flagName)
 
 	// 指定されていなければエディタを開く
-	if comment == "" {
-		return view.InputTextInEditor("Comment")
+	if text == "" {
+		return view.InputTextInEditor(StringToUpperFirstLetter(flagName))
 	}
 
-	return comment, nil
+	return text, nil
 }

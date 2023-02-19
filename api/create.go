@@ -38,10 +38,10 @@ func (a *API) CreateEpisodeRecords(episodeIDs []string, rating gen.RatingState, 
 }
 
 // CreateWorkReview : 作品のレビューを作成
-func (a *API) CreateWorkReview(workID, title, body string, overall, anim, music, story, chara gen.RatingState) error {
+func (a *API) CreateWorkReview(workID, body string, overall, movie, chara, story, music gen.RatingState) error {
 	ctx := context.Background()
 
-	if _, err := a.client.CreateWorkReview(ctx, workID, &title, body, &overall, &anim, &music, &story, &chara); err != nil {
+	if _, err := a.client.CreateWorkReview(ctx, workID, body, &overall, &movie, &chara, &story, &music); err != nil {
 		return err
 	}
 

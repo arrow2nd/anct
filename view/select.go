@@ -21,7 +21,7 @@ func SelectStatus(allowNoState bool) (string, error) {
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose a status",
+		Message: "Status",
 		Options: opts,
 	}
 
@@ -35,14 +35,14 @@ func SelectStatus(allowNoState bool) (string, error) {
 }
 
 // SelectRating : 評価を選択
-func SelectRating() (string, error) {
+func SelectRating(m string) (string, error) {
 	opts := []string{}
 	for _, rating := range gen.AllRatingState {
 		opts = append(opts, rating.String())
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose a rating",
+		Message: m,
 		Options: opts,
 	}
 
@@ -63,7 +63,7 @@ func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose a work",
+		Message: "Work",
 		Options: opts,
 		Description: func(_ string, index int) string {
 			if index < 0 || index > len(works) {
@@ -107,7 +107,7 @@ func SelectEpisodes(work *gen.WorkEpisodesFragment) ([]string, error) {
 	}
 
 	prompt := &survey.MultiSelect{
-		Message: "Choose a episode",
+		Message: "Episode",
 		Options: opts,
 	}
 
@@ -138,7 +138,7 @@ func SelectUnwatchEpisode(entries []*gen.UnwatchLibraryEntryFragment) (string, e
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose a episode",
+		Message: "Episode",
 		Options: opts,
 		Description: func(_ string, i int) string {
 			if i < 0 || i > len(entries) {

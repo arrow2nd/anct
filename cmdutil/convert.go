@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/arrow2nd/anct/gen"
 )
@@ -14,6 +15,7 @@ func StringToStatusState(s string, allowNoState bool) (gen.StatusState, error) {
 		if !allowNoState && status == gen.StatusStateNoState {
 			continue
 		}
+
 		if status.String() == strings.ToUpper(s) {
 			return status, nil
 		}
@@ -31,6 +33,14 @@ func StringToRatingState(s string) (gen.RatingState, error) {
 	}
 
 	return "", fmt.Errorf("incorrect rating (%s)", s)
+}
+
+// StringToUpperFirstLetter : 頭文字を大文字に変換
+func StringToUpperFirstLetter(s string) string {
+	r := []rune(s)
+	r[0] = unicode.ToUpper(r[0])
+
+	return string(r)
 }
 
 // StripWhiteSpace : 改行・空白文字を削除

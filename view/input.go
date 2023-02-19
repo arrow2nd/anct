@@ -9,16 +9,16 @@ import (
 
 // Confirm : 確認ダイアログ
 func Confirm(m string) (bool, error) {
-	result := false
 	prompt := &survey.Confirm{
 		Message: m,
 	}
 
-	if err := survey.AskOne(prompt, &result); err != nil {
+	ok := false
+	if err := survey.AskOne(prompt, &ok); err != nil {
 		return false, err
 	}
 
-	return result, nil
+	return ok, nil
 }
 
 // InputText : テキストを入力
@@ -46,16 +46,15 @@ func InputText(m string, allowEmpty bool) (string, error) {
 
 // InputTextInEditor : エディタを開いて文字を入力
 func InputTextInEditor(m string) (string, error) {
-	s := ""
-
 	prompt := &survey.Editor{
 		Message:  m,
 		FileName: "*.txt",
 	}
 
-	if err := survey.AskOne(prompt, &s); err != nil {
+	text := ""
+	if err := survey.AskOne(prompt, &text); err != nil {
 		return "", err
 	}
 
-	return strings.TrimSpace(s), nil
+	return strings.TrimSpace(text), nil
 }

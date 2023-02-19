@@ -18,20 +18,18 @@ mutation CreateEpisodeRecord(
 
 mutation CreateWorkReview(
   $workId: ID!
-  $title: String
   $body: String!
   $ratingOverall: RatingState
-  $ratingAnim: RatingState
-  $ratingMusic: RatingState
-  $ratingStory: RatingState
+  $ratingMovie: RatingState
   $ratingChara: RatingState
+  $ratingStory: RatingState
+  $ratingMusic: RatingState
 ) {
   createReview(
     input: {
       workId: $workId
-      title: $title
       body: $body
-      ratingAnimationState: $ratingAnim
+      ratingAnimationState: $ratingMovie
       ratingCharacterState: $ratingChara
       ratingMusicState: $ratingMusic
       ratingOverallState: $ratingOverall

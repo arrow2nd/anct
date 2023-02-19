@@ -204,23 +204,22 @@ func (c *Client) CreateEpisodeRecord(ctx context.Context, episodeID string, rati
 	return &res, nil
 }
 
-const CreateWorkReviewDocument = `mutation CreateWorkReview ($workId: ID!, $title: String, $body: String!, $ratingOverall: RatingState, $ratingAnim: RatingState, $ratingMusic: RatingState, $ratingStory: RatingState, $ratingChara: RatingState) {
-	createReview(input: {workId:$workId,title:$title,body:$body,ratingAnimationState:$ratingAnim,ratingCharacterState:$ratingChara,ratingMusicState:$ratingMusic,ratingOverallState:$ratingOverall,ratingStoryState:$ratingStory}) {
+const CreateWorkReviewDocument = `mutation CreateWorkReview ($workId: ID!, $body: String!, $ratingOverall: RatingState, $ratingMovie: RatingState, $ratingChara: RatingState, $ratingStory: RatingState, $ratingMusic: RatingState) {
+	createReview(input: {workId:$workId,body:$body,ratingAnimationState:$ratingMovie,ratingCharacterState:$ratingChara,ratingMusicState:$ratingMusic,ratingOverallState:$ratingOverall,ratingStoryState:$ratingStory}) {
 		clientMutationId
 	}
 }
 `
 
-func (c *Client) CreateWorkReview(ctx context.Context, workID string, title *string, body string, ratingOverall *RatingState, ratingAnim *RatingState, ratingMusic *RatingState, ratingStory *RatingState, ratingChara *RatingState, interceptors ...clientv2.RequestInterceptor) (*HogeCreateWorkReviewPayload, error) {
+func (c *Client) CreateWorkReview(ctx context.Context, workID string, body string, ratingOverall *RatingState, ratingMovie *RatingState, ratingChara *RatingState, ratingStory *RatingState, ratingMusic *RatingState, interceptors ...clientv2.RequestInterceptor) (*HogeCreateWorkReviewPayload, error) {
 	vars := map[string]interface{}{
 		"workId":        workID,
-		"title":         title,
 		"body":          body,
 		"ratingOverall": ratingOverall,
-		"ratingAnim":    ratingAnim,
-		"ratingMusic":   ratingMusic,
-		"ratingStory":   ratingStory,
+		"ratingMovie":   ratingMovie,
 		"ratingChara":   ratingChara,
+		"ratingStory":   ratingStory,
+		"ratingMusic":   ratingMusic,
 	}
 
 	var res HogeCreateWorkReviewPayload

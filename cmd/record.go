@@ -24,11 +24,10 @@ func (c *Command) newCmdRecord() *cobra.Command {
 }
 
 func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
-	unwatch, _ := cmd.Flags().GetBool("unwatch")
 	episodeIDs := []string{}
 
 	// 記録するエピソードを選択
-	if unwatch {
+	if unwatch, _ := cmd.Flags().GetBool("unwatch"); unwatch {
 		id, err := c.recordSelectUnwatchEpisord()
 		if err != nil {
 			return err
@@ -45,7 +44,7 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 	}
 
 	// 評価
-	rating, err := cmdutil.ReceiveRating(cmd.Flags())
+	rating, err := cmdutil.ReceiveRating(cmd.Flags(), "rating")
 	if err != nil {
 		return err
 	}
@@ -54,7 +53,7 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 	comment := ""
 	if len(episodeIDs) == 1 {
 		// 記録するエピソードが1つの時のみコメントを受け取る
-		c, err := cmdutil.ReceiveComment(cmd.Flags())
+		c, err := cmdutil.ReceiveBody(cmd.Flags(), "comment")
 		if err != nil {
 			return err
 		}
@@ -62,8 +61,17 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 		comment = c
 	}
 
-	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Creating episode record")
+	// 確認
+	submit, err := view.Confirm("Submit?")
+	if err != nil {
+		return err
+	}
+	if !submit {
+		view.PrintCanceled(cmd.ErrOrStderr())
+		return nil
+	}
 
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Creating episode record")
 	if err := c.api.CreateEpisodeRecords(episodeIDs, rating, comment); err != nil {
 		return err
 	}
