@@ -2,6 +2,7 @@ package cmdutil
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/arrow2nd/anct/gen"
@@ -30,4 +31,13 @@ func StringToRatingState(s string) (gen.RatingState, error) {
 	}
 
 	return "", fmt.Errorf("incorrect rating (%s)", s)
+}
+
+// StripWhiteSpace : 改行・空白文字を削除
+func StripWhiteSpace(s string) string {
+	// 全ての空白文字を半角スペースに置換
+	r := regexp.MustCompile(`\s`)
+	text := r.ReplaceAllString(s, " ")
+
+	return strings.TrimSpace(text)
 }

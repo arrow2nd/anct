@@ -46,7 +46,7 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 	view.PrintLogo(cmd.OutOrStdout())
 	view.PrintAuthURL(cmd.OutOrStdout(), url)
 
-	code, err := view.InputText("Code")
+	code, err := view.InputText("Code", false)
 	if err != nil {
 		return err
 	}

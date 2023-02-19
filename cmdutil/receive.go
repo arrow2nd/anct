@@ -1,10 +1,8 @@
 package cmdutil
 
 import (
-	"errors"
 	"io"
 	"os"
-	"regexp"
 	"strings"
 	"syscall"
 
@@ -14,67 +12,35 @@ import (
 	"golang.org/x/term"
 )
 
-// ReceiveAllSearchFlags : 全ての検索フラグの値を受け取る
-func ReceiveAllSearchFlags(p *pflag.FlagSet) ([]gen.StatusState, []string, int64, bool, error) {
-	seasons, _ := p.GetStringSlice("seasons")
-
-	// シーズン指定の書式をチェック
-	for _, s := range seasons {
-		if err := validateSeasonFormat(s); err != nil {
-			return nil, nil, 0, false, err
-		}
+// receiveQuery : クエリを受け取る
+func receiveQuery(m string, args []string, useEditor, allowEmpty bool) (string, error) {
+	// 引数
+	query := strings.Join(args, " ")
+	if query != "" {
+		return query, nil
 	}
 
-	stateStrs, _ := p.GetStringSlice("library")
-	states := []gen.StatusState{}
-
-	// ライブラリの視聴ステータス文字列を変換
-	for _, stateStr := range stateStrs {
-		s, err := StringToStatusState(stateStr, false)
-		if err != nil {
-			return nil, nil, 0, false, err
-		}
-		states = append(states, s)
-	}
-
-	useEditor, _ := p.GetBool("editor")
-	limit, _ := p.GetInt64("limit")
-
-	return states, seasons, limit, useEditor, nil
-}
-
-// ReceiveQuery : クエリの入力を受け取る
-func ReceiveQuery(args []string, useEditor bool, allowEmpty bool) (string, error) {
-	keyword := strings.Join(args, " ")
-
-	// 標準入力を受け取る
-	if keyword == "" && !term.IsTerminal(int(syscall.Stdin)) {
+	// 標準入力
+	if !term.IsTerminal(int(syscall.Stdin)) {
 		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			return "", err
 		}
 
-		keyword = strings.TrimSpace(string(stdin))
+		return string(stdin), nil
 	}
 
-	// エディタを起動
-	if keyword == "" && useEditor {
-		s, err := view.InputTextInEditor("Enter search keyword")
-		if err != nil {
-			return "", err
-		}
+	// プロンプト or エディタ
+	return ReceiveText(m, useEditor, allowEmpty)
+}
 
-		keyword = s
+// ReceiveText : プロンプト・外部エディタから文字列を受け取る
+func ReceiveText(m string, useEditor, allowEmpty bool) (string, error) {
+	if useEditor {
+		return view.InputTextInEditor(m)
 	}
 
-	if keyword == "" && !allowEmpty {
-		return "", errors.New("please enter keywords")
-	}
-
-	// 全ての空白文字を半角スペースに置換
-	r := regexp.MustCompile(`\s`)
-
-	return r.ReplaceAllString(keyword, " "), nil
+	return view.InputText(m, allowEmpty)
 }
 
 // ReceiveRating : 評価を受け取る
@@ -100,7 +66,7 @@ func ReceiveComment(p *pflag.FlagSet) (string, error) {
 
 	// 指定されていなければエディタを開く
 	if comment == "" {
-		return view.InputTextInEditor("Enter your comments")
+		return view.InputTextInEditor("Comment")
 	}
 
 	return comment, nil

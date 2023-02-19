@@ -11,17 +11,18 @@ import (
 
 // SearchWorks : 作品を検索してIDを取得
 func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string, error) {
-	// 検索関連フラグの内容を取得
-	states, seasons, limit, useEditor, err := ReceiveAllSearchFlags(cmd.Flags())
+	states, seasons, limit, useEditor, err := getAllSearchFlags(cmd.Flags())
 	if err != nil {
 		return 0, "", err
 	}
 
-	// 検索クエリを受取る
-	query, err := ReceiveQuery(args, useEditor, true)
+	// 検索クエリ
+	query, err := receiveQuery("Enter a search query for a work", args, useEditor, false)
 	if err != nil {
 		return 0, "", err
 	}
+
+	query = StripWhiteSpace(query)
 
 	// 条件指定が無い場合はエラー
 	if query == "" && len(states) == 0 && len(seasons) == 0 {
@@ -29,12 +30,10 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string
 	}
 
 	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Searching for works")
-	spinner.Start()
-
-	// 作品を検索
 	list := []*gen.WorkFragment{}
 	err = nil
 
+	// 作品を検索
 	if len(states) == 0 {
 		list, err = api.SearchWorks(query, seasons, limit)
 	} else {

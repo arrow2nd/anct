@@ -22,20 +22,24 @@ func Confirm(m string) (bool, error) {
 }
 
 // InputText : テキストを入力
-func InputText(m string) (string, error) {
+func InputText(m string, allowEmpty bool) (string, error) {
 	prompt := &survey.Input{
 		Message: m,
 	}
 
-	validator := func(ans interface{}) error {
-		if str, ok := ans.(string); !ok || len(str) == 0 {
-			return errors.New("please enter text")
-		}
-		return nil
+	var opt survey.AskOpt = nil
+
+	if !allowEmpty {
+		opt = survey.WithValidator(func(ans interface{}) error {
+			if str, ok := ans.(string); !ok || len(str) == 0 {
+				return errors.New("please enter text")
+			}
+			return nil
+		})
 	}
 
 	text := ""
-	err := survey.AskOne(prompt, &text, survey.WithValidator(validator))
+	err := survey.AskOne(prompt, &text, opt)
 
 	return text, err
 }
