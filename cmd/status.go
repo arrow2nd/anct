@@ -42,14 +42,24 @@ func (c *Command) updateStatusRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Updating status")
+	// 確認
+	submit, err := view.Confirm("Submit?")
+	if err != nil {
+		return err
+	}
+	if !submit {
+		view.PrintCanceled(cmd.ErrOrStderr())
+		return nil
+	}
 
+	// 視聴ステータス更新
+	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Updating status")
 	if err := c.api.UpdateWorkState(id, state); err != nil {
 		return err
 	}
 
 	spinner.Stop()
-
 	view.PrintDone(cmd.OutOrStdout(), "Updated status!")
+
 	return nil
 }

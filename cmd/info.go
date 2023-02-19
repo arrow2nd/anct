@@ -26,13 +26,11 @@ func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
 	}
 
 	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Loading information the work")
-
 	info, err := c.api.FetchWorkInfo(annictID)
 	if err != nil {
 		return err
 	}
 
 	spinner.Stop()
-
 	return view.PrintWorkInfo(cmd.OutOrStdout(), info)
 }
