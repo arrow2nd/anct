@@ -11,7 +11,7 @@ import (
 func (c *Command) newCmdConfig() *cobra.Command {
 	cf := &cobra.Command{
 		Use:     "config",
-		Short:   "Edit the configuration file",
+		Short:   "Edit the configuration",
 		Example: "  anct config",
 	}
 
