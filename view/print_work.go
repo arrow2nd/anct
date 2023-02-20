@@ -103,5 +103,14 @@ func printWorkImage(w io.Writer, workImage *gen.WorkInfoFragment_Image) error {
 		return fmt.Errorf("failed fetch image: %w", err)
 	}
 
-	return printImage(w, img)
+	if err := printImage(w, img); err != nil {
+		return err
+	}
+
+	// コピーライト
+	if workImage.Copyright != nil && *workImage.Copyright != "" {
+		fmt.Fprintf(w, "(c) %s\n\n", *workImage.Copyright)
+	}
+
+	return nil
 }
