@@ -18,7 +18,17 @@ anct auth logout
 
 Annict との認証を解除します
 
----
+## config
+
+### client-token
+
+```
+anct config client-token
+```
+
+OAuth で使用するクライアントトークンを設定します
+
+- ビルド済バイナリを使用している場合は、設定する必要はありません
 
 ## info
 
@@ -106,13 +116,13 @@ anct record [<query>] [flags]
 エピソードの視聴記録を作成します
 
 - まとめて記録することもできます
-  - コメントは投稿されません
+  - その場合、コメントは記録されません
 
 ### flags
 
-- `-r` ``--rating {great|good|average|bad}`
+- `-r` `--rating {great|good|average|bad}`
   - 評価
-- `-c` ``--comment string`
+- `-c` `--comment string`
   - コメント
 - `-u` `--unwatch`
   - 視聴中作品の未視聴エピソードから選択する
@@ -123,7 +133,7 @@ anct record [<query>] [flags]
   - クエリの入力に外部エディタを使用する
 - `-l` `--limit int`
   - 表示件数を指定する
-- `-L` --library {wanna_watch|watching|watched|on_hold|stop_watching}`
+- `-L` `--library {wanna_watch|watching|watched|on_hold|stop_watching}`
   - ライブラリ内を検索対象にする
 - `-S` `--season YYYY-{spring|summer|autumn|winter}`
   - 放送シーズンを指定する
