@@ -53,6 +53,10 @@ Execute the following commands to link with Annict
 anct auth login
 ```
 
+## Documents
+
+- [Commands](./docs/en/commands.md)
+
 ## Develop
 
 ### Generate API Client Code

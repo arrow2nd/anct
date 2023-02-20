@@ -51,6 +51,10 @@ scoop install arrow2nd/anct
 anct auth login
 ```
 
+## ドキュメント
+
+- [コマンド一覧](./docs/ja/commands.md)
+
 ## Develop
 
 ### Generate API Client Code
