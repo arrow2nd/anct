@@ -119,12 +119,17 @@ func SelectEpisodes(work *gen.WorkEpisodesFragment) ([]string, error) {
 	// 選択した項目をエピソードIDの配列に変換
 	episodeIDs := []string{}
 	for _, opt := range selectedOpts {
-		for _, ep := range work.Episodes.Nodes {
-			if opt == createEpisodeOpt(ep, true) {
-				episodeIDs = append(episodeIDs, ep.ID)
+		for _, e := range work.Episodes.Nodes {
+			if opt == createEpisodeOpt(e, true) {
+				episodeIDs = append(episodeIDs, e.ID)
 				break
 			}
 		}
+	}
+
+	// 変換前と件数が一致しない場合エラー
+	if before, after := len(selectedOpts), len(episodeIDs); before != after {
+		return nil, fmt.Errorf("failed to obtain episode ID (%d of %d failed)", before-after, before)
 	}
 
 	return episodeIDs, nil
@@ -149,12 +154,19 @@ func SelectUnwatchEpisode(entries []*gen.UnwatchLibraryEntryFragment) (string, e
 		},
 	}
 
-	selected := ""
-	if err := survey.AskOne(prompt, &selected); err != nil {
+	selectedOpt := ""
+	if err := survey.AskOne(prompt, &selectedOpt); err != nil {
 		return "", err
 	}
 
-	return selected, nil
+	// エピソードIDを返す
+	for _, e := range entries {
+		if selectedOpt == createEpisodeOpt(e.NextEpisode, true) {
+			return e.NextEpisode.ID, nil
+		}
+	}
+
+	return "", fmt.Errorf("failed to obtain episode ID (selected: %s)", selectedOpt)
 }
 
 // createEpisodeOpt : エピソードの選択項目文字列を作成
