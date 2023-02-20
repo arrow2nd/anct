@@ -9,22 +9,21 @@ import (
 )
 
 func (c *Command) newCmdConfig() *cobra.Command {
-	config := &cobra.Command{
+	cf := &cobra.Command{
 		Use:     "config",
 		Short:   "Edit the configuration file",
 		Example: "  anct config",
 	}
 
-	cred := &cobra.Command{
-		Use:     "apikey",
+	ct := &cobra.Command{
+		Use:     "client-token",
 		Short:   "Change the API key used to connect to Annict",
-		Example: "  anct config apikey",
+		Example: "  anct config client-token",
 		RunE:    c.conifgRun,
 	}
 
-	config.AddCommand(cred)
-
-	return config
+	cf.AddCommand(ct)
+	return cf
 }
 
 func (c *Command) conifgRun(cmd *cobra.Command, args []string) error {
@@ -39,12 +38,12 @@ func (c *Command) conifgRun(cmd *cobra.Command, args []string) error {
 		},
 	}
 
-	token := api.ClientToken{}
-	if err := survey.Ask(qs, &token); err != nil {
+	ct := api.ClientToken{}
+	if err := survey.Ask(qs, &ct); err != nil {
 		return err
 	}
 
-	c.api.Token.Client = &token
+	c.api.Token.Client = &ct
 	if err := config.Save(&c.api.Token); err != nil {
 		return err
 	}

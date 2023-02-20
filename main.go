@@ -30,6 +30,7 @@ func main() {
 	os.Exit(int(exitCodeOK))
 }
 
+// exitError : エラーを出力して終了
 func exitError(e error, c int) {
 	fmt.Fprintf(os.Stderr, "Error: %s\n", e.Error())
 	os.Exit(c)
