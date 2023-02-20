@@ -6,22 +6,20 @@
 [![release](https://github.com/arrow2nd/anct/actions/workflows/release.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/release.yml)
 [![GitHub all releases](https://img.shields.io/github/downloads/arrow2nd/anct/total)](https://github.com/arrow2nd/anct/releases)
 
-> [日本語](./README_JP.md)
-
 ![anct-demo](https://user-images.githubusercontent.com/44780846/220039050-c19a0545-0028-4511-841d-cf4e930f2dea.gif)
 
-## Features
+## できること
 
-- Searching for works
-- Update your watching status
-- Record your episode watchings
-- Create a review
+- 作品の検索
+- 視聴ステータスの更新
+- エピソードの視聴記録
+- レビューの投稿
 
-## How to Install
+## インストール
 
 > **Warning**
 >
-> No built-in client token if installed by other than the following methods
+> 以下の方法以外でインストールした場合、クライアントトークンが内蔵されていません
 
 ### Homebrew
 
@@ -37,13 +35,13 @@ scoop bucket add arrow2nd https://github.com/arrow2nd/scoop-bucket.git
 scoop install arrow2nd/anct
 ```
 
-### Binaries
+### バイナリ
 
-Download the appropriate one for your environment from [Releases](https://github.com/arrow2nd/anct/releases)
+[Releases](https://github.com/arrow2nd/anct/releases) からお使いの環境にあったものをダウンロードしてください
 
-## Initial Setup
+## 初期設定
 
-Execute the following commands to link with Annict
+以下のコマンドを実行して Annict と連携してください
 
 ```
 anct auth login
