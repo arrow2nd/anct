@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/config"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
@@ -51,6 +52,7 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	code = cmdutil.StripWhiteSpace(code)
 	if err := c.api.UpdateUserToken(code); err != nil {
 		return err
 	}

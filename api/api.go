@@ -16,6 +16,7 @@ type API struct {
 	Token  Token
 }
 
+// New : 新しいクライアントを作成
 func New(t *Token) *API {
 	ac := gen.NewClient(http.DefaultClient, baseURL, func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res interface{}, next clientv2.RequestInterceptorFunc) error {
 		req.Header.Set("Authorization", "Bearer "+t.User.Bearer)
@@ -27,10 +28,9 @@ func New(t *Token) *API {
 		Token:  *t,
 	}
 
-	// 組込みのクライアントトークンを使う
-	if c.Token.Client.ID == "" || c.Token.Client.Secret == "" {
-		c.Token.Client.ID = clientID
-		c.Token.Client.Secret = clientSecret
+	// 組込みのクライアントトークンを設定
+	if c.Token.Client.InEmpty() {
+		c.Token.Client.Set(builtInClientID, builtInClientSecret)
 	}
 
 	return c

@@ -63,10 +63,7 @@ func Load() (*api.Token, error) {
 
 func createNewFile() error {
 	return Save(&api.Token{
-		Client: &api.ClientToken{
-			ID:     "",
-			Secret: "",
-		},
+		Client: &api.ClientToken{},
 		User: &api.UserToken{
 			Bearer: "",
 		},

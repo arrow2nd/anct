@@ -12,8 +12,8 @@ builds:
     ldflags:
       - -s -w
       - -X github.com/arrow2nd/anct/cmd.version={{.Version}}
-      - -X github.com/arrow2nd/anct/api.clientID={{.Env.CLIENT_ID}}
-      - -X github.com/arrow2nd/anct/api.clientSecret={{.Env.CLIENT_SECRET}}
+      - -X github.com/arrow2nd/anct/api.builtInClientID={{.Env.CLIENT_ID}}
+      - -X github.com/arrow2nd/anct/api.builtInClientSecret={{.Env.CLIENT_SECRET}}
 
 archives:
   - name_template: >-

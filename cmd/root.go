@@ -13,6 +13,7 @@ type Command struct {
 
 // New : 作成
 func New(t *api.Token) *Command {
+
 	c := &Command{
 		root: &cobra.Command{
 			Use:           "anct",

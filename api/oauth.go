@@ -22,8 +22,13 @@ func (c *API) CreateAuthorizeURL() (string, error) {
 		return "", err
 	}
 
+	id, _, err := c.Token.Client.Get()
+	if err != nil {
+		return "", err
+	}
+
 	q := url.Query()
-	q.Add("client_id", c.Token.Client.ID)
+	q.Add("client_id", id)
 	q.Add("response_type", "code")
 	q.Add("redirect_uri", redirectURL)
 	q.Add("scope", "read write")
@@ -39,14 +44,19 @@ func (c *API) UpdateUserToken(code string) error {
 		return err
 	}
 
+	id, secret, err := c.Token.Client.Get()
+	if err != nil {
+		return err
+	}
+
 	q := req.URL.Query()
-	q.Add("client_id", c.Token.Client.ID)
-	q.Add("client_secret", c.Token.Client.Secret)
+	q.Add("client_id", id)
+	q.Add("client_secret", secret)
 	q.Add("grant_type", "authorization_code")
 	q.Add("redirect_uri", redirectURL)
 	q.Add("code", strings.TrimSpace(code))
-	req.URL.RawQuery = q.Encode()
 
+	req.URL.RawQuery = q.Encode()
 	req.Header.Add("Accept", "application/json")
 
 	client := http.Client{}
