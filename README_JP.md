@@ -8,6 +8,10 @@
 
 ![anct-demo](https://user-images.githubusercontent.com/44780846/220039050-c19a0545-0028-4511-841d-cf4e930f2dea.gif)
 
+## 推奨環境
+
+- sixel に対応したターミナル (画像表示に必要です)
+
 ## できること
 
 - 作品の検索

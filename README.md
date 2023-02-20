@@ -10,6 +10,10 @@
 
 ![anct-demo](https://user-images.githubusercontent.com/44780846/220039050-c19a0545-0028-4511-841d-cf4e930f2dea.gif)
 
+## Recommended
+
+- Terminal with sixel support (Required to display images)
+
 ## Features
 
 - Searching for works
