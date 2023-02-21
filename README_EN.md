@@ -27,7 +27,7 @@
 >
 > No built-in client token if installed by other than the following methods
 >
-> Please refer to [here](#Client Token) for how to create one
+> Please refer to [here](#client-token) for how to create one
 
 ### Homebrew
 
