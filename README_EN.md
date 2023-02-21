@@ -1,6 +1,6 @@
 # anct
 
-💊 Unofficial CLI Client of [Annict](https://annict.com/)
+📺 Unofficial CLI Client of [Annict](https://annict.com/)
 
 [![CodeQL](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml)
 [![release](https://github.com/arrow2nd/anct/actions/workflows/release.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/release.yml)

@@ -31,6 +31,6 @@ func PrintLogo(w io.Writer) {
 
 // PrintAuthURL : 認証URLを出力
 func PrintAuthURL(w io.Writer, u string) {
-	temp := "💊 Please access the following URL and enter the code displayed after authentication.\n\n%s\n\n"
+	temp := "📺 Please access the following URL and enter the code displayed after authentication.\n\n%s\n\n"
 	fmt.Fprintf(w, temp, u)
 }
