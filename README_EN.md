@@ -26,6 +26,8 @@
 > **Warning**
 >
 > No built-in client token if installed by other than the following methods
+>
+> Please refer to [here](#Client Token) for how to create one
 
 ### Homebrew
 
@@ -59,9 +61,25 @@ anct auth login
 
 ## Develop
 
+### Client Token
+
+It can be created from https://annict.com/oauth/applications
+
+The configuration is as follows
+
+- Redirect URI : `urn:ietf:wg:oauth:2.0:oob`
+- Scope : read + write
+
 ### Generate API Client Code
+
+[Annict's personal access token](https://annict.com/settings/apps) (Scope : Read) to an environment variable and then
 
 ```
 export ANNICT_KEY=<API Key>
+```
+
+Do the following
+
+```
 make generate
 ```

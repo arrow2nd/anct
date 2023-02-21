@@ -26,6 +26,8 @@
 > **Warning**
 >
 > 以下の方法以外でインストールした場合、クライアントトークンが内蔵されていません
+>
+> 作成方法は [こちら](#クライアントトークン) をご覽ください
 
 ### Homebrew
 
@@ -59,9 +61,25 @@ anct auth login
 
 ## Develop
 
-### Generate API Client Code
+### クライアントトークン
+
+https://annict.com/oauth/applications から作成することができます
+
+設定は以下の通りです
+
+- リダイレクト URI : `urn:ietf:wg:oauth:2.0:oob`
+- スコープ : 読み込み + 書き込み
+
+### API クライアントのコードを生成
+
+[Annict の個人用アクセストークン](https://annict.com/settings/apps) (スコープ : 読み込み) を環境変数に設定して
 
 ```
 export ANNICT_KEY=<API Key>
+```
+
+以下を実行してください
+
+```
 make generate
 ```
