@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.6
 	github.com/BurntSushi/toml v1.2.1
-	github.com/briandowns/spinner v1.21.0
+	github.com/briandowns/spinner v1.22.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
 	github.com/spf13/cobra v1.6.1
