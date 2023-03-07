@@ -123,8 +123,9 @@ func TestConvertToRatingState(t *testing.T) {
 }
 
 func TestConvertToUpperFirstLetter(t *testing.T) {
+	got := ConvertToUpperFirstLetter("asahi")
 	want := "Asahi"
-	assert.Equal(t, want, "asahi")
+	assert.Equal(t, want, got)
 }
 
 func TestStripWhiteSpace(t *testing.T) {
