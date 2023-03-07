@@ -13,7 +13,7 @@ import (
 )
 
 // receiveQuery : クエリを受け取る
-func receiveQuery(m string, args []string, useEditor, allowEmpty bool) (string, error) {
+func receiveQuery(m string, args []string, useEditor bool) (string, error) {
 	// 引数から
 	query := strings.Join(args, " ")
 	if query != "" {
