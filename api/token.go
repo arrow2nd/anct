@@ -17,6 +17,7 @@ type ClientToken struct {
 	Secret string
 }
 
+// Get : 取得
 func (ct *ClientToken) Get() (string, string, error) {
 	if ct.InEmpty() {
 		return "", "", errors.New("Client token not set. please run `anct config client-token` to set the token")
@@ -25,6 +26,7 @@ func (ct *ClientToken) Get() (string, string, error) {
 	return ct.ID, ct.Secret, nil
 }
 
+// Set : 設定
 func (ct *ClientToken) Set(id, secret string) {
 	ct.ID = id
 	ct.Secret = secret

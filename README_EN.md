@@ -2,8 +2,10 @@
 
 📺 Unofficial CLI Client of [Annict](https://annict.com/)
 
-[![CodeQL](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml)
 [![release](https://github.com/arrow2nd/anct/actions/workflows/release.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/release.yml)
+[![test](https://github.com/arrow2nd/anct/actions/workflows/test.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/test.yml)
+[![CodeQL](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml/badge.svg)](https://github.com/arrow2nd/anct/actions/workflows/codeql.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/arrow2nd/anct)](https://goreportcard.com/report/github.com/arrow2nd/anct)
 [![GitHub all releases](https://img.shields.io/github/downloads/arrow2nd/anct/total)](https://github.com/arrow2nd/anct/releases)
 
 > [日本語](./README.md)

@@ -13,20 +13,32 @@ import (
 
 const filename = ".cred.toml"
 
+// Config : 設定
+type Config struct {
+	dir string
+}
+
+// New : 作成
+func New() (*Config, error) {
+	dir, err := getDefaultDir()
+	if err != nil {
+		return nil, err
+	}
+
+	return &Config{
+		dir: dir,
+	}, nil
+}
+
 // Save : 保存
-func Save(t *api.Token) error {
+func (c *Config) Save(t *api.Token) error {
 	buf := &bytes.Buffer{}
 
 	if err := toml.NewEncoder(buf).Encode(t); err != nil {
 		return fmt.Errorf("failed to marshal: %w", err)
 	}
 
-	configDir, err := getConfigDir()
-	if err != nil {
-		return err
-	}
-
-	path := filepath.Join(configDir, filename)
+	path := filepath.Join(c.dir, filename)
 	if err := os.WriteFile(path, buf.Bytes(), os.ModePerm); err != nil {
 		return fmt.Errorf("failed to save (%s): %w", path, err)
 	}
@@ -35,15 +47,10 @@ func Save(t *api.Token) error {
 }
 
 // Load : 読み込み
-func Load() (*api.Token, error) {
-	configDir, err := getConfigDir()
-	if err != nil {
-		return nil, err
-	}
-
-	path := filepath.Join(configDir, filename)
+func (c *Config) Load() (*api.Token, error) {
+	path := filepath.Join(c.dir, filename)
 	if _, err := os.Stat(path); err != nil {
-		if err := createNewFile(); err != nil {
+		if err := c.createNewFile(); err != nil {
 			return nil, err
 		}
 	}
@@ -61,8 +68,8 @@ func Load() (*api.Token, error) {
 	return token, nil
 }
 
-func createNewFile() error {
-	return Save(&api.Token{
+func (c *Config) createNewFile() error {
+	return c.Save(&api.Token{
 		Client: &api.ClientToken{},
 		User: &api.UserToken{
 			Bearer: "",
@@ -70,7 +77,7 @@ func createNewFile() error {
 	})
 }
 
-func getConfigDir() (string, error) {
+func getDefaultDir() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", errors.New("failed to get home directory")

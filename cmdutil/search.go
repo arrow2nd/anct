@@ -17,7 +17,7 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (int64, string
 	}
 
 	// 検索クエリ
-	query, err := receiveQuery("Search query", args, useEditor, false)
+	query, err := receiveQuery("Search query", args, useEditor)
 	if err != nil {
 		return 0, "", err
 	}
