@@ -13,8 +13,8 @@ type Client struct {
 	Client *clientv2.Client
 }
 
-func NewClient(cli *http.Client, baseURL string, interceptors ...clientv2.RequestInterceptor) *Client {
-	return &Client{Client: clientv2.NewClient(cli, baseURL, interceptors...)}
+func NewClient(cli *http.Client, baseURL string, options *clientv2.Options, interceptors ...clientv2.RequestInterceptor) *Client {
+	return &Client{Client: clientv2.NewClient(cli, baseURL, options, interceptors...)}
 }
 
 type Query struct {
@@ -42,123 +42,123 @@ type WorkFragment struct {
 	ID                string       "json:\"id\" graphql:\"id\""
 	Title             string       "json:\"title\" graphql:\"title\""
 	Media             Media        "json:\"media\" graphql:\"media\""
-	SeasonName        *SeasonName  "json:\"seasonName\" graphql:\"seasonName\""
-	SeasonYear        *int64       "json:\"seasonYear\" graphql:\"seasonYear\""
-	ViewerStatusState *StatusState "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
+	SeasonName        *SeasonName  "json:\"seasonName,omitempty\" graphql:\"seasonName\""
+	SeasonYear        *int64       "json:\"seasonYear,omitempty\" graphql:\"seasonYear\""
+	ViewerStatusState *StatusState "json:\"viewerStatusState,omitempty\" graphql:\"viewerStatusState\""
 }
 type EpisodeFragment struct {
 	ID                 string  "json:\"id\" graphql:\"id\""
-	Number             *int64  "json:\"number\" graphql:\"number\""
-	NumberText         *string "json:\"numberText\" graphql:\"numberText\""
-	Title              *string "json:\"title\" graphql:\"title\""
+	Number             *int64  "json:\"number,omitempty\" graphql:\"number\""
+	NumberText         *string "json:\"numberText,omitempty\" graphql:\"numberText\""
+	Title              *string "json:\"title,omitempty\" graphql:\"title\""
 	ViewerRecordsCount int64   "json:\"viewerRecordsCount\" graphql:\"viewerRecordsCount\""
 }
 type WorkEpisodesFragment struct {
-	Episodes   *WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
+	Episodes   *WorkEpisodesFragment_Episodes "json:\"episodes,omitempty\" graphql:\"episodes\""
 	NoEpisodes bool                           "json:\"noEpisodes\" graphql:\"noEpisodes\""
 }
 type UnwatchLibraryEntryFragment struct {
 	Work        UnwatchLibraryEntryFragment_Work "json:\"work\" graphql:\"work\""
-	NextEpisode *EpisodeFragment                 "json:\"nextEpisode\" graphql:\"nextEpisode\""
+	NextEpisode *EpisodeFragment                 "json:\"nextEpisode,omitempty\" graphql:\"nextEpisode\""
 }
 type WorkInfoFragment struct {
 	AnnictID          int64                                           "json:\"annictId\" graphql:\"annictId\""
 	ID                string                                          "json:\"id\" graphql:\"id\""
 	Title             string                                          "json:\"title\" graphql:\"title\""
 	Media             Media                                           "json:\"media\" graphql:\"media\""
-	SeasonName        *SeasonName                                     "json:\"seasonName\" graphql:\"seasonName\""
-	SeasonYear        *int64                                          "json:\"seasonYear\" graphql:\"seasonYear\""
-	ViewerStatusState *StatusState                                    "json:\"viewerStatusState\" graphql:\"viewerStatusState\""
-	Episodes          *WorkInfoFragment_WorkEpisodesFragment_Episodes "json:\"episodes\" graphql:\"episodes\""
+	SeasonName        *SeasonName                                     "json:\"seasonName,omitempty\" graphql:\"seasonName\""
+	SeasonYear        *int64                                          "json:\"seasonYear,omitempty\" graphql:\"seasonYear\""
+	ViewerStatusState *StatusState                                    "json:\"viewerStatusState,omitempty\" graphql:\"viewerStatusState\""
+	Episodes          *WorkInfoFragment_WorkEpisodesFragment_Episodes "json:\"episodes,omitempty\" graphql:\"episodes\""
 	NoEpisodes        bool                                            "json:\"noEpisodes\" graphql:\"noEpisodes\""
-	Image             *WorkInfoFragment_Image                         "json:\"image\" graphql:\"image\""
-	OfficialSiteURL   *string                                         "json:\"officialSiteUrl\" graphql:\"officialSiteUrl\""
+	Image             *WorkInfoFragment_Image                         "json:\"image,omitempty\" graphql:\"image\""
+	OfficialSiteURL   *string                                         "json:\"officialSiteUrl,omitempty\" graphql:\"officialSiteUrl\""
 	WatchersCount     int64                                           "json:\"watchersCount\" graphql:\"watchersCount\""
 }
 type WorkEpisodesFragment_Episodes struct {
-	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type UnwatchLibraryEntryFragment_Work struct {
 	Title string "json:\"title\" graphql:\"title\""
 }
 type WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
-	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type WorkInfoFragment_Image struct {
-	Copyright           *string "json:\"copyright\" graphql:\"copyright\""
-	RecommendedImageURL *string "json:\"recommendedImageUrl\" graphql:\"recommendedImageUrl\""
-	FacebookOgImageURL  *string "json:\"facebookOgImageUrl\" graphql:\"facebookOgImageUrl\""
+	Copyright           *string "json:\"copyright,omitempty\" graphql:\"copyright\""
+	RecommendedImageURL *string "json:\"recommendedImageUrl,omitempty\" graphql:\"recommendedImageUrl\""
+	FacebookOgImageURL  *string "json:\"facebookOgImageUrl,omitempty\" graphql:\"facebookOgImageUrl\""
 }
 type UpdateWorkState_UpdateStatus struct {
-	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+	ClientMutationID *string "json:\"clientMutationId,omitempty\" graphql:\"clientMutationId\""
 }
 type CreateEpisodeRecord_CreateRecord struct {
-	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+	ClientMutationID *string "json:\"clientMutationId,omitempty\" graphql:\"clientMutationId\""
 }
 type CreateWorkReview_CreateReview struct {
-	ClientMutationID *string "json:\"clientMutationId\" graphql:\"clientMutationId\""
+	ClientMutationID *string "json:\"clientMutationId,omitempty\" graphql:\"clientMutationId\""
 }
 type SearchWorksByKeyword_SearchWorks struct {
-	Nodes []*WorkFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*WorkFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_WorkEpisodesFragment_Episodes struct {
-	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchWorkInfo_SearchWorks_Nodes_WorkInfoFragment_Image struct {
-	Copyright           *string "json:\"copyright\" graphql:\"copyright\""
-	RecommendedImageURL *string "json:\"recommendedImageUrl\" graphql:\"recommendedImageUrl\""
-	FacebookOgImageURL  *string "json:\"facebookOgImageUrl\" graphql:\"facebookOgImageUrl\""
+	Copyright           *string "json:\"copyright,omitempty\" graphql:\"copyright\""
+	RecommendedImageURL *string "json:\"recommendedImageUrl,omitempty\" graphql:\"recommendedImageUrl\""
+	FacebookOgImageURL  *string "json:\"facebookOgImageUrl,omitempty\" graphql:\"facebookOgImageUrl\""
 }
 type FetchWorkInfo_SearchWorks struct {
-	Nodes []*WorkInfoFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*WorkInfoFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchWorkEpisodes_SearchWorks_Nodes_WorkEpisodesFragment_Episodes struct {
-	Nodes []*EpisodeFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*EpisodeFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchWorkEpisodes_SearchWorks struct {
-	Nodes []*WorkEpisodesFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*WorkEpisodesFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchUnwatchEpisodes_Viewer_LibraryEntries_Nodes_UnwatchLibraryEntryFragment_Work struct {
 	Title string "json:\"title\" graphql:\"title\""
 }
 type FetchUnwatchEpisodes_Viewer_LibraryEntries struct {
-	Nodes []*UnwatchLibraryEntryFragment "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*UnwatchLibraryEntryFragment "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchUnwatchEpisodes_Viewer struct {
-	LibraryEntries *FetchUnwatchEpisodes_Viewer_LibraryEntries "json:\"libraryEntries\" graphql:\"libraryEntries\""
+	LibraryEntries *FetchUnwatchEpisodes_Viewer_LibraryEntries "json:\"libraryEntries,omitempty\" graphql:\"libraryEntries\""
 }
 type FetchUserLibrary_Viewer_LibraryEntries_Nodes struct {
 	Work *WorkFragment "json:\"work\" graphql:\"work\""
 }
 type FetchUserLibrary_Viewer_LibraryEntries struct {
-	Nodes []*FetchUserLibrary_Viewer_LibraryEntries_Nodes "json:\"nodes\" graphql:\"nodes\""
+	Nodes []*FetchUserLibrary_Viewer_LibraryEntries_Nodes "json:\"nodes,omitempty\" graphql:\"nodes\""
 }
 type FetchUserLibrary_Viewer struct {
-	LibraryEntries *FetchUserLibrary_Viewer_LibraryEntries "json:\"libraryEntries\" graphql:\"libraryEntries\""
+	LibraryEntries *FetchUserLibrary_Viewer_LibraryEntries "json:\"libraryEntries,omitempty\" graphql:\"libraryEntries\""
 }
 type HogeUpdateWorkStatePayload struct {
-	UpdateStatus *UpdateWorkState_UpdateStatus "json:\"updateStatus\" graphql:\"updateStatus\""
+	UpdateStatus *UpdateWorkState_UpdateStatus "json:\"updateStatus,omitempty\" graphql:\"updateStatus\""
 }
 type HogeCreateEpisodeRecordPayload struct {
-	CreateRecord *CreateEpisodeRecord_CreateRecord "json:\"createRecord\" graphql:\"createRecord\""
+	CreateRecord *CreateEpisodeRecord_CreateRecord "json:\"createRecord,omitempty\" graphql:\"createRecord\""
 }
 type HogeCreateWorkReviewPayload struct {
-	CreateReview *CreateWorkReview_CreateReview "json:\"createReview\" graphql:\"createReview\""
+	CreateReview *CreateWorkReview_CreateReview "json:\"createReview,omitempty\" graphql:\"createReview\""
 }
 type SearchWorksByKeyword struct {
-	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+	SearchWorks *SearchWorksByKeyword_SearchWorks "json:\"searchWorks,omitempty\" graphql:\"searchWorks\""
 }
 type FetchWorkInfo struct {
-	SearchWorks *FetchWorkInfo_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+	SearchWorks *FetchWorkInfo_SearchWorks "json:\"searchWorks,omitempty\" graphql:\"searchWorks\""
 }
 type FetchWorkEpisodes struct {
-	SearchWorks *FetchWorkEpisodes_SearchWorks "json:\"searchWorks\" graphql:\"searchWorks\""
+	SearchWorks *FetchWorkEpisodes_SearchWorks "json:\"searchWorks,omitempty\" graphql:\"searchWorks\""
 }
 type FetchUnwatchEpisodes struct {
-	Viewer *FetchUnwatchEpisodes_Viewer "json:\"viewer\" graphql:\"viewer\""
+	Viewer *FetchUnwatchEpisodes_Viewer "json:\"viewer,omitempty\" graphql:\"viewer\""
 }
 type FetchUserLibrary struct {
-	Viewer *FetchUserLibrary_Viewer "json:\"viewer\" graphql:\"viewer\""
+	Viewer *FetchUserLibrary_Viewer "json:\"viewer,omitempty\" graphql:\"viewer\""
 }
 
 const UpdateWorkStateDocument = `mutation UpdateWorkState ($workId: ID!, $state: StatusState!) {
@@ -176,7 +176,7 @@ func (c *Client) UpdateWorkState(ctx context.Context, workID string, state Statu
 
 	var res HogeUpdateWorkStatePayload
 	if err := c.Client.Post(ctx, "UpdateWorkState", UpdateWorkStateDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -198,7 +198,7 @@ func (c *Client) CreateEpisodeRecord(ctx context.Context, episodeID string, rati
 
 	var res HogeCreateEpisodeRecordPayload
 	if err := c.Client.Post(ctx, "CreateEpisodeRecord", CreateEpisodeRecordDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -224,7 +224,7 @@ func (c *Client) CreateWorkReview(ctx context.Context, workID string, body strin
 
 	var res HogeCreateWorkReviewPayload
 	if err := c.Client.Post(ctx, "CreateWorkReview", CreateWorkReviewDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -257,7 +257,7 @@ func (c *Client) SearchWorksByKeyword(ctx context.Context, query string, seasons
 
 	var res SearchWorksByKeyword
 	if err := c.Client.Post(ctx, "SearchWorksByKeyword", SearchWorksByKeywordDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -314,7 +314,7 @@ func (c *Client) FetchWorkInfo(ctx context.Context, annictID int64, interceptors
 
 	var res FetchWorkInfo
 	if err := c.Client.Post(ctx, "FetchWorkInfo", FetchWorkInfoDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -351,7 +351,7 @@ func (c *Client) FetchWorkEpisodes(ctx context.Context, annictID int64, intercep
 
 	var res FetchWorkEpisodes
 	if err := c.Client.Post(ctx, "FetchWorkEpisodes", FetchWorkEpisodesDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -388,7 +388,7 @@ func (c *Client) FetchUnwatchEpisodes(ctx context.Context, interceptors ...clien
 
 	var res FetchUnwatchEpisodes
 	if err := c.Client.Post(ctx, "FetchUnwatchEpisodes", FetchUnwatchEpisodesDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil
@@ -425,7 +425,7 @@ func (c *Client) FetchUserLibrary(ctx context.Context, states []StatusState, sea
 
 	var res FetchUserLibrary
 	if err := c.Client.Post(ctx, "FetchUserLibrary", FetchUserLibraryDocument, &res, vars, interceptors...); err != nil {
-		return nil, err
+		return &res, err
 	}
 
 	return &res, nil

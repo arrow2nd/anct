@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/arrow2nd/anct/api"
+	"github.com/arrow2nd/anct/config"
 	"github.com/spf13/cobra"
 )
 
@@ -9,10 +10,15 @@ import (
 type Command struct {
 	root *cobra.Command
 	api  *api.API
+	cfg  *config.Config
 }
 
 // New : 作成
-func New(t *api.Token) *Command {
+func New(cfg *config.Config) (*Command, error) {
+	t, err := cfg.Load()
+	if err != nil {
+		return nil, err
+	}
 
 	c := &Command{
 		root: &cobra.Command{
@@ -22,6 +28,7 @@ func New(t *api.Token) *Command {
 			SilenceErrors: true,
 		},
 		api: api.New(t),
+		cfg: cfg,
 	}
 
 	c.root.AddCommand(
@@ -34,7 +41,7 @@ func New(t *api.Token) *Command {
 		c.newCmdVersion(),
 	)
 
-	return c
+	return c, nil
 }
 
 // Execute : 実行

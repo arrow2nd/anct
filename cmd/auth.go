@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/arrow2nd/anct/cmdutil"
-	"github.com/arrow2nd/anct/config"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -57,7 +56,7 @@ func (c *Command) loginRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := config.Save(&c.api.Token); err != nil {
+	if err := c.cfg.Save(&c.api.Token); err != nil {
 		return err
 	}
 
@@ -80,7 +79,7 @@ func (c *Command) logoutRun(cmd *cobra.Command, arg []string) error {
 		return fmt.Errorf("failed to revoke access token: %w", err)
 	}
 
-	if err := config.Save(&c.api.Token); err != nil {
+	if err := c.cfg.Save(&c.api.Token); err != nil {
 		return err
 	}
 

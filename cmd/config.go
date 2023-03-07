@@ -3,7 +3,6 @@ package cmd
 import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/api"
-	"github.com/arrow2nd/anct/config"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -44,7 +43,7 @@ func (c *Command) conifgRun(cmd *cobra.Command, args []string) error {
 	}
 
 	c.api.Token.Client = &ct
-	if err := config.Save(&c.api.Token); err != nil {
+	if err := c.cfg.Save(&c.api.Token); err != nil {
 		return err
 	}
 
