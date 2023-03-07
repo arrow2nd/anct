@@ -9,7 +9,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
 	github.com/spf13/cobra v1.6.1
-	golang.org/x/term v0.5.0
+	golang.org/x/term v0.6.0
 )
 
 require (
@@ -20,7 +20,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/soniakeys/quant v1.0.0 // indirect
 	golang.org/x/image v0.5.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 )
 
