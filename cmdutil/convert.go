@@ -43,7 +43,7 @@ func ConvertToUpperFirstLetter(s string) string {
 	return string(r)
 }
 
-// StripWhiteSpace : 改行・空白文字を削除
+// StripWhiteSpace : 空白文字を半角スペースに置換して前後をカット
 func StripWhiteSpace(s string) string {
 	// 全ての空白文字を半角スペースに置換
 	r := regexp.MustCompile(`\s`)
