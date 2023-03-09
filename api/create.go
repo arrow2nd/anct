@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"time"
 
 	"github.com/arrow2nd/anct/gen"
 	"golang.org/x/sync/errgroup"
@@ -13,11 +14,14 @@ func (a *API) CreateEpisodeRecords(episodeIDs []string, rating gen.RatingState, 
 	const (
 		resourceMax = int64(2)
 		weight      = int64(1)
+		numLimit    = 2
 	)
 
 	// 同時実行数を制限
 	sem := semaphore.NewWeighted(resourceMax)
 	eg, ctx := errgroup.WithContext(context.Background())
+
+	num := len(episodeIDs)
 
 	for _, ID := range episodeIDs {
 		ID := ID
@@ -27,6 +31,11 @@ func (a *API) CreateEpisodeRecords(episodeIDs []string, rating gen.RatingState, 
 		eg.Go(func() error {
 			if _, err := a.client.CreateEpisodeRecord(ctx, ID, rating, &comment); err != nil {
 				return err
+			}
+
+			if num >= numLimit {
+				// 件数が多い場合はウェイトを設ける
+				time.Sleep(time.Second / 2)
 			}
 
 			sem.Release(weight)
