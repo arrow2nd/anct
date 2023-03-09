@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/arrow2nd/anct/api"
+	"github.com/arrow2nd/anct/cmdutil"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -26,14 +27,23 @@ func (c *Command) newCmdConfig() *cobra.Command {
 }
 
 func (c *Command) conifgRun(cmd *cobra.Command, args []string) error {
+	trans := func(ans interface{}) interface{} {
+		if id, ok := ans.(string); ok {
+			return cmdutil.StripWhiteSpace(id)
+		}
+		return ""
+	}
+
 	qs := []*survey.Question{
 		{
-			Name:   "id",
-			Prompt: &survey.Input{Message: "Client ID"},
+			Name:      "id",
+			Prompt:    &survey.Input{Message: "Client ID"},
+			Transform: trans,
 		},
 		{
-			Name:   "secret",
-			Prompt: &survey.Input{Message: "Client secret"},
+			Name:      "secret",
+			Prompt:    &survey.Input{Message: "Client secret"},
+			Transform: trans,
 		},
 	}
 
