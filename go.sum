@@ -6,8 +6,8 @@ github.com/BurntSushi/toml v1.2.1 h1:9F2/+DoOYIOksmaJFPw1tGFy1eDnIJXg+UHjuD8lTak
 github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2 h1:+vx7roKuyA63nhn5WAunQHLTznkw5W8b1Xc0dNjp83s=
 github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2/go.mod h1:HBCaDeC1lPdgDeDbhX8XFpy1jqjK0IBG8W5K+xYqA0w=
-github.com/Yamashou/gqlgenc v0.12.0 h1:HoKs8HH0UK58TZ/XA/J4tUeI/zLFu5nLnENxTsLV23M=
-github.com/Yamashou/gqlgenc v0.12.0/go.mod h1:+z+FRCtGrNmgTxweAUiCodOmQJLTCNtnRNAqhewf1Q8=
+github.com/Yamashou/gqlgenc v0.13.5 h1:aBv3D6pgY8ZXr6ArYHMtTkggui8eQVgjhgDaGnNbkxk=
+github.com/Yamashou/gqlgenc v0.13.5/go.mod h1:+z+FRCtGrNmgTxweAUiCodOmQJLTCNtnRNAqhewf1Q8=
 github.com/agnivade/levenshtein v1.0.1/go.mod h1:CURSv5d9Uaml+FovSIICkLbAUZ9S4RqaHDIsdSBg7lM=
 github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883 h1:bvNMNQO63//z+xNgfBlViaCIJKLlCJ6/fmUseuG0wVQ=
 github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883/go.mod h1:rCTlJbsFo29Kk6CurOXKm700vrz8f0KW0JNfpkRJY/8=
