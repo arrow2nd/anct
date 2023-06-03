@@ -11,6 +11,7 @@ import (
 func Confirm(m string) (bool, error) {
 	prompt := &survey.Confirm{
 		Message: m,
+		Default: true,
 	}
 
 	ok := false
