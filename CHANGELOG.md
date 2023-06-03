@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v1.1.0] - 2023-06-03
+
+### Changed
+
+- 確認プロンプトのデフォルトをYesに
+
 ## [v1.0.0] - 2023-03-09
 
 ### Fixed
@@ -16,4 +22,5 @@
 
 - リリース 📺
 
+[v1.1.0]: https://github.com/arrow2nd/anct/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/arrow2nd/anct/compare/v0.1.0...v1.0.0
