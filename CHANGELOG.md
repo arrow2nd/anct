@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v1.1.1] - 2023-06-18
+
+### Fixed
+
+- 画像が読み込めない場合エラーになる
+
 ## [v1.1.0] - 2023-06-03
 
 ### Changed
@@ -22,5 +28,6 @@
 
 - リリース 📺
 
+[v1.1.1]: https://github.com/arrow2nd/anct/compare/v1.0.1...v1.1.1
 [v1.1.0]: https://github.com/arrow2nd/anct/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/arrow2nd/anct/compare/v0.1.0...v1.0.0
