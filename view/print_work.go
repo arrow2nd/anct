@@ -73,7 +73,7 @@ EPISODES
 
 	if err := printWorkImage(w, info.Image); err != nil {
 		// NOTE: 画像が表示できなくても処理は続けたいのでエラーを返さない
-		fmt.Fprintf(os.Stderr, "failed to display image: %s", err.Error())
+		fmt.Fprintf(os.Stderr, "failed to display image: %s\n\n", err.Error())
 	}
 
 	return t.Execute(w, info)
