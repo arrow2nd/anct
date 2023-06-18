@@ -26,10 +26,16 @@ func fetchImage(URL string, width int) (image.Image, error) {
 		return nil, err
 	}
 
+	if code := res.StatusCode; code != http.StatusOK {
+		return nil, fmt.Errorf("could not retrieve (status: %d)", code)
+	}
+
 	defer res.Body.Close()
 
 	img, _, err := image.Decode(res.Body)
-	img = imaging.Resize(img, width, 0, imaging.Lanczos)
+	if err != nil {
+		return nil, err
+	}
 
-	return img, err
+	return imaging.Resize(img, width, 0, imaging.Lanczos), nil
 }
