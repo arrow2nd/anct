@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v1.2.0] - 2023-06-24
+
+### Added
+
+- `record` コマンドに `--no-comment` を追加
+
 ## [v1.1.1] - 2023-06-18
 
 ### Fixed
@@ -28,6 +34,7 @@
 
 - リリース 📺
 
+[v1.2.0]: https://github.com/arrow2nd/anct/compare/v1.1.0...v1.2.0
 [v1.1.1]: https://github.com/arrow2nd/anct/compare/v1.0.1...v1.1.1
 [v1.1.0]: https://github.com/arrow2nd/anct/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/arrow2nd/anct/compare/v0.1.0...v1.0.0
