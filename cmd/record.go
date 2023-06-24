@@ -19,6 +19,7 @@ func (c *Command) newCmdRecord() *cobra.Command {
 	r.Flags().BoolP("unwatch", "u", false, "select from the unwatched episodes of the work you are watching")
 	r.Flags().StringP("rating", "r", "", "episode rating: {great|good|average|bad}")
 	r.Flags().StringP("comment", "c", "", "comment")
+	r.Flags().BoolP("no-comment", "n", false, "skip comment input")
 
 	return r
 }
@@ -49,16 +50,16 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	// コメント
 	comment := ""
-	if len(episodeIDs) == 1 {
-		// 記録するエピソードが1つの時のみコメントを受け取る
-		c, err := cmdutil.ReceiveBody(cmd.Flags(), "comment")
-		if err != nil {
-			return err
-		}
+	noComment, _ := cmd.Flags().GetBool("no-comment")
 
-		comment = c
+	// --no-comment が指定されていない & 記録するエピソードが1つの時のみコメントを受け取る
+	if !noComment && len(episodeIDs) == 1 {
+		if c, err := cmdutil.ReceiveBody(cmd.Flags(), "comment"); err != nil {
+			return err
+		} else {
+			comment = c
+		}
 	}
 
 	// 確認
