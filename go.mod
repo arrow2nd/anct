@@ -23,7 +23,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/soniakeys/quant v1.0.0 // indirect
-	golang.org/x/image v0.8.0 // indirect
+	golang.org/x/image v0.10.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
