@@ -56,7 +56,7 @@ func SelectRating(m string) (string, error) {
 }
 
 // SelectWork : 作品を選択
-func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
+func SelectWork(works []*gen.WorkFragment) (*gen.WorkFragment, string, error) {
 	opts := []string{}
 	for _, work := range works {
 		opts = append(opts, work.Title)
@@ -81,17 +81,17 @@ func SelectWork(works []*gen.WorkFragment) (int64, string, error) {
 	selectedTitle := ""
 
 	if err := survey.AskOne(prompt, &selectedTitle); err != nil {
-		return 0, "", err
+		return nil, "", err
 	}
 
-	// 選択した作品のIDを返す
+	// 選択した作品を返す
 	for _, work := range works {
 		if work.Title == selectedTitle {
-			return work.AnnictID, work.ID, nil
+			return work, work.ID, nil
 		}
 	}
 
-	return 0, "", fmt.Errorf("failed to retrieve the selected work ID (title: %s)", selectedTitle)
+	return nil, "", fmt.Errorf("failed to retrieve the selected work ID (title: %s)", selectedTitle)
 }
 
 // SelectEpisodes : エピソードを選択
