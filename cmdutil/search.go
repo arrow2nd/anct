@@ -26,9 +26,11 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (*gen.WorkFrag
 	query = StripWhiteSpace(query)
 
 	// ローマ字 -> ひらがな変換
-	convertResult, err := r2h.ConvertStrict(query)
-	if err == nil {
-		query = convertResult
+	if !useEditor {
+		result, err := r2h.ConvertStrict(query)
+		if err == nil {
+			query = result
+		}
 	}
 
 	// 条件指定が無い場合はエラー
