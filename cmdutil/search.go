@@ -7,6 +7,7 @@ import (
 	"github.com/arrow2nd/anct/gen"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
+	"github.com/usk81/r2h"
 )
 
 // SearchWorks : 作品を検索してIDを取得
@@ -23,6 +24,12 @@ func SearchWorks(api *api.API, cmd *cobra.Command, args []string) (*gen.WorkFrag
 	}
 
 	query = StripWhiteSpace(query)
+
+	// ローマ字 -> ひらがな変換
+	convertResult, err := r2h.ConvertStrict(query)
+	if err == nil {
+		query = convertResult
+	}
 
 	// 条件指定が無い場合はエラー
 	if query == "" && len(states) == 0 && len(seasons) == 0 {
