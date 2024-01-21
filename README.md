@@ -25,7 +25,7 @@
 
 ## インストール
 
-> **Warning**
+> [!Warning]
 >
 > 以下の方法以外でインストールした場合、クライアントトークンが内蔵されていません
 >
@@ -47,7 +47,8 @@ scoop install arrow2nd/anct
 
 ### バイナリ
 
-[Releases](https://github.com/arrow2nd/anct/releases) からお使いの環境にあったものをダウンロードしてください
+[Releases](https://github.com/arrow2nd/anct/releases)
+からお使いの環境にあったものをダウンロードしてください
 
 ## 初期設定
 
@@ -74,7 +75,8 @@ https://annict.com/oauth/applications から作成することができます
 
 ### API クライアントのコードを生成
 
-[Annict の個人用アクセストークン](https://annict.com/settings/apps) (スコープ : 読み込み) を環境変数に設定して
+[Annict の個人用アクセストークン](https://annict.com/settings/apps) (スコープ :
+読み込み) を環境変数に設定して
 
 ```
 export ANNICT_KEY=<API Key>

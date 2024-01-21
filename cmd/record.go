@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/arrow2nd/anct/cmdutil"
+	"github.com/arrow2nd/anct/gen"
 	"github.com/arrow2nd/anct/view"
 	"github.com/spf13/cobra"
 )
@@ -25,7 +26,10 @@ func (c *Command) newCmdRecord() *cobra.Command {
 }
 
 func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
-	episodeIDs := []string{}
+	var (
+		work       *gen.WorkFragment = nil
+		episodeIDs                   = []string{}
+	)
 
 	// 記録するエピソードを選択
 	if unwatch, _ := cmd.Flags().GetBool("unwatch"); unwatch {
@@ -36,11 +40,12 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 
 		episodeIDs = []string{id}
 	} else {
-		ids, err := c.recordSelectEpisodes(cmd, args)
+		w, ids, err := c.recordSelectEpisodes(cmd, args)
 		if err != nil {
 			return err
 		}
 
+		work = w
 		episodeIDs = ids
 	}
 
@@ -80,22 +85,50 @@ func (c *Command) recordRun(cmd *cobra.Command, args []string) error {
 	spinner.Stop()
 	view.PrintDone(cmd.OutOrStdout(), "Recorded!")
 
+	// 初めての視聴でないならここで終了
+	if work == nil || (work.ViewerStatusState != nil && *work.ViewerStatusState != gen.StatusStateNoState) {
+		return nil
+	}
+
+	// 視聴ステータスの変更を確認
+	changeStatus, err := view.Confirm("Change your viewing status to Watching?")
+	if err != nil {
+		return err
+	}
+	if !changeStatus {
+		view.PrintCanceled(cmd.ErrOrStderr())
+		return nil
+	}
+
+	spinner = view.SpinnerStart(cmd.OutOrStdout(), "Updating status")
+	if err := c.api.UpdateWorkState(work.ID, gen.StatusStateWatching); err != nil {
+		return err
+	}
+
+	spinner.Stop()
+	view.PrintDone(cmd.OutOrStdout(), "Updated status!")
+
 	return nil
 }
 
 // recordSelectEpisodes : 検索結果から記録するエピソードを選択
-func (c *Command) recordSelectEpisodes(cmd *cobra.Command, args []string) ([]string, error) {
-	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
+func (c *Command) recordSelectEpisodes(cmd *cobra.Command, args []string) (*gen.WorkFragment, []string, error) {
+	work, _, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	work, err := c.api.FetchWorkEpisodes(annictID)
+	episode, err := c.api.FetchWorkEpisodes(work.AnnictID)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return view.SelectEpisodes(work)
+	ids, err := view.SelectEpisodes(episode)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return work, ids, nil
 }
 
 // recordSelectUnwatchEpisord : 未視聴のエピソードから選択

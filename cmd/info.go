@@ -20,13 +20,13 @@ func (c *Command) newCmdInfo() *cobra.Command {
 }
 
 func (c *Command) infoRun(cmd *cobra.Command, args []string) error {
-	annictID, _, err := cmdutil.SearchWorks(c.api, cmd, args)
+	work, _, err := cmdutil.SearchWorks(c.api, cmd, args)
 	if err != nil {
 		return err
 	}
 
 	spinner := view.SpinnerStart(cmd.OutOrStdout(), "Loading information the work")
-	info, err := c.api.FetchWorkInfo(annictID)
+	info, err := c.api.FetchWorkInfo(work.AnnictID)
 	if err != nil {
 		return err
 	}
