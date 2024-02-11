@@ -10,6 +10,7 @@ require (
 	github.com/mattn/go-sixel v0.0.5
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.8.4
+	github.com/usk81/r2h v0.0.3
 	golang.org/x/term v0.16.0
 )
 
@@ -24,7 +25,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/soniakeys/quant v1.0.0 // indirect
 	github.com/sosodev/duration v1.2.0 // indirect
-	github.com/usk81/r2h v0.0.3 // indirect
 	golang.org/x/image v0.15.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
@@ -33,7 +33,7 @@ require (
 
 require (
 	github.com/99designs/gqlgen v0.17.43 // indirect
-	github.com/Yamashou/gqlgenc v0.16.2
+	github.com/Yamashou/gqlgenc v0.18.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/vektah/gqlparser/v2 v2.5.11 // indirect
