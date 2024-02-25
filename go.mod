@@ -17,7 +17,7 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.16.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -32,8 +32,8 @@ require (
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.43 // indirect
-	github.com/Yamashou/gqlgenc v0.19.1
+	github.com/99designs/gqlgen v0.17.44 // indirect
+	github.com/Yamashou/gqlgenc v0.19.2
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/vektah/gqlparser/v2 v2.5.11 // indirect
