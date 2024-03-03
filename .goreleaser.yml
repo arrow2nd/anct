@@ -45,7 +45,7 @@ brews:
 scoops:
   - name: anct
     repository:
-      name: scoop-tap
+      name: scoop-bucket
       owner: arrow2nd
       token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
     url_template: "https://github.com/arrow2nd/anct/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
