@@ -43,8 +43,9 @@ brews:
       bin.install "anct"
 
 scoops:
-  - name: scoop-bucket
+  - name: anct
     repository:
+      name: scoop-tap
       owner: arrow2nd
       token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
     url_template: "https://github.com/arrow2nd/anct/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
