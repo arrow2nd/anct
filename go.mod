@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
-	github.com/BurntSushi/toml v1.3.2
+	github.com/BurntSushi/toml v1.4.0
 	github.com/briandowns/spinner v1.23.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
