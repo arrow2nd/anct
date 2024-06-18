@@ -10,7 +10,7 @@ require (
 	github.com/briandowns/spinner v1.23.1
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
 	github.com/usk81/r2h v0.0.3
 	golang.org/x/term v0.21.0
