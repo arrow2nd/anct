@@ -26,7 +26,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/soniakeys/quant v1.0.0 // indirect
-	github.com/sosodev/duration v1.2.0 // indirect
+	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.18.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
@@ -34,10 +34,10 @@ require (
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.44 // indirect
-	github.com/Yamashou/gqlgenc v0.24.0
+	github.com/99designs/gqlgen v0.17.49 // indirect
+	github.com/Yamashou/gqlgenc v0.25.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5
-	github.com/vektah/gqlparser/v2 v2.5.14 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.16 // indirect
 	golang.org/x/sync v0.8.0
 )
