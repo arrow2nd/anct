@@ -1,9 +1,6 @@
 module github.com/arrow2nd/anct
 
 go 1.21
-
-toolchain go1.22.0
-
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/BurntSushi/toml v1.4.0
@@ -29,13 +26,13 @@ require (
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.18.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/text v0.18.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.49 // indirect
-	github.com/Yamashou/gqlgenc v0.25.0
+	github.com/99designs/gqlgen v0.17.51 // indirect
+	github.com/Yamashou/gqlgenc v0.25.1
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/vektah/gqlparser/v2 v2.5.16 // indirect
