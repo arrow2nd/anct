@@ -34,7 +34,6 @@ brews:
       name: homebrew-tap
       token: "{{ .Env.GORELEASER_GITHUB_TOKEN }}"
     url_template: "https://github.com/arrow2nd/anct/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    folder: Formula
     homepage: "https://arrow2nd.com/works/anct"
     description: "📺 Unofficial CLI Client of Annict"
     license: "MIT"
@@ -58,7 +57,7 @@ checksum:
   name_template: "checksums.txt"
 
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  version_template: "{{ .Tag }}-next"
 
 changelog:
   sort: asc
