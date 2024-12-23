@@ -29,15 +29,15 @@ require (
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.20.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.54 // indirect
-	github.com/Yamashou/gqlgenc v0.27.4
+	github.com/99designs/gqlgen v0.17.61 // indirect
+	github.com/Yamashou/gqlgenc v0.29.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5
-	github.com/vektah/gqlparser/v2 v2.5.17 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.20 // indirect
 	golang.org/x/sync v0.10.0
 )
