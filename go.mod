@@ -37,7 +37,7 @@ require (
 	github.com/99designs/gqlgen v0.17.61 // indirect
 	github.com/Yamashou/gqlgenc v0.30.2
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.6
 	github.com/vektah/gqlparser/v2 v2.5.20 // indirect
 	golang.org/x/sync v0.10.0
 )
