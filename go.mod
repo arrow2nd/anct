@@ -1,8 +1,6 @@
 module github.com/arrow2nd/anct
 
-go 1.23.0
-
-toolchain go1.24.1
+go 1.24.2
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
@@ -21,7 +19,7 @@ require (
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
@@ -29,15 +27,15 @@ require (
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.20.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/text v0.24.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.61 // indirect
-	github.com/Yamashou/gqlgenc v0.31.0
+	github.com/99designs/gqlgen v0.17.71 // indirect
+	github.com/Yamashou/gqlgenc v0.32.1
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6
-	github.com/vektah/gqlparser/v2 v2.5.20 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.25 // indirect
 	golang.org/x/sync v0.14.0
 )
