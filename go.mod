@@ -37,5 +37,5 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6
 	github.com/vektah/gqlparser/v2 v2.5.25 // indirect
-	golang.org/x/sync v0.14.0
+	golang.org/x/sync v0.15.0
 )
