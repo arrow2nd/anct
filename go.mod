@@ -9,7 +9,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/mattn/go-sixel v0.0.5
 	github.com/spf13/cobra v1.9.1
-	github.com/stretchr/testify v1.11.0
+	github.com/stretchr/testify v1.11.1
 	github.com/usk81/r2h v0.0.3
 	golang.org/x/term v0.34.0
 )
