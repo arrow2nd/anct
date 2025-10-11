@@ -11,7 +11,7 @@ require (
 	github.com/spf13/cobra v1.10.1
 	github.com/stretchr/testify v1.11.1
 	github.com/usk81/r2h v0.0.3
-	golang.org/x/term v0.35.0
+	golang.org/x/term v0.36.0
 )
 
 require (
@@ -27,7 +27,7 @@ require (
 	github.com/soniakeys/quant v1.0.0 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.20.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.24.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
