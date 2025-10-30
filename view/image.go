@@ -5,15 +5,40 @@ import (
 	"image"
 	"io"
 	"net/http"
+	"os"
 
 	"github.com/disintegration/imaging"
+	"github.com/dolmen-go/kittyimg"
 	"github.com/mattn/go-sixel"
 )
 
-// printImage : 画像を出力 (sixelを使用)
+// checkKitty : kitty画像プロトコルがサポートされているかをチェック
+func checkKitty() bool {
+	if os.Getenv("KITTY_WINDOW_ID") != "" {
+		return true
+	}
+
+	if os.Getenv("TERM_PROGRAM") == "ghostty" {
+		return true
+	}
+
+	return false
+}
+
+// printImage : 画像を出力 (kitty画像プロトコルまたはsixelを使用)
 func printImage(w io.Writer, img image.Image) error {
-	if err := sixel.NewEncoder(w).Encode(img); err != nil {
-		return fmt.Errorf("failed print image: %w", err)
+	isKitty := checkKitty()
+
+	if isKitty {
+		// Kittyターミナルの場合はkitty画像プロトコルを使用
+		if err := kittyimg.Fprint(w, img); err != nil {
+			return fmt.Errorf("failed to print image with kitty protocol: %w", err)
+		}
+	} else {
+		// それ以外はsixelを使用
+		if err := sixel.NewEncoder(w).Encode(img); err != nil {
+			return fmt.Errorf("failed to print image with sixel: %w", err)
+		}
 	}
 
 	return nil
