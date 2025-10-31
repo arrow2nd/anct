@@ -25,17 +25,15 @@ func checkKitty() bool {
 	return false
 }
 
-// printImage : 画像を出力 (kitty画像プロトコルまたはsixelを使用)
+// printImage : 画像を出力 (kitty画像プロトコルまたはsixel)
 func printImage(w io.Writer, img image.Image) error {
 	isKitty := checkKitty()
 
 	if isKitty {
-		// Kittyターミナルの場合はkitty画像プロトコルを使用
 		if err := kittyimg.Fprint(w, img); err != nil {
 			return fmt.Errorf("failed to print image with kitty protocol: %w", err)
 		}
 	} else {
-		// それ以外はsixelを使用
 		if err := sixel.NewEncoder(w).Encode(img); err != nil {
 			return fmt.Errorf("failed to print image with sixel: %w", err)
 		}
