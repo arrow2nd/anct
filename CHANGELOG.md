@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v1.4.0] - 2024-10-31
+
+### Added
+
+- Kitty Graphics Protocol に対応
+
 ## [v1.3.0] - 2024-01-21
 
 ### Added
@@ -49,6 +55,7 @@
 
 - リリース 📺
 
+[v1.4.0]: https://github.com/arrow2nd/anct/compare/v1.3.0...v1.4.0
 [v1.3.0]: https://github.com/arrow2nd/anct/compare/v1.2.1...v1.3.0
 [v1.2.1]: https://github.com/arrow2nd/anct/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/arrow2nd/anct/compare/v1.1.0...v1.2.0
