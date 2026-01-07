@@ -7,7 +7,7 @@ require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/briandowns/spinner v1.23.2
 	github.com/disintegration/imaging v1.6.2
-	github.com/mattn/go-sixel v0.0.5
+	github.com/mattn/go-sixel v0.0.8
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/usk81/r2h v0.0.3
