@@ -34,7 +34,7 @@ require (
 
 require (
 	github.com/99designs/gqlgen v0.17.73 // indirect
-	github.com/Yamashou/gqlgenc v0.33.0
+	github.com/Yamashou/gqlgenc v0.35.1
 	github.com/dolmen-go/kittyimg v1.0.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.10
