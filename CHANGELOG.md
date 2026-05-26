@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v1.5.0] - 2026-05-27
+
+### Added
+
+- tmux + Kitty Graphics Protocol に対応
+
 ## [v1.4.0] - 2024-10-31
 
 ### Added
