@@ -11,32 +11,32 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/usk81/r2h v0.0.3
-	golang.org/x/sys v0.44.0
+	golang.org/x/sys v0.45.0
 	golang.org/x/term v0.43.0
 )
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fatih/color v1.17.0 // indirect
+	github.com/fatih/color v1.19.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
-	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-isatty v0.0.22 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/soniakeys/quant v1.0.0 // indirect
-	github.com/sosodev/duration v1.3.1 // indirect
-	golang.org/x/image v0.38.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
+	github.com/sosodev/duration v1.4.0 // indirect
+	golang.org/x/image v0.41.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.73 // indirect
+	github.com/99designs/gqlgen v0.17.90 // indirect
 	github.com/Yamashou/gqlgenc v0.33.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.10
-	github.com/vektah/gqlparser/v2 v2.5.26 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.33 // indirect
 	golang.org/x/sync v0.20.0
 )
