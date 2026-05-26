@@ -15,6 +15,7 @@
 ## 推奨環境
 
 - sixel に対応したターミナル (画像表示に必要です)
+- tmux 内で Kitty 画像プロトコル対応ターミナル (Ghostty / kitty 等) を使う場合は、tmux の設定に `set -g allow-passthrough on` が必要です
 
 ## できること
 

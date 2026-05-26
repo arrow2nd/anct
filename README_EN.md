@@ -15,6 +15,7 @@
 ## Recommended
 
 - Terminal with sixel support (Required to display images)
+- When using a terminal that supports the Kitty Graphics Protocol (Ghostty / kitty, etc.) inside tmux, `set -g allow-passthrough on` is required in your tmux configuration
 
 ## Features
 

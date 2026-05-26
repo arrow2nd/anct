@@ -11,6 +11,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/usk81/r2h v0.0.3
+	golang.org/x/sys v0.44.0
 	golang.org/x/term v0.43.0
 )
 
@@ -27,7 +28,6 @@ require (
 	github.com/soniakeys/quant v1.0.0 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/image v0.38.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
@@ -35,7 +35,6 @@ require (
 require (
 	github.com/99designs/gqlgen v0.17.73 // indirect
 	github.com/Yamashou/gqlgenc v0.33.0
-	github.com/dolmen-go/kittyimg v1.0.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.10
 	github.com/vektah/gqlparser/v2 v2.5.26 // indirect
